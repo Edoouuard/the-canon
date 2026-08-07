@@ -1,0 +1,141 @@
+import { Link, useParams } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { ArrowLeft, Clock, ExternalLink, Download } from 'lucide-react'
+import Navbar from '../components/Navbar'
+import MechanismFlow from '../components/MechanismFlow'
+import Timeline from '../components/Timeline'
+import StatChips from '../components/StatChips'
+import Quiz from '../components/Quiz'
+import InfluenceMap from '../components/InfluenceMap'
+import { documents } from '../data/documents'
+import { richContent } from '../data/richContent'
+import { CATEGORY_LABELS } from '../types'
+
+function Section({ label, title, children }: { label: string; title: string; children: React.ReactNode }) {
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.6 }}
+      className="mb-16 md:mb-20"
+    >
+      <p className="text-white/40 text-xs tracking-widest uppercase mb-3">{label}</p>
+      <h2 className="text-2xl md:text-3xl text-white tracking-tight mb-8" style={{ fontFamily: "'Instrument Serif', serif" }}>
+        {title}
+      </h2>
+      {children}
+    </motion.section>
+  )
+}
+
+export default function DocumentDetail() {
+  const { slug } = useParams<{ slug: string }>()
+  const doc = documents.find((d) => d.slug === slug)
+  const rich = slug ? richContent[slug] : undefined
+
+  if (!doc) {
+    return (
+      <div className="bg-black min-h-screen">
+        <Navbar />
+        <div className="px-6 py-24 text-center">
+          <p className="text-white/50 mb-6">Document introuvable.</p>
+          <Link to="/directory" className="text-white underline">
+            Retour au répertoire
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="bg-black min-h-screen">
+      <Navbar />
+
+      <div className="px-6 pb-24">
+        <div className="max-w-3xl mx-auto">
+          <Link to="/directory" className="inline-flex items-center gap-2 text-white/40 hover:text-white text-sm mb-8 transition-colors">
+            <ArrowLeft size={14} />
+            Répertoire
+          </Link>
+
+          {/* Header */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-16">
+            <div className="flex flex-wrap items-center gap-3 mb-5 text-white/40 text-xs tracking-widest uppercase">
+              <span>{CATEGORY_LABELS[doc.category]}</span>
+              <span>·</span>
+              <span>{doc.medium}</span>
+              <span>·</span>
+              <span>{doc.year}</span>
+            </div>
+            <h1
+              className="text-4xl md:text-5xl lg:text-6xl text-white tracking-tight leading-[1.1] mb-5"
+              style={{ fontFamily: "'Instrument Serif', serif" }}
+            >
+              {doc.title}
+            </h1>
+            <p className="text-white/60 text-base mb-6">{doc.author}</p>
+            <p className="text-white/50 text-base leading-relaxed mb-8">{doc.blurb}</p>
+
+            <a
+              href={doc.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="liquid-glass inline-flex items-center gap-2 rounded-full px-6 py-3 text-white text-sm font-medium overflow-hidden hover:bg-white/5 transition-colors"
+            >
+              {doc.sourceUrl.toLowerCase().endsWith('.pdf') ? <Download size={16} /> : <ExternalLink size={16} />}
+              {doc.sourceUrl.toLowerCase().endsWith('.pdf') ? 'Télécharger le PDF original' : "Lire l'original"}
+            </a>
+          </motion.div>
+
+          {rich ? (
+            <>
+              <Section label="Contexte" title="Pourquoi ce document existe">
+                <p className="text-white/60 text-base leading-relaxed">{rich.context}</p>
+              </Section>
+
+              <Section label="Le mécanisme" title="L'idée, étape par étape">
+                <MechanismFlow steps={rich.mechanism} />
+              </Section>
+
+              <Section label="Deep dive" title="Aller plus loin sur le sujet">
+                <div className="flex flex-col gap-4 mb-12">
+                  {rich.deepDive.paragraphs.map((p, i) => (
+                    <p key={i} className="text-white/60 text-base leading-relaxed">
+                      {p}
+                    </p>
+                  ))}
+                </div>
+                <p className="text-white/40 text-xs tracking-widest uppercase mb-6">Carte d'influence</p>
+                <InfluenceMap title={doc.title} connections={rich.deepDive.connections} />
+              </Section>
+
+              <Section label="Repères" title="Quelques chiffres fixes">
+                <StatChips stats={rich.stats} />
+              </Section>
+
+              <Section label="Depuis" title="Ce que ça a impliqué">
+                <Timeline entries={rich.since} />
+              </Section>
+
+              <Section label="Gamification" title="Quiz">
+                <Quiz questions={rich.quiz} />
+              </Section>
+            </>
+          ) : (
+            <div className="liquid-glass rounded-3xl p-8 md:p-10 overflow-hidden flex items-start gap-4">
+              <Clock size={20} className="text-white/40 shrink-0 mt-1" strokeWidth={1.5} />
+              <div>
+                <p className="text-white text-base mb-2">Contenu enrichi à venir</p>
+                <p className="text-white/50 text-sm leading-relaxed">
+                  Ce document est référencé dans le répertoire, mais son contexte détaillé, son schéma et son quiz n'ont pas encore été
+                  rédigés. Les {Object.keys(richContent).length} documents marqués « Enrichi » disposent déjà de leur fiche complète.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
