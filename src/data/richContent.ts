@@ -48,7 +48,7 @@ export const richContent: Record<string, RichContent> = {
     deepDive: {
       paragraphs: [
         "Le débat qui poursuit Bitcoin depuis le premier jour reste le même : est-ce une monnaie d'échange ou une réserve de valeur ? Vijay Boyapati formalise cette seconde thèse dans 'The Bullish Case for Bitcoin', tandis que la volatilité et la lenteur des transactions continuent de limiter son usage comme monnaie du quotidien.",
-        "La consommation énergétique de la preuve de travail reste également contestée : ses défenseurs la présentent comme le coût nécessaire d'une sécurité sans tiers de confiance, ses critiques comme un gaspillage évitable par des mécanismes comme la preuve d'enjeu — celle-là même adoptée par Ethereum en 2022.",
+        "La consommation énergétique de la preuve de travail reste également contestée : ses défenseurs la présentent comme le coût nécessaire d'une sécurité sans tiers de confiance, ses critiques comme un gaspillage évitable par des mécanismes comme la preuve d'enjeu, celle-là même adoptée par Ethereum en 2022.",
         "Sur le plan des idées, Bitcoin a aussi lancé un débat plus large sur la façon dont la valeur se répartit dans une pile technologique décentralisée, formalisé sept ans plus tard par la thèse des 'protocoles gras'.",
       ],
       connections: [
@@ -58,6 +58,11 @@ export const richContent: Record<string, RichContent> = {
         { label: 'Solana', note: 'vise un débit et une latence bien meilleurs', slug: 'solana-whitepaper' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'ETF Bitcoin au comptant', year: '2024', detail: "La SEC américaine approuve le 10 janvier les premiers ETF Bitcoin au comptant (dont IBIT de BlackRock), ouvrant l'actif aux comptes-titres classiques." },
+      { name: 'Quatrième halving', year: '2024', detail: "Le 19 avril, la récompense de bloc passe de 6,25 à 3,125 BTC (bloc 840 000), poursuivant le calendrier fixe programmé dès 2008." },
+      { name: 'Réserve stratégique américaine', year: '2025', detail: "L'administration américaine signe un décret créant une réserve stratégique de Bitcoin adossée aux avoirs déjà saisis par l'État fédéral." },
+    ],
   },
 
   'attention-is-all-you-need': {
@@ -116,11 +121,16 @@ export const richContent: Record<string, RichContent> = {
         { label: 'AlexNet', note: 'le précédent bond du deep learning, en vision', slug: 'alexnet' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Modèles de raisonnement', year: '2024-25', detail: "OpenAI (o1, o3) puis DeepSeek (R1) ajoutent un axe de mise à l'échelle au moment de l'inférence, distinct de la seule taille du modèle entraîné." },
+      { name: 'Multimodalité native', year: '2024', detail: "GPT-4o, Gemini et Claude traitent texte, image et audio dans une seule architecture Transformer, plutôt que des modules séparés assemblés." },
+      { name: 'Mixture-of-Experts', year: '2024', detail: "Des modèles comme Mixtral ou DeepSeek-V3 n'activent qu'une fraction de leurs paramètres par requête, découplant taille totale et coût d'inférence." },
+    ],
   },
 
   'ethereum-whitepaper': {
     context:
-      "Fin 2013, Vitalik Buterin, alors âgé de 19 ans, fait circuler un whitepaper estimant que le langage de script de Bitcoin est trop limité. Il propose une blockchain dotée d'un langage de programmation Turing-complet intégré, permettant à n'importe quelle application décentralisée — pas seulement une monnaie — de tourner directement sur la chaîne.",
+      "Fin 2013, Vitalik Buterin, alors âgé de 19 ans, fait circuler un whitepaper estimant que le langage de script de Bitcoin est trop limité. Il propose une blockchain dotée d'un langage de programmation Turing-complet intégré, permettant à n'importe quelle application décentralisée, pas seulement une monnaie, de tourner directement sur la chaîne.",
     mechanism: [
       { label: 'Ordinateur mondial partagé', detail: "Un état global est répliqué et tenu à jour par tous les nœuds du réseau." },
       { label: 'Smart contracts', detail: "Du code déployé on-chain, avec son propre stockage et sa propre logique." },
@@ -174,11 +184,16 @@ export const richContent: Record<string, RichContent> = {
         { label: 'Solana', note: 'un concurrent conçu pour un débit plus élevé', slug: 'solana-whitepaper' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Dencun / EIP-4844', year: '2024', detail: "La mise à jour du 13 mars introduit les 'blob transactions', qui font chuter drastiquement le coût des rollups de couche 2 (Arbitrum, Optimism, Base)." },
+      { name: 'ETF Ethereum au comptant', year: '2024', detail: "La SEC approuve en mai les ETF ETH au comptant, qui commencent à être négociés en juillet." },
+      { name: 'Restaking', year: '2024', detail: "Des protocoles comme EigenLayer permettent de réutiliser l'ETH déjà misé pour sécuriser d'autres services, un nouveau primitif de sécurité partagée." },
+    ],
   },
 
   'internet-tidal-wave': {
     context:
-      "Mémo interne envoyé par Bill Gates le 26 mai 1995 à l'ensemble des cadres de Microsoft. Gates y réalise que c'est l'Internet ouvert et fondé sur des standards — et non les services en ligne propriétaires comme MSN — qui deviendra la plateforme dominante. Le mémo réoriente en quelques semaines toute la stratégie produit de l'entreprise.",
+      "Mémo interne envoyé par Bill Gates le 26 mai 1995 à l'ensemble des cadres de Microsoft. Gates y réalise que c'est l'Internet ouvert et fondé sur des standards, et non les services en ligne propriétaires comme MSN, qui deviendra la plateforme dominante. Le mémo réoriente en quelques semaines toute la stratégie produit de l'entreprise.",
     mechanism: [
       { label: 'Comparaison historique', detail: "Gates compare la croissance d'Internet à celle de la vague des compatibles PC IBM." },
       { label: 'Nouveau champ de bataille', detail: "Le navigateur devient le nouveau client, le serveur web le nouveau terrain de concurrence." },
@@ -221,7 +236,7 @@ export const richContent: Record<string, RichContent> = {
     deepDive: {
       paragraphs: [
         "La bascule de Microsoft n'a pas suffi à éviter la controverse : l'intégration forcée d'Internet Explorer à Windows a nourri le procès antitrust historique de 1998, un précédent que l'on retrouve aujourd'hui dans les débats sur la position dominante des grandes plateformes IA.",
-        "Ce mémo est souvent cité comme le contre-exemple positif face à des entreprises qui n'ont pas su pivoter à temps face à un changement de plateforme — Kodak face au numérique, Blockbuster face au streaming.",
+        "Ce mémo est souvent cité comme le contre-exemple positif face à des entreprises qui n'ont pas su pivoter à temps face à un changement de plateforme : Kodak face au numérique, Blockbuster face au streaming.",
         "Trois décennies plus tard, des mémos similaires en urgence circulent à nouveau dans la tech face au changement de plateforme que représente l'IA générative, avec la même tension entre protocoles ouverts et écosystèmes fermés.",
       ],
       connections: [
@@ -230,6 +245,11 @@ export const richContent: Record<string, RichContent> = {
         { label: 'Why Software Is Eating the World', note: 'prolonge la thèse quinze ans plus tard', slug: 'why-software-is-eating-the-world' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Google jugé en position de monopole', year: '2024', detail: "Le 5 août, un juge fédéral américain (affaire US v. Google) conclut que Google détient un monopole illégal sur la recherche en ligne." },
+      { name: 'Copilot intégré à Windows', year: '2024-25', detail: "Microsoft réintègre un assistant IA directement dans le navigateur Edge et le système Windows, écho direct au pari du mémo de 1995 sur le client dominant." },
+      { name: 'Guerre des navigateurs IA', year: '2024-25', detail: "OpenAI, Perplexity et d'autres lancent des navigateurs ou modes de recherche pilotés par IA, rejouant la bataille du point d'entrée à l'information." },
+    ],
   },
 
   pagerank: {
@@ -275,7 +295,7 @@ export const richContent: Record<string, RichContent> = {
     ],
     deepDive: {
       paragraphs: [
-        "Le succès de PageRank a fait naître toute une industrie — le SEO — consacrée à influencer artificiellement ce classement, ce qui a poussé Google à faire évoluer son algorithme des centaines de fois pour rester résistant à la manipulation.",
+        "Le succès de PageRank a fait naître toute une industrie, le SEO, consacrée à influencer artificiellement ce classement, ce qui a poussé Google à faire évoluer son algorithme des centaines de fois pour rester résistant à la manipulation.",
         "La position dominante que cet algorithme a permise est aujourd'hui au cœur de procès antitrust aux États-Unis et en Europe, qui questionnent si un tel avantage algorithmique initial justifie une position de marché quasi inattaquable des décennies plus tard.",
         "La logique du classement par la structure du réseau plutôt que par le contenu brut a essaimé bien au-delà de la recherche : elle irrigue aujourd'hui les fils d'actualité des réseaux sociaux et les moteurs de recommandation.",
       ],
@@ -285,6 +305,11 @@ export const richContent: Record<string, RichContent> = {
         { label: 'Aggregation Theory', note: 'explique la domination durable de Google', slug: 'aggregation-theory' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Google jugé en position de monopole', year: '2024', detail: "Le 5 août, la justice américaine conclut que Google a illégalement maintenu son monopole de la recherche, avec une phase de remèdes examinée en 2025." },
+      { name: 'AI Overviews', year: '2024', detail: "Google déploie des résumés générés par IA directement dans les résultats de recherche, réduisant le clic vers les sites tiers qui dépendaient du classement PageRank." },
+      { name: 'Digital Markets Act', year: '2024', detail: "L'UE impose depuis mars des obligations d'interopérabilité aux 'gatekeepers' désignés, dont Google, en écho direct aux critiques sur le pouvoir de classement algorithmique." },
+    ],
   },
 
   'black-scholes': {
@@ -295,7 +320,7 @@ export const richContent: Record<string, RichContent> = {
       { label: 'Portefeuille de réplication', detail: "On construit un portefeuille action + obligation sans risque, rééquilibré en continu (delta hedging), qui reproduit le payoff de l'option." },
       { label: 'Absence d’arbitrage', detail: "Ce portefeuille étant sans risque, son rendement doit égaler le taux sans risque." },
       { label: 'Résolution de l’équation', detail: "On résout l'équation différentielle résultante pour obtenir un prix fermé de l'option." },
-      { label: 'Cinq variables observables', detail: "Prix du sous-jacent, strike, échéance, volatilité, taux sans risque — aucune prévision de l'appétit au risque de l'investisseur n'est nécessaire." },
+      { label: 'Cinq variables observables', detail: "Prix du sous-jacent, strike, échéance, volatilité, taux sans risque : aucune prévision de l'appétit au risque de l'investisseur n'est nécessaire." },
     ],
     since: [
       { year: '1973', text: "Le CBOE ouvre le 26 avril, créant le marché standardisé que la formule vient tarifer." },
@@ -330,15 +355,20 @@ export const richContent: Record<string, RichContent> = {
     ],
     deepDive: {
       paragraphs: [
-        "Nassim Taleb et d'autres critiques reprochent au modèle de sous-estimer structurellement les événements extrêmes ('cygnes noirs') en supposant une distribution des rendements trop régulière — un défaut qui a contribué à plusieurs crises, de LTCM en 1998 à certains rouages de la crise de 2008.",
+        "Nassim Taleb et d'autres critiques reprochent au modèle de sous-estimer structurellement les événements extrêmes ('cygnes noirs') en supposant une distribution des rendements trop régulière, un défaut qui a contribué à plusieurs crises, de LTCM en 1998 à certains rouages de la crise de 2008.",
         "Malgré ces critiques, la formule reste enseignée et utilisée comme point de départ universel : la plupart des modèles de pricing plus sophistiqués (volatilité stochastique, sauts) sont construits comme des corrections apportées à Black-Scholes plutôt que des ruptures complètes.",
-        "Le débat qu'elle a ouvert — peut-on réduire le risque financier à une formule mathématique fermée — reste au cœur de la tension entre les approches quantitatives et les approches qualitatives comme celle de Buffett dans 'The Superinvestors of Graham-and-Doddsville'.",
+        "Le débat qu'elle a ouvert, peut-on réduire le risque financier à une formule mathématique fermée, reste au cœur de la tension entre les approches quantitatives et les approches qualitatives comme celle de Buffett dans 'The Superinvestors of Graham-and-Doddsville'.",
       ],
       connections: [
         { label: 'The Superinvestors of Graham-and-Doddsville', note: 'un paradigme rival : le jugement humain plutôt que le modèle', slug: 'superinvestors-graham-doddsville' },
         { label: 'Principles for Navigating Big Debt Crises', note: 'une autre tentative de systématiser le risque', slug: 'big-debt-crises' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Marchés d’options crypto', year: '2024-25', detail: "Des plateformes comme Deribit appliquent des variantes du modèle à des actifs bien plus volatils que les actions, testant ses limites dans un nouveau contexte." },
+      { name: 'Stratégies de vente de volatilité', year: '2024', detail: "La prolifération de fonds systématiques vendant de la volatilité (stratégies 'short vol') ravive le débat sur le risque de queue sous-estimé par les modèles classiques." },
+      { name: 'Régime de taux durablement plus élevés', year: '2023-25', detail: "La remontée des taux directeurs depuis 2022 a changé l'input 'taux sans risque' de la formule pour toute une génération de traders qui n'avait connu que des taux proches de zéro." },
+    ],
   },
 
   'zero-to-one': {
@@ -355,7 +385,7 @@ export const richContent: Record<string, RichContent> = {
       { year: '2012', text: "Le cours de Thiel à Stanford, dont les notes de Blake Masters circulent largement en ligne avant même la publication du livre." },
       { year: '2014', text: "Publication du livre en septembre." },
       { year: 'Depuis', text: "Devient une lecture quasi obligatoire dans l'écosystème VC/Y Combinator, popularisant le vocabulaire 'monopole', 'secrets', '0 à 1'." },
-      { year: 'Depuis', text: "Régulièrement cité — et critiqué — pour sa défense assumée du monopole comme objectif entrepreneurial." },
+      { year: 'Depuis', text: "Régulièrement cité, et critiqué, pour sa défense assumée du monopole comme objectif entrepreneurial." },
     ],
     stats: [
       { label: 'Publication', value: 'Septembre 2014' },
@@ -385,7 +415,7 @@ export const richContent: Record<string, RichContent> = {
     deepDive: {
       paragraphs: [
         "La thèse pro-monopole de Thiel reste débattue : ses détracteurs y voient une justification a posteriori de la concentration de marché des géants tech, tandis que ses défenseurs soulignent qu'un monopole 'créé' par une meilleure technologie diffère d'un monopole hérité d'une position de rente.",
-        "Le livre a profondément marqué le vocabulaire de la Silicon Valley — 'secrets', 'optimisme défini', 'monopole créateur' sont devenus des réflexes de pitch chez plusieurs générations de fondateurs passés par Y Combinator et les cercles proches de Founders Fund.",
+        "Le livre a profondément marqué le vocabulaire de la Silicon Valley : 'secrets', 'optimisme défini', 'monopole créateur' sont devenus des réflexes de pitch chez plusieurs générations de fondateurs passés par Y Combinator et les cercles proches de Founders Fund.",
         "Cette même philosophie infuse des textes ultérieurs comme 'The Techno-Optimist Manifesto', qui prolonge l'idée que la concentration de capital et de talent autour de paris ambitieux est un bien, pas un problème à corriger.",
       ],
       connections: [
@@ -394,11 +424,16 @@ export const richContent: Record<string, RichContent> = {
         { label: 'The Techno-Optimist Manifesto', note: 'un manifeste ultérieur porté par les mêmes cercles', slug: 'techno-optimist-manifesto' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'DOJ v. Apple', year: '2024', detail: "Le ministère de la Justice américain attaque Apple en mars pour monopolisation du marché des smartphones, visant directement le type de position que Thiel érige en modèle." },
+      { name: 'FTC v. Amazon', year: '2023-25', detail: "La FTC poursuit Amazon pour pratiques anticoncurrentielles sur sa marketplace, avec un procès prévu pour 2027." },
+      { name: 'Débat sur le moat IA', year: '2024-25', detail: "L'arrivée de modèles ouverts compétitifs (Llama, DeepSeek) relance la question : les monopoles de l'IA générative sont-ils aussi durables que le pariait la thèse de Thiel ?" },
+    ],
   },
 
   'why-software-is-eating-the-world': {
     context:
-      "Tribune publiée dans le Wall Street Journal le 20 août 2011 par Marc Andreessen, cofondateur d'Andreessen Horowitz. La thèse : chaque secteur — commerce, médias, finance, agriculture — est en train d'être réorganisé autour d'entreprises logicielles.",
+      "Tribune publiée dans le Wall Street Journal le 20 août 2011 par Marc Andreessen, cofondateur d'Andreessen Horowitz. La thèse : chaque secteur (commerce, médias, finance, agriculture) est en train d'être réorganisé autour d'entreprises logicielles.",
     mechanism: [
       { label: 'Bande passante et calcul bon marché', detail: "La disparition des barrières de distribution et d'infrastructure permet à des entreprises purement logicielles d'exister." },
       { label: 'Dévoration sectorielle', detail: "Les entreprises logicielles surpassent les acteurs historiques sur le coût et la vitesse d'itération (Amazon vs librairies, Netflix vs Blockbuster, Skype vs opérateurs télécom)." },
@@ -447,11 +482,16 @@ export const richContent: Record<string, RichContent> = {
         { label: 'Why AI Will Save the World', note: 'la mise à jour version IA, par le même auteur', slug: 'why-ai-will-save-the-world' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Agents de code IA', year: '2024-25', detail: "Cursor, GitHub Copilot et Claude Code passent de la simple autocomplétion à l'exécution autonome de tâches de développement entières, rebattant la thèse à l'intérieur même du secteur logiciel." },
+      { name: 'Ralentissement du SaaS classique', year: '2024', detail: "Plusieurs éditeurs SaaS traditionnels voient leur croissance ralentir face à des outils IA qui remplacent des abonnements entiers par un simple prompt." },
+      { name: 'Réallocation du capital-risque', year: '2024-25', detail: "La majorité des nouveaux financements VC se concentre sur des startups IA, au détriment du logiciel d'entreprise classique visé par l'essai original." },
+    ],
   },
 
   'tesla-master-plan': {
     context:
-      "Publié sur le blog de Tesla le 2 août 2006, peu après la présentation du Roadster. Musk y expose une séquence délibérément top-down : voiture de sport chère et peu produite, puis berline, puis voiture grand public, chaque étape finançant la suivante — jusqu'à des solutions d'énergie solaire.",
+      "Publié sur le blog de Tesla le 2 août 2006, peu après la présentation du Roadster. Musk y expose une séquence délibérément top-down : voiture de sport chère et peu produite, puis berline, puis voiture grand public, chaque étape finançant la suivante, jusqu'à des solutions d'énergie solaire.",
     mechanism: [
       { label: 'Étape 1 : Roadster', detail: "Construire une voiture électrique désirable à faible volume et prix élevé, pour prouver le concept et financer la R&D." },
       { label: 'Étape 2 : berline', detail: "Utiliser les revenus du Roadster pour construire une voiture moins chère et plus produite (Model S)." },
@@ -502,6 +542,11 @@ export const richContent: Record<string, RichContent> = {
         { label: 'UberCab Pitch Deck', note: 'un autre pari 2008 sur la mobilité', slug: 'ubercab-pitch-deck' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Concurrence chinoise', year: '2024-25', detail: "BYD et d'autres constructeurs chinois dépassent Tesla en volumes sur plusieurs trimestres, alors que la croissance des livraisons Tesla ralentit nettement." },
+      { name: 'Master Plan Part 3', year: '2023', detail: "Musk publie un troisième volet du plan, recentré sur une économie énergétique mondiale durable plutôt que sur la seule gamme automobile." },
+      { name: 'Pivot vers le robotaxi et Optimus', year: '2024-25', detail: "Tesla déplace le centre de gravité de son discours d'investisseurs vers la conduite autonome et le robot humanoïde Optimus, au-delà de la vente de voitures." },
+    ],
   },
 
   'superinvestors-graham-doddsville': {
@@ -547,7 +592,7 @@ export const richContent: Record<string, RichContent> = {
     deepDive: {
       paragraphs: [
         "Des économistes ont opposé à Buffett un biais de sélection possible : sur un univers suffisamment large de gérants, il est statistiquement attendu qu'un petit groupe batte durablement le marché par pur hasard. Buffett répond que le point commun de filiation intellectuelle rend cette explication peu plausible pour ce groupe précis.",
-        "L'investissement value qu'il défend a connu une décennie difficile dans les années 2010, sous-performant largement la croissance portée par les grandes valeurs technologiques — un rappel que même une discipline éprouvée traverse de longues périodes hors de forme.",
+        "L'investissement value qu'il défend a connu une décennie difficile dans les années 2010, sous-performant largement la croissance portée par les grandes valeurs technologiques, un rappel que même une discipline éprouvée traverse de longues périodes hors de forme.",
         "Le débat entre jugement humain discipliné et modèles quantitatifs, que ce texte incarne d'un côté, trouve son miroir de l'autre côté dans la formule de Black-Scholes, qui cherche au contraire à retirer le jugement subjectif du pricing du risque.",
       ],
       connections: [
@@ -556,11 +601,16 @@ export const richContent: Record<string, RichContent> = {
         { label: 'Principles for Navigating Big Debt Crises', note: 'une autre tentative de systématiser l’investissement', slug: 'big-debt-crises' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Trésorerie record chez Berkshire', year: '2024', detail: "Berkshire Hathaway accumule une réserve de cash historique, interprétée par de nombreux commentateurs comme un signal de prudence value face à des marchés jugés chers." },
+      { name: 'Domination de la gestion passive', year: '2024', detail: "Les fonds indiciels passifs continuent de capter l'essentiel des flux d'épargne, un contexte de marché très différent du stock-picking actif défendu par les 'superinvestisseurs'." },
+      { name: 'Concentration record du S&P 500', year: '2024-25', detail: "Une poignée de valeurs technologiques pèse pour une part inédite de l'indice, ce qui relance le débat sur la diversification réelle derrière un indice apparemment large." },
+    ],
   },
 
   alexnet: {
     context:
-      "Soumis au concours ImageNet Large Scale Visual Recognition Challenge (ILSVRC) 2012, ce réseau de neurones convolutif profond, entraîné sur deux cartes graphiques grand public, bat le meilleur concurrent (non basé sur le deep learning) avec une marge considérable — un résultat largement considéré comme l'étincelle du boom moderne du deep learning.",
+      "Soumis au concours ImageNet Large Scale Visual Recognition Challenge (ILSVRC) 2012, ce réseau de neurones convolutif profond, entraîné sur deux cartes graphiques grand public, bat le meilleur concurrent (non basé sur le deep learning) avec une marge considérable, un résultat largement considéré comme l'étincelle du boom moderne du deep learning.",
     mechanism: [
       { label: '8 couches apprises', detail: "5 couches convolutives + 3 couches entièrement connectées, au lieu de caractéristiques conçues à la main." },
       { label: 'Entraînement sur GPU', detail: "Deux GPU NVIDIA GTX 580 rendent l'entraînement profond enfin réalisable en pratique." },
@@ -611,11 +661,16 @@ export const richContent: Record<string, RichContent> = {
         { label: 'Attention Is All You Need', note: 'le second grand bond du deep learning, cinq ans plus tard', slug: 'attention-is-all-you-need' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Domination de Nvidia', year: '2024-25', detail: "Les puces H100 puis Blackwell de Nvidia deviennent la ressource la plus disputée de l'industrie IA, prolongeant directement la dépendance au GPU inaugurée par AlexNet." },
+      { name: 'Vision Transformers', year: '2024-25', detail: "Les architectures à base d'attention (ViT) concurrencent désormais les CNN historiques d'AlexNet sur de nombreuses tâches de vision par ordinateur." },
+      { name: 'Pénurie de talents devenue pénurie de calcul', year: '2024-25', detail: "La contrainte concurrentielle s'est déplacée de la rareté des chercheurs vers la rareté des puces et de l'énergie nécessaires pour les faire tourner." },
+    ],
   },
 
   'gpt-3': {
     context:
-      "Publié en mai 2020 par OpenAI sous le titre 'Language Models are Few-Shot Learners', ce papier montre qu'un modèle de langage de 175 milliards de paramètres peut réaliser de nouvelles tâches à partir de simples exemples donnés dans le prompt, sans aucune mise à jour de poids — une capacité que les auteurs nomment 'apprentissage en contexte'.",
+      "Publié en mai 2020 par OpenAI sous le titre 'Language Models are Few-Shot Learners', ce papier montre qu'un modèle de langage de 175 milliards de paramètres peut réaliser de nouvelles tâches à partir de simples exemples donnés dans le prompt, sans aucune mise à jour de poids, une capacité que les auteurs nomment 'apprentissage en contexte'.",
     mechanism: [
       { label: 'Mise à l’échelle', detail: "Un Transformer décodeur est agrandi jusqu'à 175 milliards de paramètres, environ 100x GPT-2." },
       { label: 'Corpus massif', detail: "Entraînement sur un immense corpus de texte, basé notamment sur Common Crawl et des sources sélectionnées." },
@@ -655,7 +710,7 @@ export const richContent: Record<string, RichContent> = {
     ],
     deepDive: {
       paragraphs: [
-        "L'accès à l'API a fait naître, dès 2020, une vague de startups construites comme de simples 'surcouches' (wrappers) au-dessus du modèle d'OpenAI — un modèle d'affaires fragile, puisque chaque nouvelle version du modèle sous-jacent risque d'absorber la fonctionnalité que la startup avait ajoutée.",
+        "L'accès à l'API a fait naître, dès 2020, une vague de startups construites comme de simples 'surcouches' (wrappers) au-dessus du modèle d'OpenAI, un modèle d'affaires fragile, puisque chaque nouvelle version du modèle sous-jacent risque d'absorber la fonctionnalité que la startup avait ajoutée.",
         "GPT-3 a aussi ravivé le débat, déjà ouvert par GPT-2 en 2019, sur la diffusion responsable de modèles de plus en plus capables de générer du texte trompeur ou du contenu à grande échelle sans supervision humaine.",
         "Le résultat a validé empiriquement les lois d'échelle publiées un an plus tôt par la même équipe, et a directement motivé les recherches suivantes cherchant le bon équilibre entre taille du modèle et volume de données d'entraînement, notamment Chinchilla.",
       ],
@@ -666,6 +721,11 @@ export const richContent: Record<string, RichContent> = {
         { label: 'Situational Awareness', note: 'extrapole cette trajectoire vers l’AGI', slug: 'situational-awareness' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'IA agentique', year: '2024-25', detail: "Les modèles évoluent de simples générateurs de texte vers des agents capables d'enchaîner des actions (navigation web, exécution de code, outils) sur plusieurs étapes." },
+      { name: 'Modèles ouverts compétitifs', year: '2024-25', detail: "Llama (Meta) et DeepSeek publient des modèles aux poids ouverts dont les performances rivalisent avec les modèles propriétaires, changeant l'économie de l'accès à l'IA." },
+      { name: 'Coût d’inférence en chute', year: '2024-25', detail: "Le coût par token généré pour une qualité donnée continue de baisser rapidement, rendant l'IA générative viable pour des usages à bas prix impensables en 2020." },
+    ],
   },
 
   'www-proposal': {
@@ -707,13 +767,13 @@ export const richContent: Record<string, RichContent> = {
         question: "Quelles trois technologies fondatrices cette proposition a-t-elle en pratique fait naître ?",
         options: ["HTML, URL/URI, HTTP", "TCP/IP, DNS, FTP", "Java, JavaScript, CSS", "SMTP, POP3, IMAP"],
         correctIndex: 0,
-        explanation: "Ces trois briques — le langage, l'adressage et le protocole — forment encore aujourd'hui le socle du web.",
+        explanation: "Ces trois briques (le langage, l'adressage et le protocole) forment encore aujourd'hui le socle du web.",
       },
     ],
     deepDive: {
       paragraphs: [
         "Le choix de rendre le web libre de droits en 1993 est régulièrement présenté, a posteriori, comme l'une des décisions les plus lourdes de conséquences de l'histoire de la tech : un système hypertexte concurrent et propriétaire (comme le Xanadu de Ted Nelson, jamais vraiment sorti) aurait pu freiner ou fragmenter l'adoption.",
-        "Trente ans plus tard, le web ouvert que cette proposition a lancé coexiste avec des écosystèmes bien plus fermés — applications mobiles, plateformes propriétaires — ce qui alimente un débat récurrent sur la 'refermeture' progressive d'Internet.",
+        "Trente ans plus tard, le web ouvert que cette proposition a lancé coexiste avec des écosystèmes bien plus fermés (applications mobiles, plateformes propriétaires), ce qui alimente un débat récurrent sur la 'refermeture' progressive d'Internet.",
         "Cette tension entre standards ouverts et plateformes propriétaires est la même que celle que Bill Gates identifie six ans plus tard dans 'The Internet Tidal Wave', lorsqu'il réalise que Microsoft doit s'adapter au web ouvert plutôt que d'imposer son propre système fermé.",
       ],
       connections: [
@@ -721,11 +781,16 @@ export const richContent: Record<string, RichContent> = {
         { label: 'The Anatomy of a Large-Scale Hypertextual Web Search Engine', note: 'indexe le web que cette proposition a créé', slug: 'pagerank' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Digital Markets Act', year: '2024', detail: "L'UE force l'interopérabilité de plateformes fermées (messageries, app stores), un rappel réglementaire des principes d'ouverture posés par la proposition originale du web." },
+      { name: 'Chatbots comme nouvelle porte d’entrée', year: '2024-25', detail: "Une part croissante des requêtes d'information passe par des assistants IA conversationnels plutôt que par la navigation classique de pages liées entre elles." },
+      { name: 'Fragmentation en super-apps fermées', year: '2024-25', detail: "De grandes plateformes consolident messagerie, paiement et contenu dans des écosystèmes fermés, à l'opposé du principe de liens ouverts et décentralisés de 1989." },
+    ],
   },
 
   'moores-law-for-everything': {
     context:
-      "Essai publié en mars 2021 sur le blog personnel de Sam Altman, alors déjà à la tête d'OpenAI. Il soutient que l'automatisation portée par l'IA fera au prix des biens, des services et du travail ce que la loi de Moore a fait au coût du calcul — le faire tendre vers zéro — et propose de redistribuer la richesse qui en résulte via un mécanisme proche d'un fonds souverain financé par une taxe sur le capital et le foncier.",
+      "Essai publié en mars 2021 sur le blog personnel de Sam Altman, alors déjà à la tête d'OpenAI. Il soutient que l'automatisation portée par l'IA fera au prix des biens, des services et du travail ce que la loi de Moore a fait au coût du calcul, le faire tendre vers zéro, et propose de redistribuer la richesse qui en résulte via un mécanisme proche d'un fonds souverain financé par une taxe sur le capital et le foncier.",
     mechanism: [
       { label: 'Substitution progressive', detail: "L'IA et la robotique remplacent progressivement le travail humain sur un nombre croissant de tâches." },
       { label: 'Courbes de coût exponentielles', detail: "Comme pour le calcul, le coût des tâches automatisées chute de façon exponentielle." },
@@ -734,7 +799,7 @@ export const richContent: Record<string, RichContent> = {
       { label: 'Objectif', detail: "Partager largement les gains de l'abondance générée par l'IA plutôt que les laisser se concentrer." },
     ],
     since: [
-      { year: '2021', text: "Publication en mars, plus d'un an avant le lancement de ChatGPT en novembre 2022 — ce qui donne rétrospectivement du poids à l'essai comme aperçu de la pensée dirigeante d'OpenAI." },
+      { year: '2021', text: "Publication en mars, plus d'un an avant le lancement de ChatGPT en novembre 2022, ce qui donne rétrospectivement du poids à l'essai comme aperçu de la pensée dirigeante d'OpenAI." },
       { year: '2022', text: "ChatGPT accélère massivement le débat public sur les effets économiques de l'IA." },
       { year: '2023-25', text: "Les débats sur le revenu de base universel et la redistribution liée à l'IA s'intensifient à mesure que l'adoption de l'IA générative s'accélère, avec des pilotes de revenu de base menés autour d'OpenAI." },
     ],
@@ -765,7 +830,7 @@ export const richContent: Record<string, RichContent> = {
     deepDive: {
       paragraphs: [
         "La proposition de redistribution reste contestée : ses détracteurs doutent qu'une taxe en actions sur les grandes entreprises soit politiquement ou juridiquement réalisable à l'échelle qu'Altman envisage, et questionnent si l'automatisation détruira réellement plus d'emplois qu'elle n'en transformera.",
-        "L'essai partage sa prémisse centrale — une abondance matérielle générée par l'IA — avec 'Machines of Loving Grace' de Dario Amodei, mais les deux textes divergent sur le mécanisme de partage des gains : contrat social redistributif chez Altman, retombées diffuses via la santé et la science chez Amodei.",
+        "L'essai partage sa prémisse centrale, une abondance matérielle générée par l'IA, avec 'Machines of Loving Grace' de Dario Amodei, mais les deux textes divergent sur le mécanisme de partage des gains : contrat social redistributif chez Altman, retombées diffuses via la santé et la science chez Amodei.",
         "Il s'oppose aussi frontalement aux textes plus pessimistes du canon comme 'AGI Ruin: A List of Lethalities', qui doute que l'humanité maîtrise la transition vers une IA très puissante avant que les risques ne l'emportent sur les bénéfices décrits ici.",
       ],
       connections: [
@@ -774,6 +839,11 @@ export const richContent: Record<string, RichContent> = {
         { label: 'AGI Ruin: A List of Lethalities', note: 'la thèse inverse : le risque l’emporte sur l’abondance', slug: 'agi-ruin' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Étude sur le revenu de base', year: '2024', detail: "OpenResearch, cofinancé par Sam Altman, publie les résultats d'une étude pluriannuelle sur le revenu de base inconditionnel aux États-Unis." },
+      { name: 'Automatisation du travail de bureau', year: '2024-25', detail: "Les agents IA commencent à automatiser des tâches administratives et de service client entières, déplaçant le débat du travail manuel vers le travail de bureau qualifié." },
+      { name: 'Débat fiscal sur l’IA', year: '2024-25', detail: "Plusieurs propositions publiques évoquent une taxation spécifique des gains liés à l'automatisation IA, prolongeant directement la proposition de fonds d'Altman." },
+    ],
   },
 
   'meditations-on-moloch': {
@@ -820,7 +890,7 @@ export const richContent: Record<string, RichContent> = {
       paragraphs: [
         "L'essai a profondément marqué la communauté rationaliste et l'altruisme efficace, au point de servir de socle intellectuel implicite à des textes ultérieurs sur les risques existentiels de l'IA, comme 'AGI Ruin: A List of Lethalities' d'Eliezer Yudkowsky, lui aussi issu de cette même sphère.",
         "Certains critiques reprochent au cadre 'Moloch' un déterminisme excessif : présenter la coordination comme presque impossible risque de décourager justement les efforts institutionnels qui, historiquement, ont su sortir l'humanité de pièges similaires (traités de non-prolifération, régulations environnementales).",
-        "L'essai reste néanmoins l'une des lentilles les plus citées pour décrire la course actuelle entre laboratoires d'IA et entre nations — un piège multipolaire concret que 'Situational Awareness' décrit sept ans plus tard sous un angle géopolitique très similaire.",
+        "L'essai reste néanmoins l'une des lentilles les plus citées pour décrire la course actuelle entre laboratoires d'IA et entre nations, un piège multipolaire concret que 'Situational Awareness' décrit sept ans plus tard sous un angle géopolitique très similaire.",
       ],
       connections: [
         { label: 'AGI Ruin: A List of Lethalities', note: 'applique la même logique de piège à l’IA', slug: 'agi-ruin' },
@@ -828,6 +898,11 @@ export const richContent: Record<string, RichContent> = {
         { label: 'The Sovereign Individual', note: 'une autre grande théorie de coordination sociale', slug: 'sovereign-individual' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Contrôles à l’export de puces IA', year: '2022-24', detail: "Les États-Unis renforcent par vagues successives les restrictions à l'export de puces avancées vers la Chine, un exemple concret de course géopolitique aux capacités IA." },
+      { name: 'Sommet de sécurité IA de Bletchley Park', year: '2023', detail: "Une trentaine de pays, dont les USA et la Chine, signent une première déclaration commune sur les risques de l'IA de pointe, un rare effort de coordination face au piège décrit par l'essai." },
+      { name: 'Sommet de Séoul', year: '2024', detail: "Les grands laboratoires d'IA prennent des engagements volontaires de sécurité, prolongeant la tentative de sortir du 'piège multipolaire' par la coopération plutôt que la course." },
+    ],
   },
 
   'fat-protocols': {
@@ -837,7 +912,7 @@ export const richContent: Record<string, RichContent> = {
       { label: 'Pile internet classique', detail: "Les protocoles sont libres et ouverts ; les applications monétisent les données et l'attention qui y circulent (protocole maigre, application grasse)." },
       { label: 'Pile blockchain', detail: "Le protocole possède un token natif dont la valeur doit s'apprécier pour que le réseau reste sécurisé et utile (protocole gras)." },
       { label: 'Financement par la spéculation', detail: "La spéculation sur le token finance le développement du protocole avant même l'usage réel, contrairement à la pile classique financée par les profits des applications." },
-      { label: 'Conséquence', detail: "Davantage de valeur agrégée s'accumulerait au niveau du protocole qu'au niveau applicatif — l'inverse du web 2.0." },
+      { label: 'Conséquence', detail: "Davantage de valeur agrégée s'accumulerait au niveau du protocole qu'au niveau applicatif : l'inverse du web 2.0." },
     ],
     since: [
       { year: '2016', text: "Publication en novembre sur le blog d'USV." },
@@ -873,7 +948,7 @@ export const richContent: Record<string, RichContent> = {
       paragraphs: [
         "Le marché baissier de 2018-2019 a nuancé la thèse : plusieurs applications (exchanges centralisés, plateformes de garde) ont en réalité capté une part de valeur disproportionnée par rapport aux protocoles sur lesquels elles s'appuyaient, à l'inverse de ce que le modèle prédisait.",
         "Le débat a rebondi avec la montée des solutions de couche 2 sur Ethereum : une partie de la valeur et des frais se déplace désormais vers ces couches applicatives d'agrégation, relançant la question de savoir à quel niveau de la pile la valeur finit réellement par s'accumuler.",
-        "L'essai reste malgré tout une référence structurante pour justifier pourquoi un protocole décentralisé doit posséder son propre token plutôt que de rester une infrastructure gratuite comme HTTP ou TCP/IP — l'argument central de 'Why Decentralization Matters' un an plus tard.",
+        "L'essai reste malgré tout une référence structurante pour justifier pourquoi un protocole décentralisé doit posséder son propre token plutôt que de rester une infrastructure gratuite comme HTTP ou TCP/IP, l'argument central de 'Why Decentralization Matters' un an plus tard.",
       ],
       connections: [
         { label: 'Bitcoin Whitepaper', note: "le premier protocole 'gras'", slug: 'bitcoin-whitepaper' },
@@ -881,6 +956,11 @@ export const richContent: Record<string, RichContent> = {
         { label: 'Why Decentralization Matters', note: 'justifie pourquoi la valeur doit rester au protocole', slug: 'why-decentralization-matters' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Explosion des rollups L2', year: '2024-25', detail: "Après Dencun, l'activité et les frais migrent massivement vers des couches 2 comme Base ou Arbitrum, captant une part croissante de la valeur créée sur Ethereum." },
+      { name: 'Débat sur la fine couche', year: '2024', detail: "Des analystes crypto documentent que plusieurs L2 génèrent des revenus significatifs pour leurs opérateurs, sans redistribution proportionnelle au protocole L1 sous-jacent." },
+      { name: 'Comptes d’abstraction', year: '2024-25', detail: "De nouveaux standards simplifient l'usage on-chain au niveau applicatif, renforçant encore le poids de la couche application face au protocole de base." },
+    ],
   },
 
   'aggregation-theory': {
@@ -933,6 +1013,11 @@ export const richContent: Record<string, RichContent> = {
         { label: 'Invisible Asymptotes', note: 'nuance : même les agrégateurs finissent par plafonner', slug: 'invisible-asymptotes' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Google jugé en position de monopole', year: '2024', detail: "La décision du 5 août dans US v. Google cite explicitement le contrôle de la relation utilisateur comme source du pouvoir de marché, un argument directement issu de cette théorie." },
+      { name: 'Digital Markets Act', year: '2024', detail: "L'UE désigne Google, Apple, Meta et Amazon comme 'gatekeepers' soumis à des obligations spécifiques d'ouverture, une réponse réglementaire directe à l'agrégation." },
+      { name: 'Créateurs face aux algorithmes', year: '2024-25', detail: "Les tensions entre créateurs de contenu et plateformes (TikTok, YouTube, Substack) sur les règles de distribution illustrent le déséquilibre de pouvoir décrit par la théorie." },
+    ],
   },
 
   'shannon-communication-theory': {
@@ -978,7 +1063,7 @@ export const richContent: Record<string, RichContent> = {
     ],
     deepDive: {
       paragraphs: [
-        "Au-delà des télécommunications, Shannon avait aussi posé, dans un mémoire distinct de 1937, les bases de la conception des circuits numériques à partir de l'algèbre booléenne — ce qui en fait une figure fondatrice à la fois du contenu (l'information) et du contenant (le calcul numérique) de l'ère informatique.",
+        "Au-delà des télécommunications, Shannon avait aussi posé, dans un mémoire distinct de 1937, les bases de la conception des circuits numériques à partir de l'algèbre booléenne, ce qui en fait une figure fondatrice à la fois du contenu (l'information) et du contenant (le calcul numérique) de l'ère informatique.",
         "Ses concepts d'entropie et d'information ont depuis largement débordé les télécommunications : ils irriguent la théorie de la compression de données, la cryptographie moderne, et jusqu'aux fonctions de perte qui entraînent aujourd'hui les réseaux de neurones, y compris les architectures Transformer.",
         "Publiée l'année qui précède la première conférence d'intelligence artificielle (Dartmouth, 1956) et contemporaine des tout premiers ordinateurs commerciaux, cette théorie s'inscrit dans le même moment fondateur que les paris industriels de Fairchild Semiconductor ou de la future Digital Equipment Corporation.",
       ],
@@ -987,5 +1072,10 @@ export const richContent: Record<string, RichContent> = {
         { label: 'A Proposal to American Research and Development', note: "l'ère des pionniers du calcul, la même décennie", slug: 'dec-proposal' },
       ],
     },
+    sectorSnapshot: [
+      { name: 'Entropie croisée toujours reine', year: '2024-25', detail: "L'entraînement de la quasi-totalité des grands modèles de langage repose encore sur la minimisation de l'entropie croisée, une application directe des concepts de 1948." },
+      { name: 'Compression par LLM', year: '2024', detail: "Des travaux de recherche montrent que les grands modèles de langage peuvent servir eux-mêmes de compresseurs de données très performants, un retour direct à la théorie de l'information." },
+      { name: 'Limites de bande passante des data centers', year: '2024-25', detail: "La théorie de la capacité de canal de Shannon reste le cadre de référence pour dimensionner les interconnexions à très haut débit entre puces IA dans les data centers modernes." },
+    ],
   },
 }

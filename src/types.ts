@@ -55,6 +55,12 @@ export interface DeepDive {
   connections: DeepDiveConnection[]
 }
 
+export interface SectorSnapshotItem {
+  name: string
+  year: string
+  detail: string
+}
+
 export interface RichContent {
   context: string
   mechanism: MechanismStep[]
@@ -62,6 +68,7 @@ export interface RichContent {
   stats: StatChip[]
   quiz: QuizQuestion[]
   deepDive: DeepDive
+  sectorSnapshot: SectorSnapshotItem[]
 }
 
 export const CATEGORY_LABELS: Record<Category, string> = {

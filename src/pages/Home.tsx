@@ -73,7 +73,7 @@ export default function Home() {
           </form>
 
           <p className="text-white/60 text-sm leading-relaxed px-4 max-w-lg mb-8">
-            89 memos, whitepapers, essais et decks qui ont changé la façon dont l'argent — et les idées — circulent.
+            89 memos, whitepapers, essais et decks qui ont changé la façon dont l'argent et les idées circulent.
             Transformés en contexte, en schémas et en quiz pour apprendre plus vite.
           </p>
 
@@ -109,9 +109,9 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { icon: BookOpen, title: 'Contexte', text: "Pourquoi ce document a été écrit, à quel moment, et par qui — sans jargon inutile." },
+              { icon: BookOpen, title: 'Contexte', text: "Pourquoi ce document a été écrit, à quel moment, et par qui, sans jargon inutile." },
               { icon: Workflow, title: 'Le mécanisme', text: "L'idée centrale déroulée en schéma étape par étape, pour visualiser le raisonnement plutôt que le mémoriser par cœur." },
-              { icon: Brain, title: 'Quiz', text: "Un quiz court pour vérifier — et ancrer — ce que tu viens de lire, avec des explications à chaque réponse." },
+              { icon: Brain, title: 'Quiz', text: "Un quiz court pour vérifier et ancrer ce que tu viens de lire, avec des explications à chaque réponse." },
             ].map((item, i) => (
               <motion.div
                 key={item.title}

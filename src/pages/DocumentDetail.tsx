@@ -7,6 +7,7 @@ import Timeline from '../components/Timeline'
 import StatChips from '../components/StatChips'
 import Quiz from '../components/Quiz'
 import InfluenceMap from '../components/InfluenceMap'
+import SectorSnapshot from '../components/SectorSnapshot'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
 import { CATEGORY_LABELS } from '../types'
@@ -106,6 +107,12 @@ export default function DocumentDetail() {
                     </p>
                   ))}
                 </div>
+
+                <p className="text-white/40 text-xs tracking-widest uppercase mb-6">Le secteur aujourd'hui</p>
+                <div className="mb-12">
+                  <SectorSnapshot items={rich.sectorSnapshot} />
+                </div>
+
                 <p className="text-white/40 text-xs tracking-widest uppercase mb-6">Carte d'influence</p>
                 <InfluenceMap title={doc.title} connections={rich.deepDive.connections} />
               </Section>
