@@ -91,8 +91,8 @@ export function eraOf(year: number): Era {
 }
 
 export const ERA_LABELS: Record<Era, string> = {
-  PRE_2000: 'Avant 2000',
-  '2000_2009': '2000–2009',
-  '2010_2019': '2010–2019',
-  '2020_NOW': '2020–aujourd’hui',
+  PRE_2000: 'Before 2000',
+  '2000_2009': '2000 to 2009',
+  '2010_2019': '2010 to 2019',
+  '2020_NOW': '2020 to now',
 }

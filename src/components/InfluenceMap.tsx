@@ -69,12 +69,14 @@ export default function InfluenceMap({ title, connections }: { title: string; co
             style={{ left: `${p.x}%`, top: `${p.y}%` }}
           >
             {c.slug ? (
-              <Link
-                to={`/doc/${c.slug}`}
-                className="liquid-glass block rounded-xl px-3 py-2.5 overflow-hidden hover:bg-white/[0.05] transition-colors"
-              >
-                {node}
-              </Link>
+              <motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.97 }}>
+                <Link
+                  to={`/doc/${c.slug}`}
+                  className="liquid-glass block rounded-xl px-3 py-2.5 overflow-hidden hover:bg-white/[0.06] hover:shadow-[0_0_20px_-4px_rgba(255,255,255,0.25)] transition-all"
+                >
+                  {node}
+                </Link>
+              </motion.div>
             ) : (
               <div className="liquid-glass rounded-xl px-3 py-2.5 overflow-hidden">{node}</div>
             )}

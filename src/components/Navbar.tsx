@@ -1,5 +1,11 @@
 import { Link, useLocation } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import { Library } from 'lucide-react'
+
+const LINKS = [
+  { to: '/', label: 'Home' },
+  { to: '/directory', label: 'Directory' },
+]
 
 export default function Navbar() {
   const location = useLocation()
@@ -14,27 +20,34 @@ export default function Navbar() {
           </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-8 ml-8">
-          <Link
-            to="/"
-            className={`text-sm font-medium transition-colors ${location.pathname === '/' ? 'text-white' : 'text-white/70 hover:text-white'}`}
-          >
-            Accueil
-          </Link>
-          <Link
-            to="/directory"
-            className={`text-sm font-medium transition-colors ${location.pathname.startsWith('/directory') ? 'text-white' : 'text-white/70 hover:text-white'}`}
-          >
-            Répertoire
-          </Link>
+        <div className="hidden md:flex items-center gap-1 ml-8">
+          {LINKS.map((link) => {
+            const active = link.to === '/' ? location.pathname === '/' : location.pathname.startsWith(link.to)
+            return (
+              <Link key={link.to} to={link.to} className="relative px-4 py-1.5 text-sm font-medium">
+                {active && (
+                  <motion.span
+                    layoutId="nav-active"
+                    className="absolute inset-0 bg-white/10 rounded-full"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className={`relative z-10 transition-colors ${active ? 'text-white' : 'text-white/70 hover:text-white'}`}>
+                  {link.label}
+                </span>
+              </Link>
+            )
+          })}
         </div>
 
-        <Link
-          to="/directory"
-          className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium overflow-hidden hover:bg-white/5 transition-colors"
-        >
-          Explorer
-        </Link>
+        <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
+          <Link
+            to="/directory"
+            className="liquid-glass rounded-full px-6 py-2 text-white text-sm font-medium overflow-hidden block hover:bg-white/5 transition-colors"
+          >
+            Explore
+          </Link>
+        </motion.div>
       </div>
     </div>
   )

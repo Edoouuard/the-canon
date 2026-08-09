@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Search } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import DocumentCard from '../components/DocumentCard'
@@ -28,6 +29,7 @@ export default function Directory() {
 
   const categories = Object.keys(CATEGORY_LABELS) as Category[]
   const eras = Object.keys(ERA_LABELS) as Era[]
+  const filterKey = `${query}|${era}|${category}`
 
   return (
     <div className="bg-black min-h-screen">
@@ -35,24 +37,37 @@ export default function Directory() {
 
       <div className="px-6 pt-8 pb-6">
         <div className="max-w-6xl mx-auto">
-          <h1
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
             className="text-4xl md:text-6xl text-white tracking-tight mb-2"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           >
-            Le répertoire
-          </h1>
-          <p className="text-white/50 text-sm md:text-base mb-8">
-            {filtered.length} document{filtered.length > 1 ? 's' : ''} sur {documents.length}
-          </p>
+            The Directory
+          </motion.h1>
+          <motion.p
+            key={filtered.length}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-white/50 text-sm md:text-base mb-8"
+          >
+            {filtered.length} document{filtered.length !== 1 ? 's' : ''} out of {documents.length}
+          </motion.p>
 
           {/* Filters */}
-          <div className="liquid-glass rounded-2xl p-4 md:p-5 overflow-hidden flex flex-col md:flex-row gap-3 mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="liquid-glass rounded-2xl p-4 md:p-5 overflow-hidden flex flex-col md:flex-row gap-3 mb-10"
+          >
             <div className="flex items-center gap-3 flex-1 bg-white/[0.03] rounded-full px-4 py-2">
               <Search size={16} className="text-white/40 shrink-0" />
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Titre, auteur, thèse…"
+                placeholder="Title, author, thesis"
                 className="bg-transparent outline-none text-white placeholder:text-white/40 text-sm w-full"
               />
             </div>
@@ -61,7 +76,7 @@ export default function Directory() {
               onChange={(e) => setEra(e.target.value as Era | 'ALL')}
               className="bg-white/[0.03] text-white text-sm rounded-full px-4 py-2 outline-none border-none [&>option]:bg-neutral-900"
             >
-              <option value="ALL">Toutes les époques</option>
+              <option value="ALL">All eras</option>
               {eras.map((e) => (
                 <option key={e} value={e}>
                   {ERA_LABELS[e]}
@@ -73,28 +88,45 @@ export default function Directory() {
               onChange={(e) => setCategory(e.target.value as Category | 'ALL')}
               className="bg-white/[0.03] text-white text-sm rounded-full px-4 py-2 outline-none border-none [&>option]:bg-neutral-900"
             >
-              <option value="ALL">Toutes les catégories</option>
+              <option value="ALL">All categories</option>
               {categories.map((c) => (
                 <option key={c} value={c}>
                   {CATEGORY_LABELS[c]}
                 </option>
               ))}
             </select>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       <div className="px-6 pb-24">
         <div className="max-w-6xl mx-auto">
-          {filtered.length === 0 ? (
-            <p className="text-white/40 text-sm py-20 text-center">Aucun document ne correspond à cette recherche.</p>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {filtered.map((doc, i) => (
-                <DocumentCard key={doc.slug} doc={doc} rich={!!richContent[doc.slug]} index={i} />
-              ))}
-            </div>
-          )}
+          <AnimatePresence mode="wait">
+            {filtered.length === 0 ? (
+              <motion.p
+                key="empty"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-white/40 text-sm py-20 text-center"
+              >
+                No document matches this search.
+              </motion.p>
+            ) : (
+              <motion.div
+                key={filterKey}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.25 }}
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
+              >
+                {filtered.map((doc, i) => (
+                  <DocumentCard key={doc.slug} doc={doc} rich={!!richContent[doc.slug]} index={i} />
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>

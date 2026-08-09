@@ -11,6 +11,7 @@ export default function SectorSnapshot({ items }: { items: SectorSnapshotItem[] 
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          whileHover={{ y: -3 }}
           transition={{ duration: 0.4, delay: i * 0.06 }}
           className="liquid-glass rounded-2xl p-5 overflow-hidden"
         >

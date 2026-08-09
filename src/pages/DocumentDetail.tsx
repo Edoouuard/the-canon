@@ -40,9 +40,9 @@ export default function DocumentDetail() {
       <div className="bg-black min-h-screen">
         <Navbar />
         <div className="px-6 py-24 text-center">
-          <p className="text-white/50 mb-6">Document introuvable.</p>
+          <p className="text-white/50 mb-6">Document not found.</p>
           <Link to="/directory" className="text-white underline">
-            Retour au répertoire
+            Back to the directory
           </Link>
         </div>
       </div>
@@ -55,10 +55,12 @@ export default function DocumentDetail() {
 
       <div className="px-6 pb-24">
         <div className="max-w-3xl mx-auto">
-          <Link to="/directory" className="inline-flex items-center gap-2 text-white/40 hover:text-white text-sm mb-8 transition-colors">
-            <ArrowLeft size={14} />
-            Répertoire
-          </Link>
+          <motion.div whileHover={{ x: -3 }} className="inline-block">
+            <Link to="/directory" className="inline-flex items-center gap-2 text-white/40 hover:text-white text-sm mb-8 transition-colors">
+              <ArrowLeft size={14} />
+              Directory
+            </Link>
+          </motion.div>
 
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="mb-16">
@@ -78,28 +80,30 @@ export default function DocumentDetail() {
             <p className="text-white/60 text-base mb-6">{doc.author}</p>
             <p className="text-white/50 text-base leading-relaxed mb-8">{doc.blurb}</p>
 
-            <a
+            <motion.a
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
               href={doc.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="liquid-glass inline-flex items-center gap-2 rounded-full px-6 py-3 text-white text-sm font-medium overflow-hidden hover:bg-white/5 transition-colors"
             >
               {doc.sourceUrl.toLowerCase().endsWith('.pdf') ? <Download size={16} /> : <ExternalLink size={16} />}
-              {doc.sourceUrl.toLowerCase().endsWith('.pdf') ? 'Télécharger le PDF original' : "Lire l'original"}
-            </a>
+              {doc.sourceUrl.toLowerCase().endsWith('.pdf') ? 'Download the original PDF' : 'Read the original'}
+            </motion.a>
           </motion.div>
 
           {rich ? (
             <>
-              <Section label="Contexte" title="Pourquoi ce document existe">
+              <Section label="Context" title="Why this document exists">
                 <p className="text-white/60 text-base leading-relaxed">{rich.context}</p>
               </Section>
 
-              <Section label="Le mécanisme" title="L'idée, étape par étape">
+              <Section label="The mechanism" title="The idea, step by step">
                 <MechanismFlow steps={rich.mechanism} />
               </Section>
 
-              <Section label="Deep dive" title="Aller plus loin sur le sujet">
+              <Section label="Deep dive" title="Going further on the subject">
                 <div className="flex flex-col gap-4 mb-12">
                   {rich.deepDive.paragraphs.map((p, i) => (
                     <p key={i} className="text-white/60 text-base leading-relaxed">
@@ -108,20 +112,20 @@ export default function DocumentDetail() {
                   ))}
                 </div>
 
-                <p className="text-white/40 text-xs tracking-widest uppercase mb-6">Le secteur aujourd'hui</p>
+                <p className="text-white/40 text-xs tracking-widest uppercase mb-6">The sector today</p>
                 <div className="mb-12">
                   <SectorSnapshot items={rich.sectorSnapshot} />
                 </div>
 
-                <p className="text-white/40 text-xs tracking-widest uppercase mb-6">Carte d'influence</p>
+                <p className="text-white/40 text-xs tracking-widest uppercase mb-6">Influence map</p>
                 <InfluenceMap title={doc.title} connections={rich.deepDive.connections} />
               </Section>
 
-              <Section label="Repères" title="Quelques chiffres fixes">
+              <Section label="Reference points" title="A few fixed numbers">
                 <StatChips stats={rich.stats} />
               </Section>
 
-              <Section label="Depuis" title="Ce que ça a impliqué">
+              <Section label="Since then" title="What it led to">
                 <Timeline entries={rich.since} />
               </Section>
 
@@ -133,10 +137,10 @@ export default function DocumentDetail() {
             <div className="liquid-glass rounded-3xl p-8 md:p-10 overflow-hidden flex items-start gap-4">
               <Clock size={20} className="text-white/40 shrink-0 mt-1" strokeWidth={1.5} />
               <div>
-                <p className="text-white text-base mb-2">Contenu enrichi à venir</p>
+                <p className="text-white text-base mb-2">Enriched content coming soon</p>
                 <p className="text-white/50 text-sm leading-relaxed">
-                  Ce document est référencé dans le répertoire, mais son contexte détaillé, son schéma et son quiz n'ont pas encore été
-                  rédigés. Les {Object.keys(richContent).length} documents marqués « Enrichi » disposent déjà de leur fiche complète.
+                  This document is listed in the directory, but its detailed context, diagram and quiz have not been written yet. The{' '}
+                  {Object.keys(richContent).length} documents marked Enriched already have their full page.
                 </p>
               </div>
             </div>
