@@ -61,6 +61,17 @@ export interface SectorSnapshotItem {
   detail: string
 }
 
+export interface VCPlayer {
+  name: string
+  detail: string
+}
+
+export interface VCFieldGuide {
+  framing: string
+  startups: VCPlayer[]
+  funds: VCPlayer[]
+}
+
 export interface RichContent {
   context: string
   mechanism: MechanismStep[]

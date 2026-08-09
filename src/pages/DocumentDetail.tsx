@@ -8,8 +8,10 @@ import StatChips from '../components/StatChips'
 import Quiz from '../components/Quiz'
 import InfluenceMap from '../components/InfluenceMap'
 import SectorSnapshot from '../components/SectorSnapshot'
+import VCFieldGuide from '../components/VCFieldGuide'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
+import { vcFieldGuides } from '../data/vcFieldGuides'
 import { CATEGORY_LABELS } from '../types'
 
 function Section({ label, title, children }: { label: string; title: string; children: React.ReactNode }) {
@@ -34,6 +36,7 @@ export default function DocumentDetail() {
   const { slug } = useParams<{ slug: string }>()
   const doc = documents.find((d) => d.slug === slug)
   const rich = slug ? richContent[slug] : undefined
+  const vcGuide = slug ? vcFieldGuides[slug] : undefined
 
   if (!doc) {
     return (
@@ -102,6 +105,12 @@ export default function DocumentDetail() {
               <Section label="The mechanism" title="The idea, step by step">
                 <MechanismFlow steps={rich.mechanism} />
               </Section>
+
+              {vcGuide && (
+                <Section label="VC field guide" title="Who's in the game">
+                  <VCFieldGuide guide={vcGuide} />
+                </Section>
+              )}
 
               <Section label="Deep dive" title="Going further on the subject">
                 <div className="flex flex-col gap-4 mb-12">
