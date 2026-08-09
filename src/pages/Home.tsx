@@ -96,7 +96,7 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.35 }}
             className="text-white/60 text-sm leading-relaxed px-4 max-w-lg mb-8"
           >
-            89 memos, whitepapers, essays and decks that changed how money and ideas move. Turned into context,
+            {documents.length} memos, whitepapers, essays and decks that changed how money and ideas move. Turned into context,
             diagrams and quizzes so you can learn them faster.
           </motion.p>
 
@@ -175,7 +175,7 @@ export default function Home() {
               Start here
             </motion.h2>
             <Link to="/directory" className="text-white/50 hover:text-white text-sm transition-colors flex items-center gap-1">
-              See all 89 documents <ArrowRight size={14} />
+              See all {documents.length} documents <ArrowRight size={14} />
             </Link>
           </div>
 
@@ -195,9 +195,7 @@ export default function Home() {
               <Sparkles size={16} className="text-white/70" />
               <span className="text-white/50 text-xs tracking-widest uppercase">Personal project</span>
             </div>
-            <p className="text-white text-lg">
-              Inspired by the index at <span className="text-white/70">billiondollarpdf.com</span>.
-            </p>
+            <p className="text-white text-lg">A growing canon of documents that moved billions.</p>
           </div>
           <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="shrink-0">
             <Link

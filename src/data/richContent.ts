@@ -5026,4 +5026,64 @@ export const richContent: Record<string, RichContent> = {
       { name: 'Data center interconnect limits', year: '2024 to 2025', detail: "Shannon's channel capacity theory remains the reference framework for designing the extremely high bandwidth interconnects linking AI chips inside modern data centers." },
     ],
   },
+
+  'pragma-revolut': {
+    context:
+      "Published on arXiv on April 9, 2026 by a joint team from Revolut Research and NVIDIA, this paper introduces PRAGMA, a family of foundation models, from 10 million to 1 billion parameters, built specifically to understand banking transaction and event data. The goal is to replace a collection of separately trained, task-specific models, one for credit scoring, one for fraud, one for churn, with a single shared pretrained backbone that can be adapted cheaply to each task.",
+    mechanism: [
+      { label: 'Key, value, time tokenization', detail: 'Every banking event, a transaction, a login, a support ticket, is converted into a structured token capturing its type, value and timing, with type specific encoding for categorical, numerical and textual fields.' },
+      { label: 'Two branch encoding', detail: "A Profile State Encoder captures a user's slower changing attributes, an Event Encoder captures individual transactions, and both feed into a shared History Encoder." },
+      { label: 'Masked pretraining at scale', detail: 'The model trains via masked modeling, predicting hidden events and fields, across 207 billion tokens drawn from 26 million user histories.' },
+      { label: 'Efficient training infrastructure', detail: 'Sequence packing and dynamic batching handle the highly variable length of real banking histories, delivering reported 2 to 5 times training throughput gains.' },
+      { label: 'Lightweight downstream adaptation', detail: 'New tasks use either frozen embeddings or LoRA fine tuning, adjusting only 2 to 4 percent of parameters, instead of training a new model from scratch.' },
+    ],
+    since: [
+      { year: '2026', text: 'Published on arXiv in April, a joint effort between a fintech research team and a chip maker rather than either working alone.' },
+      { year: '2026', text: 'Training the largest variant reportedly took about two weeks on up to 32 NVIDIA H100 GPUs.' },
+      { year: 'Ongoing', text: 'The paper sits inside a broader, still unfolding trend of foundation models purpose built for tabular and sequential enterprise data, following the earlier wave built for text and images.' },
+    ],
+    stats: [
+      { label: 'Model sizes', value: '10 million to 1 billion parameters' },
+      { label: 'Pretraining scale', value: '207 billion tokens, 26 million user histories' },
+      { label: 'Training hardware', value: 'Up to 32 NVIDIA H100 GPUs, about 2 weeks' },
+      { label: 'Fine tuning cost', value: 'LoRA adapts only 2 to 4 percent of parameters' },
+    ],
+    quiz: [
+      {
+        question: 'What kind of data does PRAGMA pretrain on?',
+        options: ['Multi source banking transaction and event sequences', 'Satellite imagery', 'Medical imaging scans', 'Public social media posts'],
+        correctIndex: 0,
+        explanation: 'PRAGMA is built specifically to model banking events: transactions, logins, support interactions and account state.',
+      },
+      {
+        question: 'What two lightweight ways can PRAGMA be adapted to a new downstream task?',
+        options: ['Frozen embedding extraction or LoRA fine tuning', 'Training an entirely new model from scratch each time', 'Manual rule writing by analysts', 'Only full parameter retraining'],
+        correctIndex: 0,
+        explanation: 'Both adaptation modes avoid the cost of training a new task-specific model from zero.',
+      },
+      {
+        question: 'Where does the paper say the model performs comparatively worse?',
+        options: ['Relational tasks like anti-money-laundering, which need cross-record dependencies', 'Credit scoring', 'Fraud detection', 'Lifetime value prediction'],
+        correctIndex: 0,
+        explanation: 'A single user-history encoder is less naturally suited to tasks that depend on relationships across multiple records, unlike tasks centered on one user\'s own history.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "Because the underlying data is commercially sensitive customer information, the authors report only relative improvements rather than absolute numbers, and every example in the paper uses synthetic data, a common constraint for fintech machine learning research that needs to demonstrate a method without exposing real account details.",
+        "The task by task breakdown carries a useful nuance: a single foundation model does not uniformly win everywhere. The paper reports the profile state branch matters a great deal for credit and fraud tasks but much less for engagement prediction, and that relational tasks like anti-money-laundering, which depend on relationships across many records rather than one user's own history, remain a weak point for this architecture.",
+        "The approach extends a pattern already visible earlier in this collection, from word2vec's learned embeddings to the Transformer in Attention Is All You Need: pretrain one general representation, then adapt it cheaply to many downstream tasks. Here that pattern is applied to tabular, sequential enterprise data, a category that resisted the foundation model treatment text and images received years earlier.",
+      ],
+      connections: [
+        { label: 'Attention Is All You Need', note: 'the Transformer architecture this model builds on', slug: 'attention-is-all-you-need' },
+        { label: 'Software 2.0', note: 'a learned model replacing many hand built, task-specific systems', slug: 'software-2-0' },
+        { label: 'Efficient Estimation of Word Representations (word2vec)', note: 'an earlier instance of pretrained embeddings reused across tasks', slug: 'word2vec' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Foundation models for enterprise data', year: '2025 to 2026', detail: 'Banks and fintechs increasingly explore pretrained foundation models for tabular and event data, following the earlier foundation model wave built for text and images.' },
+      { name: 'Chip makers partnering directly with banks', year: '2025 to 2026', detail: 'NVIDIA co-authoring research directly with a consumer fintech reflects a broader trend of hardware makers working hands-on with financial institutions on domain specific model training.' },
+      { name: 'LoRA as the default adaptation method', year: '2024 to 2026', detail: 'Parameter efficient fine tuning methods like LoRA continue to become the standard way enterprises adapt large pretrained models to specific tasks rather than training from scratch.' },
+    ],
+  },
 }
