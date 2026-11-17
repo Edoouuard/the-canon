@@ -8,6 +8,10 @@ export type Category =
   | 'PITCH_DECK'
   | 'SECTOR_REPORT'
   | 'CRYPTO'
+  | 'LLM'
+  | 'CYBER'
+  | 'AI_SAFETY'
+  | 'AI_SCIENCE'
 
 export type Era = 'PRE_2000' | '2000_2009' | '2010_2019' | '2020_NOW'
 
@@ -92,6 +96,10 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   PITCH_DECK: 'Pitch Deck',
   SECTOR_REPORT: 'Sector Report',
   CRYPTO: 'Crypto',
+  LLM: 'LLM & Models',
+  CYBER: 'Cyber',
+  AI_SAFETY: 'AI Safety',
+  AI_SCIENCE: 'AI for Science',
 }
 
 export function eraOf(year: number): Era {

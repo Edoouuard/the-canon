@@ -1139,4 +1139,88 @@ export const vcFieldGuides: Record<string, VCFieldGuide> = {
       { name: 'Blue Owl Capital', detail: 'Private credit manager heavily involved in data center financing.' },
     ],
   },
+  'llm-formal-verification': {
+    framing: "AI-powered formal verification is turning a niche academic discipline into an emerging software security market.",
+    startups: [
+      { name: 'Theorem', detail: 'Co-author of the paper, building AI-driven verification tooling.' },
+      { name: 'Galois', detail: 'Long-standing high-assurance software and formal methods firm.' },
+      { name: 'Harmonic', detail: 'Builds AI systems that reason with formally verified mathematics in Lean.' },
+    ],
+    funds: [
+      { name: 'Menlo Ventures', detail: 'Anthropic investor with exposure to the security and developer-tool ecosystem around Claude.' },
+      { name: 'Sequoia Capital', detail: 'Backer of Harmonic and AI reasoning infrastructure.' },
+    ],
+  },
+  'gtig-ai-threat-tracker-q4-2026': {
+    framing: "Machine-speed attacks create demand for agentic defense: automated patching, AI security operations and AI supply chain security.",
+    startups: [
+      { name: 'Wiz', detail: 'Cloud security platform now part of Google, central to its AI threat defense offering.' },
+      { name: 'Dropzone AI', detail: 'Autonomous AI analyst for security operations centers.' },
+      { name: 'Socket', detail: 'Software supply chain security for open-source dependencies.' },
+    ],
+    funds: [
+      { name: 'Cyberstarts', detail: 'Israeli seed fund specialized in cybersecurity founders.' },
+      { name: 'Team8', detail: 'Venture creation group focused on cyber and AI security.' },
+    ],
+  },
+  'alphaproof-code': {
+    framing: "Verified cryptography and high-assurance code are becoming affordable, opening a market well beyond defense and aerospace.",
+    startups: [
+      { name: 'Signal Foundation', detail: 'Nonprofit behind the protocol verified in this work.' },
+      { name: 'Cryspen', detail: 'Builds formally verified cryptographic libraries.' },
+      { name: 'Harmonic', detail: 'AI company using Lean for verified reasoning.' },
+    ],
+    funds: [
+      { name: 'GV', detail: "Alphabet's venture arm, investor across AI and security." },
+      { name: 'Andreessen Horowitz', detail: 'Active investor in AI infrastructure and developer security.' },
+    ],
+  },
+  'gpt-6-cyber': {
+    framing: "AI vulnerability research is industrializing; the opportunity sits in triage, remediation and protecting maintainers from report floods.",
+    startups: [
+      { name: 'XBOW', detail: 'Autonomous offensive security platform that tops bug bounty leaderboards.' },
+      { name: 'RunSybil', detail: 'AI-driven penetration testing.' },
+      { name: 'Chainguard', detail: 'Secure, minimal open-source container images and dependencies.' },
+    ],
+    funds: [
+      { name: 'Sequoia Capital', detail: 'Backer of XBOW and AI-native security startups.' },
+      { name: 'Thrive Capital', detail: 'Major OpenAI investor.' },
+    ],
+  },
+  'gemini-4-carbon': {
+    framing: "Rapid frontier cadence rewards companies building on top of models, from agent platforms to cyber defense, over those betting on one model.",
+    startups: [
+      { name: 'Cognition', detail: 'Autonomous software engineering agent built on frontier models.' },
+      { name: 'Replit', detail: 'AI-native coding platform using multiple frontier models.' },
+      { name: 'Wiz', detail: 'Part of Google, positioned to put Carbon-class models into defense workflows.' },
+    ],
+    funds: [
+      { name: 'GV', detail: "Alphabet's venture arm, investor across the Gemini ecosystem." },
+      { name: 'CapitalG', detail: "Alphabet's growth fund, backing AI application companies." },
+    ],
+  },
+  'openai-math-release': {
+    framing: "AI mathematics creates demand for formal libraries, verification tools and research platforms that make machine output trustworthy.",
+    startups: [
+      { name: 'Harmonic', detail: 'Builds mathematical superintelligence grounded in Lean proofs.' },
+      { name: 'Axiom Math', detail: 'AI mathematician startup focused on formal reasoning.' },
+      { name: 'Lean FRO', detail: 'Focused research organization maintaining the Lean ecosystem.' },
+    ],
+    funds: [
+      { name: 'Thrive Capital', detail: 'Major OpenAI backer.' },
+      { name: 'Convergent Research', detail: 'Incubator behind the Lean focused research organization.' },
+    ],
+  },
+  'alphagenome-2': {
+    framing: "Cell-type-aware genomic models feed AI-first drug discovery, from target identification to patient stratification.",
+    startups: [
+      { name: 'Isomorphic Labs', detail: 'Alphabet AI drug discovery company spun out of DeepMind.' },
+      { name: 'Recursion', detail: 'Industrializes biology with AI and large-scale cell imaging.' },
+      { name: 'Xaira Therapeutics', detail: 'Heavily funded AI-first drug developer.' },
+    ],
+    funds: [
+      { name: 'ARCH Venture Partners', detail: 'Leading biotech venture firm, backer of Xaira.' },
+      { name: 'Thrive Capital', detail: 'Led Isomorphic Labs funding.' },
+    ],
+  },
 }

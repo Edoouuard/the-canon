@@ -3,19 +3,18 @@ import type { StatChip } from '../types'
 
 export default function StatChips({ stats }: { stats: StatChip[] }) {
   return (
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-gold/25 border border-gold/25">
       {stats.map((stat, i) => (
         <motion.div
           key={i}
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          whileHover={{ y: -3, borderColor: 'rgba(255,255,255,0.3)' }}
-          transition={{ duration: 0.4, delay: i * 0.05 }}
-          className="liquid-glass rounded-xl p-4 overflow-hidden"
+          transition={{ duration: 0.5, delay: i * 0.06 }}
+          className="bg-umber p-6 md:p-7"
         >
-          <p className="text-white/40 text-xs tracking-widest uppercase mb-2">{stat.label}</p>
-          <p className="text-white text-sm md:text-base leading-snug">{stat.value}</p>
+          <p className="caps text-[0.58rem] text-parchment/50 mb-3">{stat.label}</p>
+          <p className="display text-2xl md:text-[1.7rem] leading-snug text-gold-light">{stat.value}</p>
         </motion.div>
       ))}
     </div>

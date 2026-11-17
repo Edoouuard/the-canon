@@ -5617,4 +5617,417 @@ export const richContent: Record<string, RichContent> = {
       { name: 'Concentration risk', year: '2024 to 2026', detail: 'A few dozen AI-linked companies drive most index gains, tying broad portfolios to a single theme.' },
     ],
   },
+  'llm-formal-verification': {
+    context:
+      "Published on October 22, 2026 by Anthropic's Frontier Red Team with the startup Theorem, this paper starts from an uncomfortable observation: AI now finds software vulnerabilities faster than defenders can patch them, so the old toolkit of testing and fuzzing is no longer enough. Formal verification, mathematically proving that code behaves as specified, offers far stronger guarantees but historically took years of expert work per project. The team shows that Claude can now write such proofs at industrial scale, directly against compiled machine code.",
+    mechanism: [
+      { label: 'Start from existing fuzz tests', detail: "Each entry point from Google's OSS-Fuzz project, where any crash signals a bug, becomes the target of a proof." },
+      { label: 'Turn tests into specifications', detail: 'Each fuzz test is converted into a formal statement over the compiled RISC-V binary: the program never crashes on any input under 64 MB.' },
+      { label: 'Claude writes the proof', detail: 'Claude produces machine-checked proofs in the Rocq proof assistant, and the Rocq checker independently validates every step.' },
+      { label: 'Fix and re-prove', detail: 'When a proof fails because of a real bug, Claude patches the code, regenerates the specification and proves it again, with audits to stop it simply rewriting the program to cheat.' },
+      { label: 'Reuse proofs across projects', detail: 'Much of each proof covers shared runtime code, so agent teams sharing a proof workspace reuse large portions and spend fewer tokens.' },
+    ],
+    since: [
+      { year: 'Oct 2026', text: 'Published alongside proof artifacts, with some withheld because they might reveal unpatched bugs.' },
+      { year: 'Nov 2026', text: "Three weeks later Google DeepMind's AlphaProof Code verified Signal's encryption code with a similar agentic approach, confirming a trend." },
+      { year: 'Nov 2026', text: "Google's threat tracker documented attackers automating exploitation, sharpening the case for proofs over patching." },
+    ],
+    stats: [
+      { label: 'Entry points proven', value: '239 across 123 libraries' },
+      { label: 'Total proof size', value: 'About 180 million lines of Rocq' },
+      { label: 'Time taken', value: 'A few weeks' },
+      { label: 'Python interpreter fidelity', value: '99.95% match with CPython on 1.7M programs' },
+    ],
+    quiz: [
+      {
+        question: 'What property did the proofs establish for each entry point?',
+        options: ['The compiled program never crashes for any input under 64 MB', 'The code runs faster than before', 'The code has no comments missing', 'The program is free of every possible bug of any kind'],
+        correctIndex: 0,
+        explanation: 'The specification ruled out crashes, memory-safety violations and failed assertions, not every conceivable bug.',
+      },
+      {
+        question: 'Why does working at the binary level matter?',
+        options: ['It avoids rewriting codebases in a new language and checks what actually runs', 'It makes the code smaller', 'It removes the need for a proof checker', 'It only works on Python'],
+        correctIndex: 0,
+        explanation: 'Proving properties of the compiled RISC-V binary sidesteps compiler trust and does not require porting C code to a verified language.',
+      },
+      {
+        question: 'Which limitation do the authors stress?',
+        options: ['A proof only shows the code matches its specification, not that the specification matches reality', 'Proofs cannot be checked by machines', 'The method found zero bugs', 'It only works on hardware from one vendor'],
+        correctIndex: 0,
+        explanation: 'Trusted components like the processor model, the checker and the spec itself can still be wrong, and the proofs cover single-threaded static binaries.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "For decades formal verification was the gold standard reserved for aircraft control software, chip designs and a handful of microkernels, because a single verified project could consume years of PhD-level effort. This paper suggests that cost curve has collapsed: a few weeks of agent work produced proofs larger than the entire historical corpus of hand-written verification.",
+        "The bug findings matter as much as the proofs. Trying to prove that code never crashes surfaced hundreds of real issues, including an out-of-bounds write in a decompressor that only triggers on rare 20 MB inputs, exactly the kind of deep edge case that random testing rarely reaches. In a PDF reader, one week of verification turned up as many security bugs as are typically reported in a year.",
+        "The strategic implication is a shift in the offense-defense balance. If AI makes exploitation cheap, the durable defense is not finding bugs faster but proving their absence. Verification moving from niche practice to routine engineering would be one of the largest changes in how software is built since memory-safe languages.",
+      ],
+      connections: [
+        { label: 'AlphaProof Code', note: 'DeepMind applies the same idea to Signal encryption', slug: 'alphaproof-code' },
+        { label: 'GTIG AI Threat Tracker Q4 2026', note: 'the attacker side of AI-driven vulnerability discovery', slug: 'gtig-ai-threat-tracker-q4-2026' },
+        { label: 'Software 2.0', note: 'when code is produced by models, how do we trust it?', slug: 'software-2-0' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'AI formal verification', year: '2026', detail: 'Labs and startups use LLM agents to write machine-checked proofs for production code, from libraries to cryptography.' },
+      { name: 'Memory safety push', year: '2023 to 2026', detail: 'Governments and vendors push memory-safe languages; verification of existing C binaries offers a complementary path.' },
+      { name: 'Proof assistants go mainstream', year: '2025 to 2026', detail: 'Lean and Rocq move from academic tools to infrastructure used by AI agents at massive scale.' },
+    ],
+  },
+  'gtig-ai-threat-tracker-q4-2026': {
+    context:
+      "Published on November 16, 2026 by the Google Threat Intelligence Group (GTIG) and Mandiant, the fourth-quarter edition of Google's AI Threat Tracker carries a stark headline: the era of autonomous attacks has arrived. For the first time Google observed threat actors using large language model frameworks to find and exploit vulnerabilities with no human in the loop. The report also covers open-source agentic hacking kits showing up in real intrusions, stolen AI accounts being resold, and state-linked actors abusing AI tools.",
+    mechanism: [
+      { label: 'Watch the patches', detail: 'An attacker framework continuously compares code before and after security patches are published to see exactly which flaw each one fixes.' },
+      { label: 'Write the exploit automatically', detail: 'Connected to several frontier and local LLMs, the multi-agent system turns that patch diff into a working exploit.' },
+      { label: 'Launch without a human', detail: "The framework, found on an exposed staging server and named exploit_agent by its operator, ran the whole loop itself against web applications." },
+      { label: 'Off-the-shelf agentic kits spread', detail: 'Open-source offensive frameworks such as CAIRN, PentAGI, CyberStrikeAI and HexStrike AI appeared in live intrusions across the US and Asia.' },
+      { label: 'Monetize stolen AI access', detail: 'LLMjacking, reselling hijacked AI accounts and API access, emerged as a business, while one actor hid a backdoor in AI coding agent settings.' },
+    ],
+    since: [
+      { year: 'Nov 2025', text: 'Anthropic disclosed the first reported AI-orchestrated cyber espionage campaign, a precursor to fully autonomous operations.' },
+      { year: 'Aug–Sep 2026', text: 'An AI-orchestrated campaign compromised hundreds of PaperCut servers within days of a patch, showing the patch-to-exploit window collapsing.' },
+      { year: 'Nov 2026', text: 'GTIG documented end-to-end autonomous exploitation and warned unsophisticated autonomous attacks could become common within months.' },
+    ],
+    stats: [
+      { label: 'Human involvement in exploit_agent', value: 'None, end to end' },
+      { label: 'Main targets in the case study', value: 'French media, entertainment, education sites' },
+      { label: 'Agentic kits observed', value: 'CAIRN, PentAGI, CyberStrikeAI, HexStrike AI' },
+      { label: 'Warning horizon', value: 'Basic autonomous attacks within about 1 to 3 months' },
+    ],
+    quiz: [
+      {
+        question: 'What made exploit_agent a first according to Google?',
+        options: ['It ran vulnerability discovery and exploitation end to end with no human in the loop', 'It was the first malware ever written', 'It only targeted Google products', 'It was built without any AI'],
+        correctIndex: 0,
+        explanation: 'Researchers have automated pieces of this for years; what was new was the full loop running continuously without supervision.',
+      },
+      {
+        question: 'How does the framework decide what to exploit?',
+        options: ['By diffing code before and after a security patch to see what the patch fixes', 'By guessing random passwords', 'By reading social media', 'By buying exploits on forums'],
+        correctIndex: 0,
+        explanation: 'Patch diffing reveals the vulnerability a fix addresses, and the agents turn that into an exploit faster than many organizations deploy the patch.',
+      },
+      {
+        question: 'What is LLMjacking?',
+        options: ['Hijacking and reselling access to AI models and accounts', 'A new programming language', 'A type of AI benchmark', 'Training a model on stolen books'],
+        correctIndex: 0,
+        explanation: 'Stolen AI access has become a commodity, giving attackers cheap compute for their own operations.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "The core economic shift is speed. Security teams have long relied on a grace period between a patch being published and attackers weaponizing it. When an agent can read a patch and produce a working exploit in minutes, that window shrinks to almost nothing, and organizations that patch on a weekly or monthly cycle are exposed by default.",
+        "The report reads as the mirror image of the defensive research published by the same labs. In the same weeks, Anthropic and Google DeepMind showed AI writing formal proofs that code is safe, and OpenAI released a model that finds and exploits kernel bugs at scale for defenders. Offense and defense are now powered by the same underlying capability.",
+        "Google's answer, an AI threat defense combining frontier models with automated patching and threat intelligence, makes the argument explicit: defending against machine-speed attacks at human speed is not feasible. For enterprises, the takeaway is that security operations must become agentic too, from patching to detection.",
+      ],
+      connections: [
+        { label: 'LLMs Make Formal Verification Feasible', note: 'proving bugs absent instead of racing to patch', slug: 'llm-formal-verification' },
+        { label: 'GPT-6 Cyber', note: 'the same capability deployed for defenders', slug: 'gpt-6-cyber' },
+        { label: 'We Must Pace the Frontier', note: 'agent swarms as a reason to slow down', slug: 'we-must-pace-the-frontier' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Autonomous offense', year: '2025 to 2026', detail: 'Attackers move from AI as an assistant to multi-agent frameworks that run whole intrusion chains.' },
+      { name: 'Agentic security operations', year: '2026', detail: 'Defenders deploy AI agents for triage, patching and response to match machine-speed threats.' },
+      { name: 'AI supply chain attacks', year: '2026', detail: 'Coding agents, MCP servers and AI gateways become new attack surfaces and backdoor vectors.' },
+    ],
+  },
+  'alphaproof-code': {
+    context:
+      "Announced on November 10, 2026 by Google DeepMind's Pushmeet Kohli and Swarat Chaudhuri, AlphaProof Code is an agentic framework for formal verification. Its first showcase target was one long considered a grand challenge: the cryptographic code of the Signal protocol, which protects billions of private conversations in Signal and other messaging apps. Agents powered by Gemini Carbon produced machine-checked proofs, in the Lean theorem prover, that the compiled code delivers the security properties experts specified.",
+    mechanism: [
+      { label: 'Humans decide what to prove', detail: 'Experts work with the AI to write formal specifications of the security properties that matter, such as forward secrecy and authentication, and review every one.' },
+      { label: 'Agents write the proofs', detail: 'Teams of AI agents autonomously produce the Lean proofs that the implementation meets those specifications.' },
+      { label: 'Prove down to machine code', detail: 'The proofs target the compiled 64-bit Arm binary rather than just the source, closing the gap between what is proven and what actually runs on a phone.' },
+      { label: 'Lean checks everything', detail: "Every proof is verified by Lean's small, trusted kernel, so no one needs to trust the AI that wrote it." },
+      { label: 'Sanity check with real bugs', detail: 'The team reintroduced two previously fixed real bugs into an isolated copy, and the system produced proofs that the altered code was insecure.' },
+    ],
+    since: [
+      { year: 'Oct 2026', text: "Anthropic's large-scale verification of open-source libraries showed the same approach working on other codebases." },
+      { year: 'Nov 2026', text: 'DeepMind published the verification artifacts so anyone can independently check the proofs.' },
+      { year: 'Ongoing', text: 'Critics note the proof covers specified security properties of one library, not the absence of every bug in the Signal app.' },
+    ],
+    stats: [
+      { label: 'Lines of Lean proof', value: 'About 6.5 million' },
+      { label: 'Time and team', value: 'Four weeks, five people' },
+      { label: 'Trusted specifications', value: 'About 26,000 lines' },
+      { label: 'Target', value: 'Signal protocol code, compiled Arm binary' },
+    ],
+    quiz: [
+      {
+        question: 'What did AlphaProof Code verify about Signal?',
+        options: ['That the compiled cryptographic code satisfies specific formal security properties', 'That the Signal app has zero bugs of any kind', 'That Signal is faster than other apps', 'That Signal servers are never offline'],
+        correctIndex: 0,
+        explanation: 'The proof covers properties humans specified, like forward secrecy, for the protocol library, not every possible bug.',
+      },
+      {
+        question: 'Why does nobody need to trust the AI that wrote the proofs?',
+        options: ["Every proof is checked by Lean's small trusted kernel", 'Google promises the AI is honest', 'The proofs are reviewed line by line by humans', 'The AI explains itself in English'],
+        correctIndex: 0,
+        explanation: 'A proof checker validates each step mechanically; the trust moves to the checker and the specifications.',
+      },
+      {
+        question: 'How long did the verification take?',
+        options: ['About four weeks with a team of five', 'About ten years', 'One afternoon', 'It is still unfinished'],
+        correctIndex: 0,
+        explanation: 'Verification at this depth historically took expert teams years.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "The Signal protocol is an ideal showcase because it is both critical and well studied: its design had been analyzed mathematically before, but proving that the actual shipped implementation matches the design, down to machine instructions, was far beyond practical reach. Closing that gap is what turns a paper guarantee into an operational one.",
+        "The division of labor is the replicable insight. Humans retain responsibility for deciding what should be true, the specification, while AI does the enormous mechanical labor of proving it. That mirrors how the best AI-assisted engineering works elsewhere: people set intent, machines handle scale, and an independent checker keeps everyone honest.",
+        "Together with Anthropic's results a few weeks earlier, AlphaProof Code suggests that high-assurance software may soon be affordable for ordinary companies. If that happens, security could shift from a perpetual cat-and-mouse game toward something closer to engineering certification.",
+      ],
+      connections: [
+        { label: 'LLMs Make Formal Verification Feasible', note: "Anthropic's parallel result on 123 libraries", slug: 'llm-formal-verification' },
+        { label: 'Gemini 4 Carbon', note: 'the model family powering the proof agents', slug: 'gemini-4-carbon' },
+        { label: 'A Mathematical Theory of Communication', note: 'the information theory roots of cryptography', slug: 'shannon-communication-theory' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Verified cryptography', year: '2020 to 2026', detail: 'From verified TLS libraries to proven messaging protocols, high-assurance crypto moves into production.' },
+      { name: 'Lean ecosystem', year: '2024 to 2026', detail: 'Lean becomes the shared language of AI mathematics and code verification across labs.' },
+      { name: 'Security certification', year: '2026', detail: 'Proof artifacts begin to look like a new kind of security audit that buyers and regulators could demand.' },
+    ],
+  },
+  'gpt-6-cyber': {
+    context:
+      "Announced by OpenAI in early November 2026, GPT-6 Cyber is a specialized version of its GPT-6 frontier model trained to find software vulnerabilities, build working exploits that prove they are real, and propose fixes. It is offered first to a small, vetted set of security customers. In its launch research it surfaced 81 previously unknown high-severity bugs in Firefox, one of the most hardened codebases in the world, and built working privilege-escalation exploits for 948 Linux kernel flaws, results described in a report titled A thousand fewer paths to root.",
+    mechanism: [
+      { label: 'Scan at scale', detail: 'The model screened the Linux kernel and identified 2,308 potential security flaws.' },
+      { label: 'Reproduce to filter noise', detail: 'It reproduced 1,724 of them as real vulnerabilities, separating genuine issues from false alarms.' },
+      { label: 'Prove exploitability', detail: 'It developed working local privilege-escalation exploits for 948 distinct vulnerabilities, 588 of them previously unknown.' },
+      { label: 'Fix, not just find', detail: 'Disclosures to maintainers came with proposed patches, and many Firefox fixes shipped quickly.' },
+      { label: 'Gate the access', detail: "OpenAI classified the model as Critical for cybersecurity under its own Preparedness Framework and limited it to vetted defenders." },
+    ],
+    since: [
+      { year: 'Before', text: 'The previous model, GPT-5.6 Sol, produced 166 working kernel exploits in the same research setup.' },
+      { year: 'Nov 2026', text: 'Mozilla shipped patches for the Firefox findings; Linux maintainers addressed reported flaws.' },
+      { year: 'Nov 2026', text: "Days later Google's threat tracker showed attackers automating exploitation with their own LLM frameworks." },
+    ],
+    stats: [
+      { label: 'Firefox high-severity bugs', value: '81 previously unknown' },
+      { label: 'Linux kernel exploits', value: '948 working (588 unknown before)' },
+      { label: 'Kernel candidates screened', value: '2,308, of which 1,724 reproduced' },
+      { label: 'Previous model, same setup', value: '166 exploits' },
+    ],
+    quiz: [
+      {
+        question: 'Why does GPT-6 Cyber build working exploits rather than just reporting suspected bugs?',
+        options: ['A working exploit proves a vulnerability is real and serious, cutting false positives', 'To attack Linux users', 'Because exploits are easier than reports', 'It cannot write reports'],
+        correctIndex: 0,
+        explanation: 'Reproducing and exploiting a flaw filters noise and gives maintainers a concrete, prioritized fix target.',
+      },
+      {
+        question: 'How much did kernel exploit output improve over the previous model in the same setup?',
+        options: ['From 166 to 948', 'From 900 to 948', 'From 0 to 10', 'It got worse'],
+        correctIndex: 0,
+        explanation: 'Roughly a fivefold jump in one model generation, a measure of how fast offensive capability is scaling.',
+      },
+      {
+        question: 'How did OpenAI handle access to such a capable model?',
+        options: ['It rated it Critical and rolled it out only to vetted security customers', 'It open-sourced the weights', 'It released it to all ChatGPT users', 'It deleted it'],
+        correctIndex: 0,
+        explanation: 'Staged access for defenders first became the norm for cyber-capable frontier models in late 2026.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "The headline numbers describe a step change in the economics of vulnerability research. Finding a single kernel privilege escalation used to be a career highlight for a human researcher; one model generation produced hundreds in a single campaign. That turns vulnerability discovery from a scarce craft into an industrial process.",
+        "The dual-use problem is unavoidable. The same model that hardens Firefox could, in the wrong hands, compromise millions of machines. That is why OpenAI, Google and Anthropic converged in 2026 on a similar playbook: classify cyber capability as a top-tier risk, release first to defenders, and race to patch the world's most important software before comparable capability leaks to attackers.",
+        "For the software industry the implication is a forced reckoning with security debt. If every new model generation can rescan a codebase and find a fresh layer of bugs, maintainers of critical open-source projects face a flood of valid reports, which raises the value of the formal verification approaches published in the same weeks.",
+      ],
+      connections: [
+        { label: 'GTIG AI Threat Tracker Q4 2026', note: 'attackers building the same capability', slug: 'gtig-ai-threat-tracker-q4-2026' },
+        { label: 'LLMs Make Formal Verification Feasible', note: 'proving bugs away rather than finding them one by one', slug: 'llm-formal-verification' },
+        { label: 'State of AI Report 2026', note: 'predicted frontier cyberdefense products', slug: 'state-of-ai-2026' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'AI vulnerability research', year: '2024 to 2026', detail: 'From Big Sleep to GPT-6 Cyber, frontier models move from finding single bugs to industrial-scale discovery.' },
+      { name: 'Staged cyber releases', year: '2026', detail: 'Labs gate their most capable security models to vetted defenders under preparedness frameworks.' },
+      { name: 'Open-source maintainer load', year: '2026', detail: 'Critical projects face a surge of AI-found reports, increasing demand for funding and automated patching.' },
+    ],
+  },
+  'gemini-4-carbon': {
+    context:
+      "Announced on October 28, 2026 by Koray Kavukcuoglu, Google DeepMind's chief AI architect, Gemini 4 Carbon is Google's strongest model, built for long-horizon software work and cybersecurity. It arrived just two weeks after Gemini 4 Argon became generally available, and Google said it ranked first on version 5.0 of the Artificial Analysis Intelligence Index. Unusually, its first users were not developers or consumers but a subset of cyber defenders, reflecting a new norm of releasing cyber-capable models to defense first.",
+    mechanism: [
+      { label: 'Faster release cadence', detail: 'Carbon followed Argon within about two weeks, signaling that frontier releases are becoming a continuous stream rather than annual events.' },
+      { label: 'Built for long horizons', detail: 'The model targets sustained software engineering and multi-step agentic tasks rather than single answers.' },
+      { label: 'State-of-the-art cyber', detail: 'Google reports more than double the success rate of Argon at generating secure code on internal benchmarks.' },
+      { label: 'Defenders first', detail: 'Access starts with a subset of cyber defenders, with no initial date for developers or consumers.' },
+      { label: 'Powering other systems', detail: 'The Carbon family runs the agents behind AlphaProof Code, which verified Signal encryption code weeks later.' },
+    ],
+    since: [
+      { year: 'Oct 13, 2026', text: 'Gemini 4 Argon became generally available across the Gemini API, AI Studio and the Gemini app.' },
+      { year: 'Oct 28, 2026', text: 'Carbon announced, topping the Artificial Analysis Intelligence Index v5.0 with a score of 59.' },
+      { year: 'Nov 2026', text: 'Carbon-powered agents produced millions of lines of Lean proof for the Signal verification project.' },
+    ],
+    stats: [
+      { label: 'Artificial Analysis Index v5.0', value: '59, ranked first' },
+      { label: 'Gap after Argon', value: 'About two weeks' },
+      { label: 'Secure code generation', value: 'More than 2x Argon' },
+      { label: 'First access', value: 'Selected cyber defenders' },
+    ],
+    quiz: [
+      {
+        question: 'Who got access to Gemini 4 Carbon first?',
+        options: ['A subset of cyber defenders', 'All Gemini app users', 'Only students', 'Only Google employees in Paris'],
+        correctIndex: 0,
+        explanation: 'Google staged the rollout to give defenders a head start before broader availability.',
+      },
+      {
+        question: 'What does the two-week gap between Argon and Carbon suggest?',
+        options: ['Frontier model releases are becoming a rapid, continuous cadence', 'Google stopped developing models', 'Argon was cancelled', 'Models now take a decade to build'],
+        correctIndex: 0,
+        explanation: 'Sundar Pichai framed it as releasing models periodically, a sign of how fast the frontier now moves.',
+      },
+      {
+        question: 'What two capabilities did Google emphasize for Carbon?',
+        options: ['Cybersecurity and long-horizon tasks', 'Image filters and music', 'Translation and spelling', 'Weather and sports'],
+        correctIndex: 0,
+        explanation: 'Google called it its strongest model with state-of-the-art cybersecurity and long-horizon capabilities.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "Carbon marks the moment Google returned to the top of the major leaderboards after a period in which Anthropic and OpenAI had led. The State of AI Report described the frontier as a three-lab race, and Carbon shows how quickly the lead can rotate when each lab ships every few weeks.",
+        "The release strategy is as notable as the model. Gating a general-purpose frontier model to cyber defenders first treats cybersecurity capability as the main deployment risk, in the same spirit as OpenAI's restricted GPT-6 Cyber. Model launches are starting to look less like consumer product launches and more like controlled releases of dual-use technology.",
+        "For investors, the cadence matters: if frontier capability improves every few weeks, any advantage built purely on a model's raw ability decays fast. Durable value shifts to distribution, proprietary data and workflows, the classic lesson of aggregation theory applied to AI.",
+      ],
+      connections: [
+        { label: 'State of AI Report 2026', note: 'the three-lab race Carbon joins at the top', slug: 'state-of-ai-2026' },
+        { label: 'AlphaProof Code', note: 'agents built on the Carbon family', slug: 'alphaproof-code' },
+        { label: 'Aggregation Theory', note: 'why model leadership alone is not a moat', slug: 'aggregation-theory' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Frontier model cadence', year: '2026', detail: 'Leading labs ship major models every few weeks, compressing competitive windows.' },
+      { name: 'Defender-first releases', year: '2026', detail: 'Cyber-capable models increasingly reach security teams before the general public.' },
+      { name: 'Long-horizon agents', year: '2025 to 2026', detail: 'Models are judged by how long they can work autonomously, not just by single-turn benchmarks.' },
+    ],
+  },
+  'openai-math-release': {
+    context:
+      "On October 6, 2026 OpenAI published a short research post and a public GitHub repository containing 722 AI-written mathematical manuscripts, grouped into 372 families of related results, all produced by an unreleased internal frontier model. Many come with Lean formalizations that a computer can check. OpenAI explained that it started testing models on genuine open research problems after its standard math evaluations saturated. The release followed criticism of an earlier claim on the Navier-Stokes problem made without full details, and was shaped by recommendations from a mathematics and AI advisory group.",
+    mechanism: [
+      { label: 'Point the model at open problems', detail: 'The internal model was given roughly 4,000 open problems across mathematics and theoretical computer science.' },
+      { label: 'Keep what survives', detail: 'Results judged to resolve or substantially advance a problem were written up as manuscripts, with the average kept result costing a few hours of model thinking time.' },
+      { label: 'Formalize where possible', detail: 'Many proofs were translated into Lean so their correctness can be machine-checked rather than taken on trust.' },
+      { label: 'Publish everything openly', detail: 'Manuscripts, Lean files and samples of reasoning were released under an open license for the community to verify.' },
+      { label: 'Let mathematicians judge', detail: 'OpenAI warned that unformalized results may contain errors, making the release a large-scale test of how fast the field can review machine-made mathematics.' },
+    ],
+    since: [
+      { year: 'Aug 2026', text: 'OpenAI disclosed ten advances in mathematics and theoretical computer science, including progress on long-standing Erdős problems.' },
+      { year: 'Sep 2026', text: 'A claimed approach to the Navier-Stokes Millennium Problem drew strong pushback for lack of detail.' },
+      { year: 'Oct 2026', text: 'Within days, other researchers began mining the release for genuinely new mathematical techniques, while prominent mathematicians urged caution.' },
+    ],
+    stats: [
+      { label: 'Manuscripts', value: '722' },
+      { label: 'Result families', value: '372' },
+      { label: 'Open problems attempted', value: 'About 4,000' },
+      { label: 'Verification', value: 'Lean proofs for many, not all' },
+    ],
+    quiz: [
+      {
+        question: 'Why did OpenAI start testing its models on open research problems?',
+        options: ['Performance on its existing mathematical evaluations had saturated', 'To win a cash prize', 'Because mathematicians asked it to stop', 'To train a calculator app'],
+        correctIndex: 0,
+        explanation: 'When benchmarks stop discriminating between models, real unsolved problems become the remaining test.',
+      },
+      {
+        question: 'What role does Lean play in the release?',
+        options: ['It allows proofs to be checked by a computer instead of trusted on faith', 'It is the name of the model', 'It is a journal', 'It translates papers into French'],
+        correctIndex: 0,
+        explanation: 'Formalized proofs can be mechanically verified, which matters when no human has yet read the work.',
+      },
+      {
+        question: 'What is the main open question the release creates?',
+        options: ['How the mathematical community can review AI-produced results at this scale', 'Whether computers can do arithmetic', 'Whether GitHub can host files', 'Whether math is still taught'],
+        correctIndex: 0,
+        explanation: 'Hundreds of claimed results arrive faster than peer review can absorb them; unformalized ones may contain errors.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "The release changes the bottleneck of mathematics. For centuries the scarce resource was producing proofs; with this drop, the scarce resource becomes checking and understanding them. Formal verification in Lean partly solves that, which is why the same proof assistant technology appears in both AI mathematics and AI software verification.",
+        "It also signals a shift in how labs prove capability. Benchmarks designed to last years saturated within months, so the frontier is now measured by contributions to open problems. That is a far more meaningful signal than leaderboard points, and far harder to fake when results are published in checkable form.",
+        "The reaction has been mixed by design. Some researchers treat the repository as a mine of new techniques; others warn that claims are still company characterizations until independently confirmed. That tension, between abundance of output and scarcity of trust, is likely to define AI-accelerated science across every field.",
+      ],
+      connections: [
+        { label: 'AlphaProof Code', note: 'the same Lean machinery applied to software', slug: 'alphaproof-code' },
+        { label: 'Stronger AI Breakthroughs Hasten Their Own Exhaustion', note: 'what AI-produced research may do to attention', slug: 'breakthroughs-hasten-exhaustion' },
+        { label: 'Machines of Loving Grace', note: 'the promise of compressing a century of science', slug: 'machines-of-loving-grace' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'AI mathematics', year: '2024 to 2026', detail: 'From olympiad medals to claimed progress on open problems, AI moves into research mathematics.' },
+      { name: 'Formal mathematics libraries', year: '2025 to 2026', detail: 'Lean libraries grow rapidly as AI generates and checks formal proofs.' },
+      { name: 'Responsible release norms', year: '2026', detail: 'Advisory groups and communities shape how AI-generated research is published and credited.' },
+    ],
+  },
+  'alphagenome-2': {
+    context:
+      "Released by Google DeepMind on November 11, 2026, AlphaGenome 2 is a successor to the DNA model first announced in 2025. It predicts how a stretch of DNA, and any variant within it, changes molecular activity in one specific human cell type or state, rather than averaging across whole tissues. That matters because the same variant can be harmful in an immune cell and harmless in a liver cell. Most of the genome, the non-coding regions that regulate genes, has been among the hardest parts of biology to interpret.",
+    mechanism: [
+      { label: 'Read a megabase of DNA', detail: 'The model takes about one million letters of DNA sequence as input.' },
+      { label: 'Condition on the cell', detail: 'Instead of predicting all cell types in parallel, it predicts for one chosen condition at a time: a tissue, a cell type, or a state such as an immune cell responding to infection.' },
+      { label: 'Learn from single-cell data', detail: 'Trained on more than 100 million single-cell profiles across 68 tissues, it captures cell-specific gene regulation.' },
+      { label: 'Adapt without retraining', detail: "Researchers can supply their own single-cell data to get predictions for new, previously unseen cell states without fine-tuning." },
+      { label: 'Score variant effects', detail: 'It outputs predicted changes in gene expression and other molecular signals, helping pinpoint which variants cause disease.' },
+    ],
+    since: [
+      { year: '2025', text: 'The original AlphaGenome was announced and later described in a Nature paper in January 2026.' },
+      { year: 'Nov 2026', text: 'AlphaGenome 2 released for non-commercial research via API, with a private preview for commercial use.' },
+      { year: 'Nov 2026', text: 'Reproduced computationally a known inflammatory bowel disease finding, a variant acting on ETS2 specifically in gut macrophages.' },
+    ],
+    stats: [
+      { label: 'Causal variants found (TenK10K)', value: '30% vs 16% for version 1' },
+      { label: 'Directional gene effects', value: '43% vs 23%' },
+      { label: 'Training data', value: '100M+ single-cell profiles, 68 tissues' },
+      { label: 'Input length', value: 'About 1 million DNA letters' },
+    ],
+    quiz: [
+      {
+        question: 'What is the key difference between AlphaGenome 2 and the original?',
+        options: ['It predicts variant effects for a specific cell type or state', 'It reads protein structures instead of DNA', 'It only works on bacteria', 'It writes new genomes'],
+        correctIndex: 0,
+        explanation: 'Conditioning on a single cell type or state reveals effects that tissue averages hide.',
+      },
+      {
+        question: 'Why are non-coding DNA regions important and hard?',
+        options: ['They regulate genes and make up most of the genome, but their effects are context-dependent', 'They contain no information', 'They only exist in plants', 'They are easy to read with a microscope'],
+        correctIndex: 0,
+        explanation: 'Regulatory DNA switches genes on or off differently in each cell type, which is what the model learns.',
+      },
+      {
+        question: 'How did AlphaGenome 2 perform on the TenK10K immune-cell benchmark?',
+        options: ['It identified 30% of causal variants, versus 16% for the original', 'It found none', 'It found 100%', 'It was not tested'],
+        correctIndex: 0,
+        explanation: 'Nearly doubling recall of causal variants, according to DeepMind, with figures awaiting independent replication.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "Genome-wide association studies have identified thousands of DNA variants linked to disease, but most sit in non-coding regions where it is unclear which variant does what, in which cell. AlphaGenome 2 attacks exactly that bottleneck, turning statistical associations into mechanistic hypotheses researchers can test.",
+        "The headline demonstration is telling: a discovery about inflammatory bowel disease that originally required gene editing and extensive lab work was partly reproduced by the model without touching a pipette. That does not replace the lab, but it changes which experiments are worth running first.",
+        "For drug discovery, cell-type specificity is where the value lies. A target that acts only in diseased immune cells is far more attractive than one with effects everywhere. Models like AlphaGenome 2 are becoming part of the AI-first drug pipeline that the State of AI Report tracks into late-stage clinical trials.",
+      ],
+      connections: [
+        { label: 'Machines of Loving Grace', note: 'AI compressing decades of biology into years', slug: 'machines-of-loving-grace' },
+        { label: 'State of AI Report 2026', note: 'AI-first drug programs reaching Phase 3', slug: 'state-of-ai-2026' },
+        { label: 'Stronger AI Breakthroughs Hasten Their Own Exhaustion', note: 'breakthrough cycles in structural biology', slug: 'breakthroughs-hasten-exhaustion' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Genomic foundation models', year: '2024 to 2026', detail: 'DNA sequence models move from tissue-level to cell-type and cell-state predictions.' },
+      { name: 'Single-cell atlases', year: '2020 to 2026', detail: 'Massive single-cell datasets become the training substrate for biological AI.' },
+      { name: 'AI-first drug discovery', year: '2025 to 2026', detail: 'AI-derived targets and molecules reach late-stage trials, raising the value of better variant interpretation.' },
+    ],
+  },
 }

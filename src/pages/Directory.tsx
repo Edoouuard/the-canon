@@ -1,134 +1,217 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import Navbar from '../components/Navbar'
+import Footer from '../components/Footer'
 import DocumentCard from '../components/DocumentCard'
+import { Eyebrow, Ornament, roman } from '../components/ui'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
+import { ART, GALLERIES, galleryOf } from '../data/galleries'
 import type { Category, Era } from '../types'
 import { CATEGORY_LABELS, ERA_LABELS, eraOf } from '../types'
 
+type Sort = 'newest' | 'oldest' | 'title'
+
 export default function Directory() {
-  const [searchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams()
   const [query, setQuery] = useState(searchParams.get('q') ?? '')
   const [era, setEra] = useState<Era | 'ALL'>('ALL')
-  const [category, setCategory] = useState<Category | 'ALL'>('ALL')
+  const [sort, setSort] = useState<Sort>('newest')
+  const catParam = searchParams.get('cat') as Category | null
+  const category: Category | 'ALL' = catParam && catParam in CATEGORY_LABELS ? catParam : 'ALL'
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (searchParams.get('focus') === 'search') inputRef.current?.focus()
+  }, [searchParams])
+
+  function setCategory(c: Category | 'ALL') {
+    const next = new URLSearchParams(searchParams)
+    next.delete('focus')
+    if (c === 'ALL') next.delete('cat')
+    else next.set('cat', c)
+    setSearchParams(next, { replace: true })
+  }
+
+  const counts = useMemo(() => {
+    const m = new Map<string, number>()
+    documents.forEach((d) => m.set(d.category, (m.get(d.category) ?? 0) + 1))
+    return m
+  }, [])
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase()
-    return documents.filter((doc) => {
+    const list = documents.filter((doc) => {
       if (era !== 'ALL' && eraOf(doc.year) !== era) return false
       if (category !== 'ALL' && doc.category !== category) return false
-      if (q && !(doc.title.toLowerCase().includes(q) || doc.author.toLowerCase().includes(q) || doc.blurb.toLowerCase().includes(q))) {
-        return false
-      }
+      if (q && !`${doc.title} ${doc.author} ${doc.blurb}`.toLowerCase().includes(q)) return false
       return true
     })
-  }, [query, era, category])
+    return list.sort((a, b) =>
+      sort === 'title' ? a.title.localeCompare(b.title) : sort === 'oldest' ? a.year - b.year : b.year - a.year,
+    )
+  }, [query, era, category, sort])
 
-  const categories = Object.keys(CATEGORY_LABELS) as Category[]
   const eras = Object.keys(ERA_LABELS) as Era[]
-  const filterKey = `${query}|${era}|${category}`
+  const galleries = GALLERIES.filter((g) => counts.get(g.category))
+  const current = category === 'ALL' ? null : galleryOf(category)
+  const galleryIndex = current ? galleries.findIndex((g) => g.category === current.category) + 1 : 0
 
   return (
-    <div className="bg-black min-h-screen">
-      <Navbar />
+    <div className="bg-ink min-h-screen">
+      <Navbar overlay />
 
-      <div className="px-6 pt-8 pb-6">
-        <div className="max-w-6xl mx-auto">
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl md:text-6xl text-white tracking-tight mb-2"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
-          >
-            The Directory
-          </motion.h1>
-          <motion.p
-            key={filtered.length}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-white/50 text-sm md:text-base mb-8"
-          >
-            {filtered.length} document{filtered.length !== 1 ? 's' : ''} out of {documents.length}
-          </motion.p>
-
-          {/* Filters */}
+      {/* Header band */}
+      <section className="relative pt-36 md:pt-44 pb-16 md:pb-20 px-5 md:px-8 overflow-hidden">
+        <AnimatePresence mode="wait">
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="liquid-glass rounded-2xl p-4 md:p-5 overflow-hidden flex flex-col md:flex-row gap-3 mb-10"
-          >
-            <div className="flex items-center gap-3 flex-1 bg-white/[0.03] rounded-full px-4 py-2">
-              <Search size={16} className="text-white/40 shrink-0" />
-              <input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Title, author, thesis"
-                className="bg-transparent outline-none text-white placeholder:text-white/40 text-sm w-full"
-              />
-            </div>
-            <select
-              value={era}
-              onChange={(e) => setEra(e.target.value as Era | 'ALL')}
-              className="bg-white/[0.03] text-white text-sm rounded-full px-4 py-2 outline-none border-none [&>option]:bg-neutral-900"
-            >
-              <option value="ALL">All eras</option>
-              {eras.map((e) => (
-                <option key={e} value={e}>
-                  {ERA_LABELS[e]}
-                </option>
-              ))}
-            </select>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value as Category | 'ALL')}
-              className="bg-white/[0.03] text-white text-sm rounded-full px-4 py-2 outline-none border-none [&>option]:bg-neutral-900"
-            >
-              <option value="ALL">All categories</option>
-              {categories.map((c) => (
-                <option key={c} value={c}>
-                  {CATEGORY_LABELS[c]}
-                </option>
-              ))}
-            </select>
-          </motion.div>
+            key={current?.category ?? 'all'}
+            initial={{ opacity: 0, scale: 1.04 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.9 }}
+            className="absolute inset-0 painted"
+            style={{
+              backgroundImage: `url(${ART[current?.art ?? 'terrace']})`,
+              backgroundSize: 'cover',
+              backgroundPosition: current?.focus ?? '50% 35%',
+            }}
+          />
+        </AnimatePresence>
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/60 to-ink" />
+        <div className="relative max-w-7xl mx-auto">
+          <Eyebrow className="mb-4 text-gold-light">{current ? `Gallery ${roman(galleryIndex)}` : 'The complete collection'}</Eyebrow>
+          <h1 className="display text-5xl md:text-7xl text-parchment leading-[0.98]">
+            {current ? CATEGORY_LABELS[current.category] : 'The Galleries'}
+          </h1>
+          <p className="italic text-parchment/75 text-lg md:text-xl mt-4 max-w-2xl">
+            {current ? current.description : 'Every paper, memo, essay and report in the canon, catalogued and annotated.'}
+          </p>
+        </div>
+      </section>
+
+      {/* Gallery rail */}
+      <div className="sticky top-16 md:top-[72px] z-30 bg-ink/90 backdrop-blur-md border-y border-gold/15">
+        <div className="max-w-7xl mx-auto px-5 md:px-8">
+          <div className="flex gap-1 overflow-x-auto no-scrollbar py-3 -mx-1">
+            {[{ category: 'ALL' as const }, ...galleries].map((g) => {
+              const active = category === g.category
+              const label = g.category === 'ALL' ? 'All works' : CATEGORY_LABELS[g.category]
+              const n = g.category === 'ALL' ? documents.length : counts.get(g.category)
+              return (
+                <button
+                  key={g.category}
+                  onClick={() => setCategory(g.category)}
+                  className={`relative shrink-0 px-4 py-2 caps text-[0.62rem] whitespace-nowrap transition-colors ${
+                    active ? 'text-ink' : 'text-parchment/65 hover:text-parchment'
+                  }`}
+                >
+                  {active && (
+                    <motion.span
+                      layoutId="gallery-pill"
+                      className="absolute inset-0 bg-gradient-to-b from-gold-light to-gold"
+                      transition={{ type: 'spring', stiffness: 400, damping: 34 }}
+                    />
+                  )}
+                  <span className="relative">
+                    {label} <span className={active ? 'text-ink/60' : 'text-parchment/35'}>{n}</span>
+                  </span>
+                </button>
+              )
+            })}
+          </div>
         </div>
       </div>
 
-      <div className="px-6 pb-24">
-        <div className="max-w-6xl mx-auto">
-          <AnimatePresence mode="wait">
-            {filtered.length === 0 ? (
-              <motion.p
-                key="empty"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="text-white/40 text-sm py-20 text-center"
-              >
-                No document matches this search.
-              </motion.p>
-            ) : (
-              <motion.div
-                key={filterKey}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
-              >
-                {filtered.map((doc, i) => (
-                  <DocumentCard key={doc.slug} doc={doc} rich={!!richContent[doc.slug]} index={i} />
-                ))}
-              </motion.div>
+      {/* Search + refine */}
+      <section className="px-5 md:px-8 pt-10 pb-8">
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-4 lg:items-end">
+          <label className="flex-1 flex items-center gap-3 border-b border-parchment/30 focus-within:border-gold-light transition-colors">
+            <Search size={18} strokeWidth={1.5} className="text-gold shrink-0" />
+            <span className="sr-only">Search</span>
+            <input
+              ref={inputRef}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search by title, author or thesis…"
+              className="flex-1 bg-transparent outline-none py-3 text-xl italic text-parchment placeholder:text-parchment/40"
+            />
+            {query && (
+              <button onClick={() => setQuery('')} aria-label="Clear search" className="text-parchment/50 hover:text-parchment">
+                <X size={16} />
+              </button>
             )}
-          </AnimatePresence>
+          </label>
+
+          <div className="flex gap-4 flex-wrap">
+            <div>
+              <p className="caps text-[0.55rem] text-parchment/45 mb-2">Era</p>
+              <div className="flex border border-gold/25">
+                {(['ALL', ...eras] as const).map((e) => (
+                  <button
+                    key={e}
+                    onClick={() => setEra(e)}
+                    className={`px-3 py-2 caps text-[0.56rem] transition-colors border-r border-gold/20 last:border-r-0 ${
+                      era === e ? 'bg-gold/20 text-gold-light' : 'text-parchment/60 hover:text-parchment'
+                    }`}
+                  >
+                    {e === 'ALL' ? 'All' : ERA_LABELS[e].replace(' to ', '–').replace('Before ', '<').replace('2020–now', '2020+')}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="caps text-[0.55rem] text-parchment/45 mb-2">Order</p>
+              <div className="flex border border-gold/25">
+                {(
+                  [
+                    ['newest', 'Newest'],
+                    ['oldest', 'Oldest'],
+                    ['title', 'A–Z'],
+                  ] as const
+                ).map(([k, l]) => (
+                  <button
+                    key={k}
+                    onClick={() => setSort(k)}
+                    className={`px-3 py-2 caps text-[0.56rem] transition-colors border-r border-gold/20 last:border-r-0 ${
+                      sort === k ? 'bg-gold/20 text-gold-light' : 'text-parchment/60 hover:text-parchment'
+                    }`}
+                  >
+                    {l}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+        <div className="max-w-7xl mx-auto mt-6">
+          <motion.p key={filtered.length} initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="italic text-parchment/55">
+            {filtered.length} work{filtered.length !== 1 ? 's' : ''} on display
+          </motion.p>
+        </div>
+      </section>
+
+      <section className="px-5 md:px-8 pb-28">
+        <div className="max-w-7xl mx-auto">
+          {filtered.length === 0 ? (
+            <div className="py-24 text-center">
+              <Ornament className="mb-6" />
+              <p className="display italic text-3xl text-parchment/70">This room is empty.</p>
+              <p className="text-parchment/50 mt-2">No work matches this search. Try another word or gallery.</p>
+            </div>
+          ) : (
+            <div key={`${category}|${era}|${sort}`} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+              {filtered.map((doc, i) => (
+                <DocumentCard key={doc.slug} doc={doc} rich={!!richContent[doc.slug]} index={i} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      <Footer />
     </div>
   )
 }

@@ -1,7 +1,18 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Check, X, RotateCcw, Trophy } from 'lucide-react'
+import { Check, X, RotateCcw } from 'lucide-react'
 import type { QuizQuestion } from '../types'
+import { Ornament, roman } from './ui'
+
+const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F']
+
+function verdict(score: number, total: number) {
+  const r = score / total
+  if (r === 1) return 'Summa cum laude'
+  if (r >= 0.66) return 'Magna cum laude'
+  if (r >= 0.34) return 'Cum laude'
+  return 'Repetita iuvant'
+}
 
 export default function Quiz({ questions }: { questions: QuizQuestion[] }) {
   const [step, setStep] = useState(0)
@@ -35,111 +46,85 @@ export default function Quiz({ questions }: { questions: QuizQuestion[] }) {
 
   if (done) {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.96 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4 }}
-        className="liquid-glass rounded-3xl p-8 md:p-10 overflow-hidden text-center"
-      >
-        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 260, damping: 18, delay: 0.1 }}>
-          <Trophy size={28} className="text-white/70 mx-auto mb-4" strokeWidth={1.5} />
-        </motion.div>
-        <p className="text-white/50 text-sm tracking-widest uppercase mb-2">Result</p>
+      <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="plate p-10 md:p-14 text-center">
+        <p className="caps text-[0.6rem] text-gold mb-6">Your result</p>
         <motion.p
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15 }}
-          className="text-4xl text-white mb-6"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
+          className="display text-7xl text-gold-light leading-none"
         >
-          {score} / {questions.length}
+          {score}
+          <span className="text-parchment/40 text-5xl"> / {questions.length}</span>
         </motion.p>
-        <motion.button
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.96 }}
-          onClick={restart}
-          className="liquid-glass rounded-full px-6 py-2.5 text-white text-sm font-medium overflow-hidden hover:bg-white/5 transition-colors inline-flex items-center gap-2"
-        >
-          <RotateCcw size={14} />
-          Play again
-        </motion.button>
+        <p className="display italic text-2xl text-parchment mt-5">{verdict(score, questions.length)}</p>
+        <Ornament className="my-8" />
+        <button onClick={restart} className="btn-ghost">
+          <RotateCcw size={13} /> Sit the examination again
+        </button>
       </motion.div>
     )
   }
 
-  return (
-    <div className="liquid-glass rounded-3xl p-6 md:p-8 overflow-hidden">
-      <div className="flex items-center justify-between mb-4">
-        <span className="text-white/40 text-xs tracking-widest uppercase">
-          Question {step + 1} of {questions.length}
-        </span>
-        <span className="text-white/40 text-xs">Score {score}</span>
-      </div>
+  const revealed = selected !== null
 
-      <div className="h-1 w-full bg-white/10 rounded-full mb-6 overflow-hidden">
-        <motion.div
-          className="h-full bg-white/60 rounded-full"
-          animate={{ width: `${((step + (selected !== null ? 1 : 0)) / questions.length) * 100}%` }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-        />
+  return (
+    <div className="plate p-6 md:p-10">
+      <div className="flex items-center justify-between mb-5">
+        <span className="caps text-[0.6rem] text-gold">
+          Question {roman(step + 1)} of {roman(questions.length)}
+        </span>
+        <div className="flex gap-1.5" aria-hidden>
+          {questions.map((_, i) => (
+            <span
+              key={i}
+              className={`w-2 h-2 rotate-45 transition-colors ${i < step || (i === step && revealed) ? 'bg-gold' : i === step ? 'bg-gold/40' : 'bg-parchment/15'}`}
+            />
+          ))}
+        </div>
       </div>
 
       <AnimatePresence mode="wait">
-        <motion.div
-          key={step}
-          initial={{ opacity: 0, x: 16 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -16 }}
-          transition={{ duration: 0.3 }}
-        >
-          <h4 className="text-white text-lg md:text-xl mb-6 tracking-tight leading-snug">{q.question}</h4>
+        <motion.div key={step} initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -16 }} transition={{ duration: 0.35 }}>
+          <h3 className="display text-2xl md:text-3xl text-parchment mb-7 leading-snug">{q.question}</h3>
 
-          <div className="flex flex-col gap-3 mb-4">
+          <div className="flex flex-col gap-3 mb-2">
             {q.options.map((opt, i) => {
               const isCorrect = i === q.correctIndex
               const isSelected = i === selected
-              const revealed = selected !== null
-
-              let stateClasses = 'border-white/10 hover:border-white/25'
-              if (revealed && isCorrect) stateClasses = 'border-white/60 bg-white/[0.06]'
-              else if (revealed && isSelected && !isCorrect) stateClasses = 'border-white/20 bg-white/[0.02] opacity-60'
-
+              let state = 'border-gold/20 hover:border-gold/60 hover:bg-gold/[0.04]'
+              if (revealed && isCorrect) state = 'border-gold-light bg-gold/[0.12]'
+              else if (revealed && isSelected) state = 'border-terracotta/60 bg-terracotta/[0.08]'
+              else if (revealed) state = 'border-gold/10 opacity-50'
               return (
-                <motion.button
+                <button
                   key={i}
-                  whileHover={revealed ? {} : { x: 4 }}
-                  whileTap={revealed ? {} : { scale: 0.98 }}
                   onClick={() => choose(i)}
                   disabled={revealed}
-                  className={`text-left rounded-xl border px-4 py-3 text-sm text-white/80 transition-all flex items-center justify-between gap-3 ${stateClasses}`}
+                  className={`text-left border px-4 py-3.5 flex items-center gap-4 transition-all ${state}`}
                 >
-                  <span>{opt}</span>
-                  {revealed && isCorrect && (
-                    <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 400, damping: 20 }}>
-                      <Check size={16} className="text-white shrink-0" />
-                    </motion.span>
-                  )}
-                  {revealed && isSelected && !isCorrect && <X size={16} className="text-white/50 shrink-0" />}
-                </motion.button>
+                  <span className={`caps text-[0.62rem] w-7 h-7 shrink-0 flex items-center justify-center border ${revealed && isCorrect ? 'border-gold-light text-gold-light' : 'border-gold/35 text-gold/80'}`}>
+                    {LETTERS[i]}
+                  </span>
+                  <span className="flex-1 text-parchment/90 text-[1.02rem]">{opt}</span>
+                  {revealed && isCorrect && <Check size={16} className="text-gold-light shrink-0" />}
+                  {revealed && isSelected && !isCorrect && <X size={16} className="text-terracotta shrink-0" />}
+                </button>
               )
             })}
           </div>
 
-          {selected !== null && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              className="overflow-hidden"
-            >
-              <p className="text-white/50 text-sm leading-relaxed mb-5 pt-2">{q.explanation}</p>
-              <motion.button
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={next}
-                className="liquid-glass rounded-full px-6 py-2.5 text-white text-sm font-medium overflow-hidden hover:bg-white/5 transition-colors"
-              >
-                {step + 1 >= questions.length ? 'See result' : 'Next question'}
-              </motion.button>
+          {revealed && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="overflow-hidden">
+              <div className="mt-6 pt-6 border-t border-gold/20">
+                <p className="caps text-[0.58rem] mb-2" style={{ color: selected === q.correctIndex ? 'var(--color-gold-light)' : 'var(--color-terracotta)' }}>
+                  {selected === q.correctIndex ? 'Correct' : 'Not quite'}
+                </p>
+                <p className="text-parchment/75 leading-relaxed mb-6 italic">{q.explanation}</p>
+                <button onClick={next} className="btn-gilt">
+                  {step + 1 >= questions.length ? 'See the verdict' : 'Next question'}
+                </button>
+              </div>
             </motion.div>
           )}
         </motion.div>

@@ -1,88 +1,56 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { ArrowUpRight } from 'lucide-react'
 import type { DeepDiveConnection } from '../types'
+import { documents } from '../data/documents'
 
 export default function InfluenceMap({ title, connections }: { title: string; connections: DeepDiveConnection[] }) {
-  const n = connections.length
-  const radius = 40 // % of container
-  const centerX = 50
-  const centerY = 50
-
-  const points = connections.map((_, i) => {
-    const angle = (i / n) * 2 * Math.PI - Math.PI / 2
-    const x = centerX + radius * Math.cos(angle)
-    const y = centerY + radius * Math.sin(angle) * 0.82
-    return { x, y }
-  })
-
   return (
-    <div className="relative w-full aspect-[16/11] md:aspect-[16/9]">
-      <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
-        {points.map((p, i) => (
-          <motion.line
-            key={i}
-            x1={centerX}
-            y1={centerY}
-            x2={p.x}
-            y2={p.y}
-            stroke="rgba(255,255,255,0.15)"
-            strokeWidth={0.3}
-            initial={{ pathLength: 0, opacity: 0 }}
-            whileInView={{ pathLength: 1, opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 + i * 0.08 }}
-          />
-        ))}
-      </svg>
-
-      {/* Center node */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.4 }}
-        className="liquid-glass absolute -translate-x-1/2 -translate-y-1/2 rounded-2xl px-4 py-3 overflow-hidden text-center w-36 md:w-44"
-        style={{ left: `${centerX}%`, top: `${centerY}%` }}
-      >
-        <p className="text-white text-xs md:text-sm leading-snug tracking-tight" style={{ fontFamily: "'Instrument Serif', serif" }}>
-          {title}
-        </p>
-      </motion.div>
-
-      {/* Satellite nodes */}
-      {connections.map((c, i) => {
-        const p = points[i]
-        const node = (
-          <div className="text-center">
-            <p className="text-white/80 text-xs md:text-sm mb-0.5 leading-snug">{c.label}</p>
-            <p className="text-white/40 text-[10px] md:text-xs leading-snug">{c.note}</p>
-          </div>
-        )
-        return (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: 0.15 + i * 0.08 }}
-            className="absolute -translate-x-1/2 -translate-y-1/2 w-28 md:w-36"
-            style={{ left: `${p.x}%`, top: `${p.y}%` }}
-          >
-            {c.slug ? (
-              <motion.div whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.97 }}>
-                <Link
-                  to={`/doc/${c.slug}`}
-                  className="liquid-glass block rounded-xl px-3 py-2.5 overflow-hidden hover:bg-white/[0.06] hover:shadow-[0_0_20px_-4px_rgba(255,255,255,0.25)] transition-all"
-                >
-                  {node}
+    <div>
+      <div className="flex flex-col items-center">
+        <div className="border border-gold/50 bg-umber px-6 py-4 text-center max-w-md">
+          <p className="caps text-[0.55rem] text-gold mb-1">This work</p>
+          <p className="display text-xl text-parchment leading-snug">{title}</p>
+        </div>
+        <svg width="100%" height="48" viewBox="0 0 600 48" preserveAspectRatio="none" className="text-gold/45 hidden md:block" aria-hidden>
+          <path d="M300 0 V18 M100 48 V30 H500 V48 M300 18 V48" stroke="currentColor" strokeWidth="1" fill="none" vectorEffect="non-scaling-stroke" />
+        </svg>
+        <span className="md:hidden w-px h-8 bg-gold/45" />
+      </div>
+      <div className="grid md:grid-cols-3 gap-5">
+        {connections.map((c, i) => {
+          const target = c.slug ? documents.find((d) => d.slug === c.slug) : undefined
+          const body = (
+            <>
+              <p className="display text-lg text-parchment leading-snug group-hover:text-gold-light transition-colors">{c.label}</p>
+              {target && (
+                <p className="caps text-[0.52rem] text-parchment/45 mt-2">
+                  {target.author.split('(')[0].trim()} · {target.year}
+                </p>
+              )}
+              <p className="italic text-parchment/65 text-[0.95rem] mt-3 leading-snug">{c.note}</p>
+            </>
+          )
+          return (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
+            >
+              {c.slug ? (
+                <Link to={`/doc/${c.slug}`} className="plate plate-hover group block p-5 h-full relative">
+                  <ArrowUpRight size={14} className="absolute top-4 right-4 text-gold/60 group-hover:text-gold-light" />
+                  {body}
                 </Link>
-              </motion.div>
-            ) : (
-              <div className="liquid-glass rounded-xl px-3 py-2.5 overflow-hidden">{node}</div>
-            )}
-          </motion.div>
-        )
-      })}
+              ) : (
+                <div className="plate p-5 h-full">{body}</div>
+              )}
+            </motion.div>
+          )
+        })}
+      </div>
     </div>
   )
 }

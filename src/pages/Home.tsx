@@ -1,212 +1,266 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { ArrowRight, BookOpen, Workflow, Brain, Sparkles } from 'lucide-react'
+import { motion, useScroll, useTransform } from 'framer-motion'
+import { ArrowRight, ArrowDown } from 'lucide-react'
 import Navbar from '../components/Navbar'
-import AuroraBackground from '../components/AuroraBackground'
-import DocumentCard from '../components/DocumentCard'
+import Footer from '../components/Footer'
+import { catalogueNo } from '../components/DocumentCard'
+import { Eyebrow, Ornament, PaintedCrop, Reveal, roman } from '../components/ui'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
+import { ART, GALLERIES, galleryOf } from '../data/galleries'
+import { CATEGORY_LABELS } from '../types'
 
-const FEATURED_SLUGS = [
-  'bitcoin-whitepaper',
-  'attention-is-all-you-need',
-  'zero-to-one',
-  'tesla-master-plan',
-  'ethereum-whitepaper',
-  'meditations-on-moloch',
-]
+const RECENT_COUNT = 8
 
 export default function Home() {
   const [query, setQuery] = useState('')
   const navigate = useNavigate()
-
-  const howRef = useRef(null)
-  const howInView = useInView(howRef, { once: true, margin: '-100px' })
-
-  const featuredRef = useRef(null)
-  const featuredInView = useInView(featuredRef, { once: true, margin: '-100px' })
+  const { scrollY } = useScroll()
+  const heroY = useTransform(scrollY, [0, 800], [0, 160])
+  const heroScale = useTransform(scrollY, [0, 800], [1.06, 1.16])
+  const heroFade = useTransform(scrollY, [0, 500], [1, 0])
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
     navigate(`/directory${query ? `?q=${encodeURIComponent(query)}` : ''}`)
   }
 
-  const featured = FEATURED_SLUGS.map((slug) => documents.find((d) => d.slug === slug)!).filter(Boolean)
+  const counts = new Map<string, number>()
+  documents.forEach((d) => counts.set(d.category, (counts.get(d.category) ?? 0) + 1))
+  const galleries = GALLERIES.filter((g) => counts.get(g.category))
+
+  // Most recent additions: 2026 documents, newest additions first (later in the file = added later)
+  const recent = documents
+    .map((d, i) => ({ d, i }))
+    .filter(({ d }) => d.year >= 2026)
+    .sort((a, b) => b.i - a.i)
+    .slice(0, RECENT_COUNT)
+    .map(({ d }) => d)
+
+  const minYear = Math.min(...documents.map((d) => d.year))
+  const maxYear = Math.max(...documents.map((d) => d.year))
 
   return (
-    <div className="bg-black min-h-screen">
-      {/* HERO */}
-      <div className="min-h-screen relative overflow-hidden flex flex-col">
-        <AuroraBackground />
-        <Navbar />
+    <div className="bg-ink min-h-screen">
+      <Navbar overlay />
 
-        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12 text-center -translate-y-[6%]">
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-white/40 text-xs tracking-widest uppercase mb-6"
-          >
-            A gamified library
-          </motion.p>
+      {/* HERO — the painting is the room */}
+      <section className="relative h-[100svh] min-h-[640px] overflow-hidden">
+        <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
+          <img src={ART.temple} alt="" className="w-full h-full object-cover object-[60%_50%]" />
+        </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/10 to-ink" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(20,17,12,0.7)_100%)]" />
+
+        <motion.div style={{ opacity: heroFade }} className="relative z-10 h-full max-w-7xl mx-auto px-5 md:px-8 flex flex-col justify-end pb-20 md:pb-28">
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1 }}>
+            <Eyebrow className="mb-5 text-gold-light">A gallery of ideas · Anno {roman(maxYear)}</Eyebrow>
+          </motion.div>
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-6xl md:text-7xl lg:text-8xl text-white tracking-tight leading-[1.05] mb-8"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
+            transition={{ duration: 1.1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className="display text-[3.2rem] sm:text-7xl lg:text-[7.5rem] leading-[0.95] text-parchment max-w-5xl drop-shadow-[0_4px_30px_rgba(0,0,0,0.6)]"
           >
             Ideas that moved
             <br />
-            <em className="italic">billions of dollars</em>.
+            <em className="text-gold-light">billions</em>.
           </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="mt-6 max-w-xl text-lg md:text-xl text-parchment/80 italic leading-relaxed"
+          >
+            {documents.length} papers, memos, essays and threat reports, from {minYear} to today, each one dissected so it stays with you.
+          </motion.p>
 
           <motion.form
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.25 }}
+            transition={{ duration: 0.8, delay: 0.65 }}
             onSubmit={handleSearch}
-            className="max-w-xl w-full mb-6"
+            className="mt-10 flex flex-col sm:flex-row gap-3 max-w-2xl"
           >
-            <div className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3 overflow-hidden">
+            <label className="flex-1 flex items-center border-b border-parchment/40 focus-within:border-gold-light transition-colors bg-ink/30 backdrop-blur-sm px-4">
+              <span className="sr-only">Search the collection</span>
               <input
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 type="text"
-                placeholder="Search a document, an author, a thesis"
-                className="flex-1 bg-transparent outline-none text-white placeholder:text-white/40 text-sm"
+                placeholder="Search a title, an author, a thesis…"
+                className="flex-1 bg-transparent outline-none py-4 text-parchment placeholder:text-parchment/45 text-lg italic"
               />
-              <motion.button
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.94 }}
-                type="submit"
-                aria-label="Search"
-                className="bg-white rounded-full p-3 text-black shrink-0"
-              >
-                <ArrowRight size={18} />
-              </motion.button>
-            </div>
+            </label>
+            <button type="submit" className="btn-gilt justify-center">
+              Enter the galleries <ArrowRight size={14} />
+            </button>
           </motion.form>
+        </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.35 }}
-            className="text-white/60 text-sm leading-relaxed px-4 max-w-lg mb-8"
-          >
-            {documents.length} memos, whitepapers, essays and decks that changed how money and ideas move. Turned into context,
-            diagrams and quizzes so you can learn them faster.
-          </motion.p>
+        <motion.a
+          href="#galleries"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y: [0, 6, 0] }}
+          transition={{ opacity: { delay: 1.2 }, y: { repeat: Infinity, duration: 2.4, ease: 'easeInOut' } }}
+          className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 text-parchment/60 hover:text-gold-light"
+          aria-label="Scroll to the galleries"
+        >
+          <ArrowDown size={18} strokeWidth={1.25} />
+        </motion.a>
+      </section>
 
-          <motion.a
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.45 }}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
-            href="#how"
-            className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors overflow-hidden"
-          >
-            How it works
-          </motion.a>
-        </div>
-      </div>
-
-      {/* HOW IT WORKS */}
-      <div id="how" ref={howRef} className="pt-28 md:pt-36 pb-10 md:pb-14 px-6 overflow-hidden relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.03)_0%,_transparent_70%)]" />
-        <div className="max-w-6xl mx-auto relative">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={howInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-white/40 text-sm tracking-widest uppercase mb-4"
-          >
-            How it works
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 40 }}
-            animate={howInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl md:text-6xl text-white leading-[1.1] tracking-tight mb-16 max-w-3xl"
-          >
-            Every document,{' '}
-            <em className="italic text-white/60" style={{ fontFamily: "'Instrument Serif', serif" }}>
-              dissected
-            </em>{' '}
-            so it sticks.
-          </motion.h2>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { icon: BookOpen, title: 'Context', text: 'Why this document was written, exactly when, and by whom, without unnecessary jargon.' },
-              { icon: Workflow, title: 'The mechanism', text: 'The core idea unpacked into a step by step diagram, so you visualize the reasoning instead of memorizing it.' },
-              { icon: Brain, title: 'Quiz', text: 'A short quiz to check and lock in what you just read, with an explanation behind every answer.' },
-            ].map((item, i) => (
-              <motion.div
-                key={item.title}
-                initial={{ opacity: 0, y: 30 }}
-                animate={howInView ? { opacity: 1, y: 0 } : {}}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.6, delay: 0.15 * i }}
-                className="liquid-glass rounded-3xl p-8 overflow-hidden"
-              >
-                <item.icon size={24} className="text-white/70 mb-6" strokeWidth={1.5} />
-                <h3 className="text-white text-xl mb-3 tracking-tight">{item.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed">{item.text}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* FEATURED */}
-      <div ref={featuredRef} className="py-20 md:py-28 px-6 overflow-hidden">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-end justify-between mb-10 flex-wrap gap-4">
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              animate={featuredInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7 }}
-              className="text-3xl md:text-5xl text-white tracking-tight"
-            >
-              Start here
-            </motion.h2>
-            <Link to="/directory" className="text-white/50 hover:text-white text-sm transition-colors flex items-center gap-1">
-              See all {documents.length} documents <ArrowRight size={14} />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {featured.map((doc, i) => (
-              <DocumentCard key={doc.slug} doc={doc} rich={!!richContent[doc.slug]} index={i} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* FOOTER */}
-      <div className="px-6 pb-16 pt-8">
-        <div className="max-w-6xl mx-auto liquid-glass rounded-3xl p-8 md:p-10 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <div>
-            <div className="flex items-center gap-2 justify-center md:justify-start mb-2">
-              <Sparkles size={16} className="text-white/70" />
-              <span className="text-white/50 text-xs tracking-widest uppercase">Personal project</span>
+      {/* LEDGER */}
+      <section className="border-y border-gold/15 bg-umber/60">
+        <div className="max-w-7xl mx-auto px-5 md:px-8 grid grid-cols-2 md:grid-cols-4 divide-x divide-gold/15">
+          {[
+            { k: 'Works in the collection', v: documents.length },
+            { k: 'Galleries', v: galleries.length },
+            { k: 'Fully annotated', v: Object.keys(richContent).length },
+            { k: 'Span of the collection', v: `${minYear}–${maxYear}` },
+          ].map((s) => (
+            <div key={s.k} className="py-6 md:py-8 px-4 text-center">
+              <p className="display text-3xl md:text-4xl text-gold-light">{s.v}</p>
+              <p className="caps text-[0.58rem] text-parchment/55 mt-2">{s.k}</p>
             </div>
-            <p className="text-white text-lg">A growing canon of documents that moved billions.</p>
-          </div>
-          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} className="shrink-0">
-            <Link
-              to="/directory"
-              className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors overflow-hidden block"
-            >
-              Explore the directory
-            </Link>
-          </motion.div>
+          ))}
         </div>
-      </div>
+      </section>
+
+      {/* GALLERIES */}
+      <section id="galleries" className="scroll-mt-20 py-24 md:py-32 px-5 md:px-8">
+        <div className="max-w-7xl mx-auto">
+          <Reveal className="text-center mb-16">
+            <Eyebrow className="mb-4">The galleries</Eyebrow>
+            <h2 className="display text-4xl md:text-6xl text-parchment">Choose a room</h2>
+            <p className="italic text-parchment/60 mt-4 max-w-xl mx-auto text-lg">
+              {galleries.length} rooms, from the founding papers of the internet to this autumn’s research on cyber and AI safety.
+            </p>
+            <Ornament className="mt-8" />
+          </Reveal>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {galleries.map((g, i) => (
+              <Reveal
+                key={g.category}
+                delay={Math.min(i * 0.04, 0.3)}
+                className={i < 2 || (i === galleries.length - 1 && (galleries.length - 2) % 4 === 3) ? 'lg:col-span-2' : ''}
+              >
+                <Link
+                  to={`/directory?cat=${g.category}`}
+                  className="group relative block overflow-hidden border border-gold/25 hover:border-gold-light/70 transition-colors h-64 md:h-72"
+                >
+                  <PaintedCrop
+                    category={g.category}
+                    zoom={i < 2 || i === galleries.length - 1 ? '170%' : '260%'}
+                    className="absolute inset-0 transition-transform duration-[1400ms] ease-out group-hover:scale-[1.07]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/5" />
+                  <div className="absolute inset-[6px] border border-parchment/10 pointer-events-none" />
+                  <div className="relative h-full flex flex-col justify-between p-6">
+                    <div className="flex items-start justify-between">
+                      <span className="caps text-[0.62rem] text-gold-light">Gallery {roman(i + 1)}</span>
+                      <span className="caps text-[0.6rem] text-parchment/70 border border-parchment/25 px-2 py-1 bg-ink/40">
+                        {counts.get(g.category)} works
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="display text-3xl md:text-[2.1rem] leading-none text-parchment mb-2">{CATEGORY_LABELS[g.category]}</h3>
+                      <p className="italic text-parchment/70 text-[0.98rem] leading-snug max-w-sm">{g.description}</p>
+                      <span className="caps text-[0.6rem] text-gold mt-4 inline-flex items-center gap-2 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
+                        Enter <ArrowRight size={12} />
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* RECENT ACQUISITIONS */}
+      <section className="relative py-24 md:py-32 px-5 md:px-8 bg-umber/50 border-y border-gold/15 overflow-hidden">
+        <div className="max-w-7xl mx-auto grid lg:grid-cols-[0.9fr_1.6fr] gap-12 lg:gap-20">
+          <Reveal className="lg:sticky lg:top-28 self-start">
+            <Eyebrow className="mb-4">Recent acquisitions</Eyebrow>
+            <h2 className="display text-4xl md:text-6xl text-parchment leading-[1.02]">
+              New to the
+              <br />
+              <em className="text-gold-light">collection</em>
+            </h2>
+            <p className="italic text-parchment/60 mt-6 text-lg leading-relaxed max-w-md">
+              The latest research from frontier labs and threat intelligence teams: formal verification, autonomous attacks, AI-made mathematics and the debate over pacing the frontier.
+            </p>
+            <div className="mt-8 aspect-[4/3] relative overflow-hidden border border-gold/25 hidden lg:block">
+              <img src={ART.terrace} alt="" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-[6px] border border-parchment/15" />
+            </div>
+          </Reveal>
+
+          <ol className="border-t border-gold/20">
+            {recent.map((d, i) => {
+              const g = galleryOf(d.category)
+              return (
+                <Reveal key={d.slug} delay={i * 0.05}>
+                  <li>
+                    <Link
+                      to={`/doc/${d.slug}`}
+                      className="group grid grid-cols-[3.5rem_1fr_auto] md:grid-cols-[4.5rem_1fr_auto] items-baseline gap-4 py-6 border-b border-gold/20 hover:bg-gold/[0.04] transition-colors px-2"
+                    >
+                      <span className="caps text-[0.62rem] text-gold/80">No. {roman(catalogueNo(d.slug))}</span>
+                      <span>
+                        <span className="block display text-2xl md:text-[1.75rem] leading-tight text-parchment group-hover:text-gold-light transition-colors">
+                          {d.title}
+                        </span>
+                        <span className="block italic text-parchment/55 mt-1">{d.author}</span>
+                      </span>
+                      <span className="caps text-[0.56rem] text-parchment/60 flex items-center gap-2 whitespace-nowrap">
+                        <span className="w-1.5 h-1.5 rotate-45" style={{ background: g.accent }} />
+                        <span className="hidden sm:inline">{CATEGORY_LABELS[d.category]}</span>
+                      </span>
+                    </Link>
+                  </li>
+                </Reveal>
+              )
+            })}
+          </ol>
+        </div>
+      </section>
+
+      {/* METHOD */}
+      <section className="py-24 md:py-32 px-5 md:px-8">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="text-center mb-16">
+            <Eyebrow className="mb-4">The method</Eyebrow>
+            <h2 className="display text-4xl md:text-6xl text-parchment">
+              Every work, <em className="text-gold-light">annotated</em>
+            </h2>
+            <Ornament className="mt-8" />
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-px bg-gold/20 border border-gold/20">
+            {[
+              { t: 'Context', d: 'Why the document was written, when, by whom, and what was at stake at the time.' },
+              { t: 'Mechanism', d: 'The core idea broken into five steps you can see, instead of a wall of prose to memorize.' },
+              { t: 'Examination', d: 'A short quiz with an explanation behind every answer, so the idea actually sticks.' },
+            ].map((s, i) => (
+              <Reveal key={s.t} delay={i * 0.1} className="bg-ink p-8 md:p-10">
+                <p className="display text-6xl text-gold/80 leading-none mb-6">{roman(i + 1)}</p>
+                <h3 className="caps text-sm text-parchment mb-3">{s.t}</h3>
+                <p className="text-parchment/65 leading-relaxed">{s.d}</p>
+              </Reveal>
+            ))}
+          </div>
+          <div className="text-center mt-14">
+            <Link to="/directory" className="btn-gilt">
+              Browse all {documents.length} works <ArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   )
 }
