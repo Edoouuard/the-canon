@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ExternalLink, Download, Clock } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -13,6 +13,7 @@ import SectorSnapshot from '../components/SectorSnapshot'
 import VCFieldGuide from '../components/VCFieldGuide'
 import { catalogueNo } from '../components/DocumentCard'
 import { Eyebrow, Ornament, roman } from '../components/ui'
+import { LightRays, Motes } from '../components/immersive'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
 import { vcFieldGuides } from '../data/vcFieldGuides'
@@ -53,6 +54,9 @@ export default function DocumentDetail() {
   const rich = slug ? richContent[slug] : undefined
   const vcGuide = slug ? vcFieldGuides[slug] : undefined
   const [active, setActive] = useState<string>('context')
+  const { scrollY } = useScroll()
+  const headerY = useTransform(scrollY, [0, 700], [0, 220])
+  const headerDim = useTransform(scrollY, [0, 600], [0, 0.6])
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -81,7 +85,7 @@ export default function DocumentDetail() {
         { id: 'influence', label: 'Lineage', title: 'Related works in the canon', render: () => <InfluenceMap title={doc!.title} connections={rich.deepDive.connections} /> },
         { id: 'figures', label: 'Reference points', title: 'A few figures to remember', render: () => <StatChips stats={rich.stats} /> },
         { id: 'since', label: 'Since then', title: 'What it led to', render: () => <Timeline entries={rich.since} /> },
-        { id: 'quiz', label: 'Examination', title: 'Test yourself', render: () => <Quiz key={slug} questions={rich.quiz} /> },
+        { id: 'quiz', label: 'Examination', title: 'Test yourself', render: () => <Quiz key={slug} slug={slug!} questions={rich.quiz} next={next && next.slug !== slug ? { slug: next.slug, title: next.title } : undefined} /> },
       ]
     : []
 
@@ -133,14 +137,19 @@ export default function DocumentDetail() {
 
       {/* Painted header */}
       <header className="relative pt-36 md:pt-44 pb-16 md:pb-24 px-5 md:px-8 overflow-hidden">
-        <motion.div
-          initial={{ scale: 1.08, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-0 painted"
-          style={{ backgroundImage: `url(${ART[g.art]})`, backgroundSize: 'cover', backgroundPosition: g.focus }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/75 via-ink/70 to-ink" />
+        <motion.div className="absolute inset-0" style={{ y: headerY }}>
+          <motion.div
+            initial={{ scale: 1.12, opacity: 0 }}
+            animate={{ scale: 1.04, opacity: 1 }}
+            transition={{ duration: 1.6, ease: [0.22, 1, 0.36, 1] }}
+            className="absolute inset-0 painted"
+            style={{ backgroundImage: `url(${ART[g.art]})`, backgroundSize: 'cover', backgroundPosition: g.focus }}
+          />
+        </motion.div>
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/55 to-ink" />
+        <LightRays className="opacity-70" />
+        <Motes density={40} />
+        <motion.div className="absolute inset-0 bg-ink pointer-events-none" style={{ opacity: headerDim }} />
         <div className="relative max-w-4xl mx-auto text-center">
           <Link
             to={`/directory?cat=${doc.category}`}

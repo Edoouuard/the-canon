@@ -151,6 +151,28 @@ body::after {
   }
 }
 
+.light-rays {
+  background:
+    conic-gradient(from 200deg at 72% -10%, transparent 0deg, rgba(246, 222, 160, 0.13) 8deg, transparent 16deg, transparent 22deg,
+      rgba(246, 222, 160, 0.09) 27deg, transparent 34deg, transparent 41deg, rgba(246, 222, 160, 0.11) 46deg, transparent 54deg);
+  filter: blur(14px);
+  animation: rays 14s ease-in-out infinite alternate;
+  transform-origin: 72% 0%;
+}
+
+@keyframes rays {
+  0% { opacity: 0.55; transform: rotate(-3deg) scale(1); }
+  100% { opacity: 1; transform: rotate(4deg) scale(1.06); }
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(3px); }
+  30%, 50%, 70% { transform: translateX(-6px); }
+  40%, 60% { transform: translateX(6px); }
+}
+.shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

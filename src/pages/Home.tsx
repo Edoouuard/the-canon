@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { catalogueNo } from '../components/DocumentCard'
 import { Eyebrow, Ornament, PaintedCrop, Reveal, roman } from '../components/ui'
+import { LightRays, Motes, Tilt, usePointer } from '../components/immersive'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
 import { ART, GALLERIES, galleryOf } from '../data/galleries'
@@ -20,6 +21,13 @@ export default function Home() {
   const heroY = useTransform(scrollY, [0, 800], [0, 160])
   const heroScale = useTransform(scrollY, [0, 800], [1.06, 1.16])
   const heroFade = useTransform(scrollY, [0, 500], [1, 0])
+  const { sx, sy } = usePointer()
+  const paintX = useTransform(sx, (v) => -v * 16)
+  const paintY = useTransform(sy, (v) => -v * 10)
+  const raysX = useTransform(sx, (v) => -v * 30)
+  const motesX = useTransform(sx, (v) => -v * 46)
+  const motesY = useTransform(sy, (v) => -v * 26)
+  const textX = useTransform(sx, (v) => v * 6)
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -48,12 +56,23 @@ export default function Home() {
       {/* HERO — the painting is the room */}
       <section className="relative h-[100svh] min-h-[640px] overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroY, scale: heroScale }}>
-          <img src={ART.temple} alt="" className="w-full h-full object-cover object-[60%_50%]" />
+          <motion.img
+            src={ART.temple}
+            alt=""
+            style={{ x: paintX, y: paintY }}
+            className="absolute -inset-6 w-[calc(100%+3rem)] h-[calc(100%+3rem)] max-w-none object-cover object-[60%_50%]"
+          />
+        </motion.div>
+        <motion.div className="absolute inset-0" style={{ x: raysX }}>
+          <LightRays />
+        </motion.div>
+        <motion.div className="absolute inset-0" style={{ x: motesX, y: motesY }}>
+          <Motes density={70} />
         </motion.div>
         <div className="absolute inset-0 bg-gradient-to-b from-ink/50 via-ink/10 to-ink" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(20,17,12,0.7)_100%)]" />
 
-        <motion.div style={{ opacity: heroFade }} className="relative z-10 h-full max-w-7xl mx-auto px-5 md:px-8 flex flex-col justify-end pb-20 md:pb-28">
+        <motion.div style={{ opacity: heroFade, x: textX }} className="relative z-10 h-full max-w-7xl mx-auto px-5 md:px-8 flex flex-col justify-end pb-20 md:pb-28">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1 }}>
             <Eyebrow className="mb-5 text-gold-light">A gallery of ideas · Anno {roman(maxYear)}</Eyebrow>
           </motion.div>
@@ -147,6 +166,7 @@ export default function Home() {
                 delay={Math.min(i * 0.04, 0.3)}
                 className={i < 2 || (i === galleries.length - 1 && (galleries.length - 2) % 4 === 3) ? 'lg:col-span-2' : ''}
               >
+                <Tilt max={5}>
                 <Link
                   to={`/directory?cat=${g.category}`}
                   className="group relative block overflow-hidden border border-gold/25 hover:border-gold-light/70 transition-colors h-64 md:h-72"
@@ -174,6 +194,7 @@ export default function Home() {
                     </div>
                   </div>
                 </Link>
+                </Tilt>
               </Reveal>
             ))}
           </div>

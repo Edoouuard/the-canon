@@ -5,6 +5,8 @@ import { CATEGORY_LABELS } from '../types'
 import { documents } from '../data/documents'
 import { galleryOf } from '../data/galleries'
 import { roman } from './ui'
+import { Laurel } from './immersive'
+import { isLaurelled, useProgress } from '../lib/progress'
 
 const CATALOGUE = new Map(
   [...documents].sort((a, b) => a.year - b.year || a.title.localeCompare(b.title)).map((d, i) => [d.slug, i + 1]),
@@ -16,6 +18,8 @@ export function catalogueNo(slug: string): number {
 
 export default function DocumentCard({ doc, rich, index }: { doc: DocMeta; rich: boolean; index: number }) {
   const g = galleryOf(doc.category)
+  const { records } = useProgress()
+  const passed = isLaurelled(records[doc.slug])
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -27,7 +31,14 @@ export default function DocumentCard({ doc, rich, index }: { doc: DocMeta; rich:
       <Link to={`/doc/${doc.slug}`} className="plate plate-hover group flex flex-col h-full p-6 md:p-7 hover:-translate-y-1">
         <div className="flex items-center justify-between mb-5">
           <span className="caps text-[0.6rem] text-gold/80">No. {roman(catalogueNo(doc.slug))}</span>
-          <span className="caps text-[0.62rem] text-parchment/50">{doc.year}</span>
+          <span className="flex items-center gap-2">
+            {passed && (
+              <span title="Examination passed">
+                <Laurel size={18} />
+              </span>
+            )}
+            <span className="caps text-[0.62rem] text-parchment/50">{doc.year}</span>
+          </span>
         </div>
 
         <h3 className="display text-[1.55rem] leading-[1.15] text-parchment mb-2 group-hover:text-gold-light transition-colors">

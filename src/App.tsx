@@ -6,6 +6,8 @@ import Directory from './pages/Directory'
 import DocumentDetail from './pages/DocumentDetail'
 import PageTransition from './components/PageTransition'
 import ScrollProgress from './components/ScrollProgress'
+import { EntryVeil } from './components/immersive'
+import { resumeAmbienceOnGesture } from './lib/sound'
 
 export default function App() {
   const location = useLocation()
@@ -14,8 +16,13 @@ export default function App() {
     window.scrollTo(0, 0)
   }, [location.pathname])
 
+  useEffect(() => {
+    resumeAmbienceOnGesture()
+  }, [])
+
   return (
     <>
+      <EntryVeil />
       <ScrollProgress />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>

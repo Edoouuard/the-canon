@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import { ART } from '../data/galleries'
-import { Monogram } from './Navbar'
-import { Ornament } from './ui'
+import { Monogram, Ornament } from './ui'
 
 export default function Footer() {
   return (

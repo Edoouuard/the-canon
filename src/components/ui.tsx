@@ -73,3 +73,17 @@ export function Reveal({ children, delay = 0, className = '' }: { children: Reac
     </motion.div>
   )
 }
+
+export function Monogram({ size = 30 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" aria-hidden className="text-gold">
+      <rect x="6" y="5" width="20" height="2" fill="currentColor" />
+      <path d="M5 8 H27 L25 10 H7 Z" fill="currentColor" opacity="0.85" />
+      {[9, 14.5, 20].map((x) => (
+        <rect key={x} x={x} y="11" width="3" height="14" fill="currentColor" opacity="0.9" />
+      ))}
+      <rect x="6" y="25" width="20" height="2" fill="currentColor" />
+      <rect x="4" y="27.5" width="24" height="1.5" fill="currentColor" opacity="0.7" />
+    </svg>
+  )
+}
