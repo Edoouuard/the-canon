@@ -1031,4 +1031,112 @@ export const vcFieldGuides: Record<string, VCFieldGuide> = {
       { name: 'NVentures', detail: "NVIDIA's own venture arm, a coauthor of this paper and an active investor in AI infrastructure." },
     ],
   },
+  'inkling-open-weights': {
+    framing: "Open-weights foundation models create a layer of businesses that customize, host and secure models rather than train them from scratch.",
+    startups: [
+      { name: 'Thinking Machines Lab', detail: 'The lab behind Inkling, monetizing through its Tinker fine-tuning platform.' },
+      { name: 'Together AI', detail: 'Inference and fine-tuning cloud among the first to host Inkling.' },
+      { name: 'Fireworks AI', detail: 'Serves open-weights models at production scale for enterprises.' },
+    ],
+    funds: [
+      { name: 'Andreessen Horowitz', detail: 'Led the record seed round in Thinking Machines Lab.' },
+      { name: 'NVentures', detail: "NVIDIA's venture arm, a strategic backer of open-model labs and infrastructure." },
+    ],
+  },
+  'automated-alignment-researchers': {
+    framing: "AI safety is shifting from a pure research field to tooling: automated evaluation, alignment fine-tuning and agent monitoring.",
+    startups: [
+      { name: 'Goodfire', detail: 'Interpretability company building tools to understand and edit model internals.' },
+      { name: 'Haize Labs', detail: 'Automated red-teaming and evaluation of AI systems.' },
+      { name: 'Apollo Research', detail: 'Evaluates models for deception and scheming behaviors.' },
+    ],
+    funds: [
+      { name: 'Menlo Ventures', detail: 'Anthropic investor running a dedicated fund for the Anthropic ecosystem.' },
+      { name: 'Open Philanthropy', detail: 'Largest philanthropic funder of AI safety research and evaluation organizations.' },
+    ],
+  },
+  'we-must-pace-the-frontier': {
+    framing: "If pacing becomes policy, value shifts toward verification, evaluation and compliance infrastructure, and toward compute governance.",
+    startups: [
+      { name: 'METR', detail: 'Nonprofit evaluator explicitly named as the kind of embedded third party the essay envisions.' },
+      { name: 'Gray Swan', detail: 'AI security and red-teaming platform used by frontier labs.' },
+      { name: 'Credo AI', detail: 'AI governance and compliance software for enterprises facing new rules.' },
+    ],
+    funds: [
+      { name: 'Spark Capital', detail: 'Early Anthropic investor with exposure to frontier-lab governance outcomes.' },
+      { name: 'Founders Fund', detail: 'Defense and national-security tech investor, relevant to the chip and China dimension.' },
+    ],
+  },
+  'measuring-pace-ai-development': {
+    framing: "Measuring AI automation and overseeing fleets of agents are emerging enterprise categories, not just lab internals.",
+    startups: [
+      { name: 'Epoch AI', detail: 'Research group whose automation-level scale underpins the index.' },
+      { name: 'Arize AI', detail: 'Observability for LLM and agent systems in production.' },
+      { name: 'Braintrust', detail: 'Evaluation and monitoring platform for AI products.' },
+    ],
+    funds: [
+      { name: 'Greylock', detail: 'Invests in AI infrastructure and enterprise agent tooling.' },
+      { name: 'Index Ventures', detail: 'Backer of AI observability and developer-tooling companies.' },
+    ],
+  },
+  'ai-enhance-or-erode-expertise': {
+    framing: "Professional-services AI is booming, but the evidence on skill formation favors tools that teach as well as automate.",
+    startups: [
+      { name: 'Harvey', detail: 'Leading legal AI platform used by large law firms.' },
+      { name: 'Solve Intelligence', detail: 'AI assistant built specifically for patent drafting.' },
+      { name: 'Legora', detail: 'Collaborative AI workspace for lawyers.' },
+    ],
+    funds: [
+      { name: 'Kleiner Perkins', detail: 'Investor in Harvey and vertical AI for professional services.' },
+      { name: 'Benchmark', detail: 'Backer of Legora and application-layer AI companies.' },
+    ],
+  },
+  'state-of-ai-2026': {
+    framing: "The report's themes, AI building AI, physical AI, inference and cyber, each map to a distinct investable category.",
+    startups: [
+      { name: 'Skild AI', detail: 'Robotics foundation model company highlighted in the physical AI section.' },
+      { name: 'CoreWeave', detail: 'AI cloud whose gigawatt-scale contracted power illustrates the inference boom.' },
+      { name: 'Generate:Biomedicines', detail: 'AI-first drug developer with a program in Phase 3.' },
+    ],
+    funds: [
+      { name: 'Air Street Capital', detail: 'Nathan Benaich’s fund, author of the report and an early-stage AI-first investor.' },
+      { name: 'Thrive Capital', detail: 'Major backer of frontier labs and AI-native application companies.' },
+    ],
+  },
+  'breakthroughs-hasten-exhaustion': {
+    framing: "If attention collapse slows discovery, contrarian research bets and alternative paradigms become the asymmetric opportunity.",
+    startups: [
+      { name: 'Liquid AI', detail: 'Building non-Transformer foundation model architectures.' },
+      { name: 'Sakana AI', detail: 'Explores nature-inspired and evolutionary approaches to AI.' },
+      { name: 'Convergent Research', detail: 'Incubates focused research organizations outside academic incentives.' },
+    ],
+    funds: [
+      { name: 'Lux Capital', detail: 'Deep-tech fund known for contrarian scientific bets.' },
+      { name: 'Astera Institute', detail: 'Philanthropic backer of unconventional research programs.' },
+    ],
+  },
+  'mcdonaldization-of-vc': {
+    framing: "The essay itself is a map of the venture landscape: scale-led platforms versus conviction-led and emerging managers.",
+    startups: [
+      { name: 'Cursor', detail: 'Cited as the largest venture-backed acquisition ever, around $60 billion.' },
+      { name: 'Isomorphic Labs', detail: 'Example of AI capital flowing into science, with a $2.1 billion raise.' },
+      { name: 'Contrary', detail: "Harrison's own firm, positioning as talent- and research-driven." },
+    ],
+    funds: [
+      { name: 'Andreessen Horowitz', detail: 'The archetypal platform firm, over 20 percent of US VC raised in 2026.' },
+      { name: 'Founders Fund', detail: 'Named as a conviction-led counterexample to scale-led firms.' },
+    ],
+  },
+  'layman-thinks-about-ai': {
+    framing: "Marks's predictability ladder doubles as an investment map, from regulated utilities to near-binary frontier labs.",
+    startups: [
+      { name: 'Crusoe', detail: 'AI data center and energy developer at the heart of debt-financed buildouts.' },
+      { name: 'Lambda', detail: 'GPU cloud of the neocloud kind Marks rates as least predictable infrastructure.' },
+      { name: 'Anthropic', detail: 'Frontier lab whose own model graded frontier labs 2 out of 10 on predictability.' },
+    ],
+    funds: [
+      { name: 'Oaktree Capital', detail: "Marks's firm, a leading credit investor weighing AI-related debt." },
+      { name: 'Blue Owl Capital', detail: 'Private credit manager heavily involved in data center financing.' },
+    ],
+  },
 }
