@@ -1223,4 +1223,124 @@ export const vcFieldGuides: Record<string, VCFieldGuide> = {
       { name: 'Thrive Capital', detail: 'Led Isomorphic Labs funding.' },
     ],
   },
+  'ai100-ai-goes-mainstream': {
+    framing: "If raw scaling yields less per dollar, value shifts toward efficiency: inference infrastructure, smaller models and better algorithms.",
+    startups: [
+      { name: 'Together AI', detail: 'Inference and training cloud built around efficient open models.' },
+      { name: 'Groq', detail: 'Inference-focused chips and cloud for fast answer-time compute.' },
+      { name: 'Mistral AI', detail: 'European lab known for efficient, smaller frontier-class models.' },
+    ],
+    funds: [
+      { name: 'Lightspeed Venture Partners', detail: 'Active investor across AI infrastructure and model companies.' },
+      { name: 'General Catalyst', detail: 'Backer of AI applications and infrastructure, including Mistral.' },
+    ],
+  },
+  'how-close-is-rsi': {
+    framing: "Measuring AI acceleration is becoming its own field, from forecasting platforms to evaluation organizations.",
+    startups: [
+      { name: 'METR', detail: 'Nonprofit evaluator estimating how fast AI capability progress is accelerating.' },
+      { name: 'Epoch AI', detail: 'Research group behind capability indices and AI trend data.' },
+      { name: 'Metaculus', detail: 'Forecasting platform used for AI timelines questions.' },
+    ],
+    funds: [
+      { name: 'Open Philanthropy', detail: 'Major funder of AI forecasting and evaluation research.' },
+      { name: 'Schmidt Sciences', detail: 'Philanthropy supporting AI science and safety research.' },
+    ],
+  },
+  'forrester-ai-scaling-problem': {
+    framing: "The gap between AI in production and AI at scale is a market for data platforms, agent governance and ROI measurement.",
+    startups: [
+      { name: 'Databricks', detail: 'Data and AI platform pitched as the shared foundation for scaling use cases.' },
+      { name: 'Glean', detail: 'Enterprise AI and search platform built on company data.' },
+      { name: 'Writer', detail: 'Enterprise generative AI platform with governance features.' },
+    ],
+    funds: [
+      { name: 'Andreessen Horowitz', detail: 'Investor in Databricks and enterprise AI platforms.' },
+      { name: 'Sequoia Capital', detail: 'Backer of Glean and enterprise AI infrastructure.' },
+    ],
+  },
+  'photonic-in-situ-learning': {
+    framing: "Self-calibrating photonic hardware lowers deployment costs, a precondition for optical AI at the edge and in data centers.",
+    startups: [
+      { name: 'Lightmatter', detail: 'Photonic computing and interconnect company with near-electronic precision demos.' },
+      { name: 'Lightelligence', detail: 'Optical computing and interconnect startup.' },
+      { name: 'Neurophos', detail: 'Metamaterial-based optical inference startup.' },
+    ],
+    funds: [
+      { name: 'GV', detail: "Alphabet's venture arm, investor in Lightmatter." },
+      { name: 'Gates Frontier', detail: 'Backer of Neurophos and deep-tech computing bets.' },
+    ],
+  },
+  'microring-temporal-kernels': {
+    framing: "More computation per photonic device is what makes optical accelerators physically and economically scalable.",
+    startups: [
+      { name: 'Lightmatter', detail: 'Builds photonic chips and optical interconnect for AI.' },
+      { name: 'Ayar Labs', detail: 'Optical I/O chiplets using silicon photonics.' },
+      { name: 'Celestial AI', detail: 'Photonic fabric for memory and compute interconnect.' },
+    ],
+    funds: [
+      { name: 'Playground Global', detail: 'Deep-tech fund investing in photonics and semiconductors.' },
+      { name: 'Fidelity', detail: 'Growth investor in photonics companies including Celestial AI.' },
+    ],
+  },
+  'photonic-accelerators-cloud-edge': {
+    framing: "Cloud photonics is first an interconnect story; edge photonics can win sooner with application-specific processing.",
+    startups: [
+      { name: 'Ayar Labs', detail: 'Optical I/O for data movement between AI chips.' },
+      { name: 'Lightmatter', detail: 'Photonic interconnect and compute for AI data centers.' },
+      { name: 'Neurophos', detail: 'Optical inference aimed at efficiency gains.' },
+    ],
+    funds: [
+      { name: 'NVentures', detail: "NVIDIA's venture arm, investor in Ayar Labs." },
+      { name: 'Intel Capital', detail: 'Strategic investor in silicon photonics.' },
+    ],
+  },
+  'nanophotonics-practical-optical-computing': {
+    framing: "Common metrics make optical computing legible to capital; the winners will be those that hit manufacturability and programmability targets.",
+    startups: [
+      { name: 'Lightelligence', detail: 'Optical computing systems moving toward products.' },
+      { name: 'Lumai', detail: 'Free-space optical computing spin-out from Oxford.' },
+      { name: 'Q.ANT', detail: 'German photonic processor company.' },
+    ],
+    funds: [
+      { name: 'Playground Global', detail: 'Invests in next-generation compute hardware.' },
+      { name: 'IQ Capital', detail: 'Deep-tech investor in UK hardware spin-outs.' },
+    ],
+  },
+  'photonic-concurrent-computing-engine': {
+    framing: "Reconfigurable, multi-task photonic processors move optics toward the flexibility that made electronic chips economical.",
+    startups: [
+      { name: 'iPronics', detail: 'Programmable photonic processors.' },
+      { name: 'Lightmatter', detail: 'Photonic compute and interconnect.' },
+      { name: 'Q.ANT', detail: 'Photonic processing units for AI and HPC.' },
+    ],
+    funds: [
+      { name: 'Intel Capital', detail: 'Strategic investor in photonics.' },
+      { name: 'Playground Global', detail: 'Deep-tech compute hardware fund.' },
+    ],
+  },
+  'silicon-photonics-market-2026-2036': {
+    framing: "The near-term money in photonics for AI is optical interconnect: transceivers, co-packaged optics, lasers and foundry capacity.",
+    startups: [
+      { name: 'Ayar Labs', detail: 'Optical I/O chiplets for AI systems.' },
+      { name: 'Celestial AI', detail: 'Photonic fabric connecting compute and memory.' },
+      { name: 'Coherent', detail: 'Public optical components maker supplying transceivers and lasers.' },
+    ],
+    funds: [
+      { name: 'NVentures', detail: 'Strategic investor across the AI interconnect stack.' },
+      { name: 'Intel Capital', detail: 'Long-time investor in silicon photonics.' },
+    ],
+  },
+  'cyberlens-saes': {
+    framing: "Interpretability for security is an emerging niche between AI safety tooling and cyber defense.",
+    startups: [
+      { name: 'Goodfire', detail: 'Interpretability platform for understanding and editing model internals.' },
+      { name: 'Transluce', detail: 'Nonprofit lab building interpretability tools for AI oversight.' },
+      { name: 'Haize Labs', detail: 'Red-teaming and evaluation of AI systems.' },
+    ],
+    funds: [
+      { name: 'Menlo Ventures', detail: 'Investor in Goodfire and AI safety tooling.' },
+      { name: 'Cyberstarts', detail: 'Seed investor specialized in cybersecurity.' },
+    ],
+  },
 }

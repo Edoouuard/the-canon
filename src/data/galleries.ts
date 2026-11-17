@@ -19,6 +19,7 @@ export const GALLERIES: Gallery[] = [
   { category: 'LLM', description: 'The papers and releases behind large language models.', art: 'temple', focus: '52% 38%', accent: '#e6cc8f' },
   { category: 'CYBER', description: 'Where AI meets attack, defense and mathematical proof.', art: 'terrace', focus: '14% 52%', accent: '#b8693f' },
   { category: 'AI_SAFETY', description: 'Alignment, oversight and the pace of the frontier.', art: 'temple', focus: '86% 56%', accent: '#7b98b6' },
+  { category: 'HARDWARE', description: 'Chips, photonics and the physical machines that compute.', art: 'temple', focus: '88% 40%', accent: '#7b98b6' },
   { category: 'AI_SCIENCE', description: 'AI turned toward mathematics, biology and discovery.', art: 'terrace', focus: '86% 72%', accent: '#8b8a52' },
   { category: 'TECHNICAL_PAPER', description: 'Foundational papers that changed what machines can do.', art: 'terrace', focus: '50% 18%', accent: '#7b98b6' },
   { category: 'AI_ESSAY', description: 'Essays on what powerful AI will mean for everyone.', art: 'temple', focus: '12% 42%', accent: '#8b8a52' },

@@ -7,18 +7,18 @@ import Footer from '../components/Footer'
 import MechanismFlow from '../components/MechanismFlow'
 import Timeline from '../components/Timeline'
 import StatChips from '../components/StatChips'
-import Quiz from '../components/Quiz'
+import LessonCTA from '../components/LessonCTA'
 import InfluenceMap from '../components/InfluenceMap'
 import SectorSnapshot from '../components/SectorSnapshot'
 import VCFieldGuide from '../components/VCFieldGuide'
 import { catalogueNo } from '../components/DocumentCard'
-import { Eyebrow, Ornament, roman } from '../components/ui'
+import { Eyebrow, Ornament } from '../components/ui'
 import { LightRays, Motes } from '../components/immersive'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
 import { vcFieldGuides } from '../data/vcFieldGuides'
 import { ART, galleryOf } from '../data/galleries'
-import { CATEGORY_LABELS } from '../types'
+import { CATEGORY_LABELS, formatDate } from '../types'
 
 interface SectionDef {
   id: string
@@ -38,7 +38,7 @@ function Section({ id, index, label, title, children }: { id: string; index: num
       className="scroll-mt-32 mb-20 md:mb-24"
     >
       <div className="flex items-baseline gap-4 mb-3">
-        <span className="display text-2xl text-gold/80">{roman(index)}.</span>
+        <span className="display text-2xl text-gold/80 tabular-nums">{String(index).padStart(2, '0')}</span>
         <Eyebrow>{label}</Eyebrow>
       </div>
       <h2 className="display text-3xl md:text-[2.6rem] leading-tight text-parchment mb-8">{title}</h2>
@@ -65,7 +65,7 @@ export default function DocumentDetail() {
   const sections: SectionDef[] = rich
     ? [
         { id: 'context', label: 'Context', title: 'Why this document exists', render: () => <p className="text-parchment/80 text-lg leading-[1.8] first-letter:font-display first-letter:text-6xl first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:leading-[0.8] first-letter:text-gold-light">{rich.context}</p> },
-        { id: 'mechanism', label: 'The mechanism', title: 'The idea, step by step', render: () => <MechanismFlow steps={rich.mechanism} /> },
+        { id: 'mechanism', label: 'The mechanism', title: 'The idea, step by step', render: () => <MechanismFlow steps={rich.mechanism} slug={slug!} /> },
         ...(vcGuide ? [{ id: 'players', label: 'Field guide', title: "Who's in the game", render: () => <VCFieldGuide guide={vcGuide} /> }] : []),
         {
           id: 'deep-dive',
@@ -85,7 +85,7 @@ export default function DocumentDetail() {
         { id: 'influence', label: 'Lineage', title: 'Related works in the canon', render: () => <InfluenceMap title={doc!.title} connections={rich.deepDive.connections} /> },
         { id: 'figures', label: 'Reference points', title: 'A few figures to remember', render: () => <StatChips stats={rich.stats} /> },
         { id: 'since', label: 'Since then', title: 'What it led to', render: () => <Timeline entries={rich.since} /> },
-        { id: 'quiz', label: 'Examination', title: 'Test yourself', render: () => <Quiz key={slug} slug={slug!} questions={rich.quiz} next={next && next.slug !== slug ? { slug: next.slug, title: next.title } : undefined} /> },
+        { id: 'lesson', label: 'Lesson', title: 'Test yourself', render: () => <LessonCTA slug={slug!} /> },
       ]
     : []
 
@@ -158,7 +158,7 @@ export default function DocumentDetail() {
             <ArrowLeft size={12} /> {CATEGORY_LABELS[doc.category]}
           </Link>
           <p className="caps text-[0.6rem] text-parchment/60 mt-6">
-            No. {roman(catalogueNo(doc.slug))} · {doc.medium} · {doc.year}
+            No. {catalogueNo(doc.slug)} · {doc.medium} · {formatDate(doc)}
           </p>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
@@ -202,7 +202,7 @@ export default function DocumentDetail() {
                         }`}
                       >
                         {active === s.id && <motion.span layoutId="toc" className="absolute -left-px top-1 bottom-1 w-px bg-gold-light" />}
-                        <span className="display w-6 text-gold/70">{roman(i + 1)}</span>
+                        <span className="display w-6 text-gold/70 tabular-nums">{i + 1}</span>
                         {s.label}
                       </a>
                     </li>

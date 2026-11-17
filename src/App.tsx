@@ -4,6 +4,10 @@ import { AnimatePresence } from 'framer-motion'
 import Home from './pages/Home'
 import Directory from './pages/Directory'
 import DocumentDetail from './pages/DocumentDetail'
+import Lesson from './pages/Lesson'
+import Path from './pages/Path'
+import Profile from './pages/Profile'
+import { GameToasts } from './components/game'
 import PageTransition from './components/PageTransition'
 import ScrollProgress from './components/ScrollProgress'
 import { EntryVeil } from './components/immersive'
@@ -24,6 +28,7 @@ export default function App() {
     <>
       <EntryVeil />
       <ScrollProgress />
+      <GameToasts />
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route
@@ -39,6 +44,30 @@ export default function App() {
             element={
               <PageTransition>
                 <Directory />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/path"
+            element={
+              <PageTransition>
+                <Path />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <PageTransition>
+                <Profile />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/lesson/:slug"
+            element={
+              <PageTransition>
+                <Lesson />
               </PageTransition>
             }
           />

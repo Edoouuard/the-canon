@@ -1,16 +1,18 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { ArrowRight, ArrowDown } from 'lucide-react'
+import { ArrowRight, ArrowDown, Zap } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
-import { catalogueNo } from '../components/DocumentCard'
-import { Eyebrow, Ornament, PaintedCrop, Reveal, roman } from '../components/ui'
+import { Eyebrow, Ornament, PaintedCrop, Reveal } from '../components/ui'
 import { LightRays, Motes, Tilt, usePointer } from '../components/immersive'
+import { Flame, GoalRing, StarRow } from '../components/game'
+import { PATH_ORDER } from '../data/path'
+import { levelOf, nextLessonSlug, streakOf, todayXP, useGame } from '../lib/game'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
 import { ART, GALLERIES, galleryOf } from '../data/galleries'
-import { CATEGORY_LABELS } from '../types'
+import { CATEGORY_LABELS, formatDate } from '../types'
 
 const RECENT_COUNT = 8
 
@@ -22,6 +24,11 @@ export default function Home() {
   const heroScale = useTransform(scrollY, [0, 800], [1.06, 1.16])
   const heroFade = useTransform(scrollY, [0, 500], [1, 0])
   const { sx, sy } = usePointer()
+  const game = useGame()
+  const nextSlug = nextLessonSlug(game, PATH_ORDER)
+  const nextDoc = documents.find((d) => d.slug === nextSlug)!
+  const streak = streakOf(game)
+  const lv = levelOf(game.xp)
   const paintX = useTransform(sx, (v) => -v * 16)
   const paintY = useTransform(sy, (v) => -v * 10)
   const raysX = useTransform(sx, (v) => -v * 30)
@@ -46,6 +53,7 @@ export default function Home() {
     .slice(0, RECENT_COUNT)
     .map(({ d }) => d)
 
+  const latest = [...documents].filter((d) => d.date).sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))[0]
   const minYear = Math.min(...documents.map((d) => d.year))
   const maxYear = Math.max(...documents.map((d) => d.year))
 
@@ -74,7 +82,7 @@ export default function Home() {
 
         <motion.div style={{ opacity: heroFade, x: textX }} className="relative z-10 h-full max-w-7xl mx-auto px-5 md:px-8 flex flex-col justify-end pb-20 md:pb-28">
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.1 }}>
-            <Eyebrow className="mb-5 text-gold-light">A gallery of ideas · Anno {roman(maxYear)}</Eyebrow>
+            <Eyebrow className="mb-5 text-gold-light">A gallery of ideas · Updated {formatDate(latest)}</Eyebrow>
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
@@ -116,6 +124,11 @@ export default function Home() {
               Enter the galleries <ArrowRight size={14} />
             </button>
           </motion.form>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }} className="mt-5">
+            <Link to="/path" className="caps text-[0.62rem] text-gold-light hover:text-parchment inline-flex items-center gap-2">
+              <Zap size={12} className="fill-current" /> Or learn it the fun way: two-minute daily lessons <ArrowRight size={12} />
+            </Link>
+          </motion.div>
         </motion.div>
 
         <motion.a
@@ -145,6 +158,48 @@ export default function Home() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* DAILY LESSON */}
+      <section className="px-5 md:px-8 pt-16 md:pt-20">
+        <Reveal className="max-w-7xl mx-auto">
+          <div className="plate relative overflow-hidden">
+            <PaintedCrop category={nextDoc.category} zoom="180%" className="absolute inset-y-0 right-0 w-full md:w-1/2 opacity-40" />
+            <div className="absolute inset-0 bg-gradient-to-r from-umber via-umber/95 to-umber/30" />
+            <div className="relative grid md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-center p-6 md:p-9">
+              <div className="flex items-center gap-5">
+                <div className="flex flex-col items-center">
+                  <Flame size={52} lit={todayXP(game) > 0} />
+                  <span className="display text-3xl text-parchment leading-none mt-1">{streak}</span>
+                  <span className="caps text-[0.48rem] text-parchment/50 mt-1">day streak</span>
+                </div>
+                <GoalRing value={todayXP(game)} goal={game.dailyGoal} size={72} stroke={6}>
+                  <span className="flex flex-col items-center leading-none">
+                    <Zap size={14} className="text-gold-light fill-gold-light" />
+                    <span className="display text-lg text-parchment mt-0.5">{Math.min(todayXP(game), game.dailyGoal)}</span>
+                    <span className="caps text-[0.4rem] text-parchment/50">/ {game.dailyGoal} XP</span>
+                  </span>
+                </GoalRing>
+              </div>
+              <div className="min-w-0">
+                <p className="caps text-[0.58rem] text-gold mb-2">{todayXP(game) > 0 ? 'Keep going' : 'Today’s lesson'} · Level {lv.level}</p>
+                <p className="display text-2xl md:text-3xl text-parchment leading-tight">{nextDoc.title}</p>
+                <p className="italic text-parchment/60 mt-1">
+                  {nextDoc.author} · {formatDate(nextDoc)}
+                </p>
+                {game.lessons[nextDoc.slug] && <StarRow stars={game.lessons[nextDoc.slug].stars} className="mt-2" />}
+              </div>
+              <div className="flex flex-col sm:flex-row md:flex-col gap-3">
+                <Link to={`/lesson/${nextDoc.slug}`} className="btn-gilt justify-center">
+                  Start lesson <ArrowRight size={14} />
+                </Link>
+                <Link to="/path" className="btn-ghost justify-center">
+                  See the path
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </section>
 
       {/* GALLERIES */}
@@ -180,7 +235,7 @@ export default function Home() {
                   <div className="absolute inset-[6px] border border-parchment/10 pointer-events-none" />
                   <div className="relative h-full flex flex-col justify-between p-6">
                     <div className="flex items-start justify-between">
-                      <span className="caps text-[0.62rem] text-gold-light">Gallery {roman(i + 1)}</span>
+                      <span className="caps text-[0.62rem] text-gold-light">Gallery {i + 1}</span>
                       <span className="caps text-[0.6rem] text-parchment/70 border border-parchment/25 px-2 py-1 bg-ink/40">
                         {counts.get(g.category)} works
                       </span>
@@ -228,9 +283,9 @@ export default function Home() {
                   <li>
                     <Link
                       to={`/doc/${d.slug}`}
-                      className="group grid grid-cols-[3.5rem_1fr_auto] md:grid-cols-[4.5rem_1fr_auto] items-baseline gap-4 py-6 border-b border-gold/20 hover:bg-gold/[0.04] transition-colors px-2"
+                      className="group grid grid-cols-[4.5rem_1fr_auto] md:grid-cols-[6rem_1fr_auto] items-baseline gap-4 py-6 border-b border-gold/20 hover:bg-gold/[0.04] transition-colors px-2"
                     >
-                      <span className="caps text-[0.62rem] text-gold/80">No. {roman(catalogueNo(d.slug))}</span>
+                      <span className="caps text-[0.62rem] text-gold/80">{formatDate(d, true)}</span>
                       <span>
                         <span className="block display text-2xl md:text-[1.75rem] leading-tight text-parchment group-hover:text-gold-light transition-colors">
                           {d.title}
@@ -267,7 +322,7 @@ export default function Home() {
               { t: 'Examination', d: 'A short quiz with an explanation behind every answer, so the idea actually sticks.' },
             ].map((s, i) => (
               <Reveal key={s.t} delay={i * 0.1} className="bg-ink p-8 md:p-10">
-                <p className="display text-6xl text-gold/80 leading-none mb-6">{roman(i + 1)}</p>
+                <p className="display text-6xl text-gold/80 leading-none mb-6">{String(i + 1).padStart(2, '0')}</p>
                 <h3 className="caps text-sm text-parchment mb-3">{s.t}</h3>
                 <p className="text-parchment/65 leading-relaxed">{s.d}</p>
               </Reveal>

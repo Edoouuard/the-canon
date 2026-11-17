@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Pause, Play, List, Workflow } from 'lucide-react'
 import type { MechanismStep } from '../types'
-import { roman } from './ui'
 import { sfx } from '../lib/sound'
+import { completeTour } from '../lib/game'
 
 const H = 280
 const BASE = 236
@@ -33,7 +33,7 @@ function segment(a: { x: number; y: number }, b: { x: number; y: number }) {
   return `M${a.x},${a.y} C${a.x + dx},${a.y - 26} ${b.x - dx},${b.y - 26} ${b.x},${b.y}`
 }
 
-export default function MechanismFlow({ steps }: { steps: MechanismStep[] }) {
+export default function MechanismFlow({ steps, slug }: { steps: MechanismStep[]; slug?: string }) {
   const n = steps.length
   const W = useWidth()
   const pts = layout(n, W)
@@ -58,6 +58,10 @@ export default function MechanismFlow({ steps }: { steps: MechanismStep[] }) {
     }, AUTOPLAY_MS)
     return () => window.clearTimeout(t)
   }, [playing, active, n, listView, tick])
+
+  useEffect(() => {
+    if (slug && active === n - 1 && n > 1) completeTour(slug)
+  }, [active, n, slug])
 
   function go(i: number, user = true) {
     const next = Math.max(0, Math.min(n - 1, i))
@@ -95,7 +99,7 @@ export default function MechanismFlow({ steps }: { steps: MechanismStep[] }) {
       {/* toolbar */}
       <div className="flex items-center justify-between px-5 md:px-7 pt-5">
         <span className="caps text-[0.58rem] text-gold">
-          Step {roman(active + 1)} <span className="text-parchment/40">of {roman(n)}</span>
+          Step {active + 1} <span className="text-parchment/40">of {n}</span>
         </span>
         <div className="flex items-center gap-1.5">
           <button
@@ -113,7 +117,7 @@ export default function MechanismFlow({ steps }: { steps: MechanismStep[] }) {
         <ol className="px-5 md:px-7 py-6">
           {steps.map((s, i) => (
             <li key={i} className="grid grid-cols-[2.5rem_1fr] gap-3 py-4 border-b border-gold/10 last:border-b-0">
-              <span className="display text-xl text-gold">{roman(i + 1)}</span>
+              <span className="display text-xl text-gold">{i + 1}</span>
               <div>
                 <p className="display text-xl text-parchment">{s.label}</p>
                 <p className="text-parchment/70 leading-relaxed mt-1">{s.detail}</p>
@@ -228,7 +232,7 @@ export default function MechanismFlow({ steps }: { steps: MechanismStep[] }) {
                       fill={isActive || done ? '#f3e2b4' : '#c8a25a'}
                       opacity={isActive || done ? 1 : 0.7}
                     >
-                      {roman(i + 1)}
+                      {i + 1}
                     </text>
                     {/* hit area */}
                     <circle cx={p.x} cy={p.y} r="34" fill="transparent" />
@@ -265,7 +269,7 @@ export default function MechanismFlow({ steps }: { steps: MechanismStep[] }) {
                 className="relative grid md:grid-cols-[6.5rem_1fr] gap-4 md:gap-8 items-start"
               >
                 <span className="display text-6xl md:text-8xl leading-none text-gold/25 select-none" aria-hidden>
-                  {roman(active + 1)}
+                  {String(active + 1).padStart(2, '0')}
                 </span>
                 <div>
                   <h3 className="display text-2xl md:text-[2rem] leading-tight text-parchment mb-3">{step.label}</h3>

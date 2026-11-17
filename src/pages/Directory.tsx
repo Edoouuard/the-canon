@@ -5,7 +5,7 @@ import { Search, X } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import DocumentCard from '../components/DocumentCard'
-import { Eyebrow, Ornament, roman } from '../components/ui'
+import { Eyebrow, Ornament } from '../components/ui'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
 import { ART, GALLERIES, galleryOf } from '../data/galleries'
@@ -82,7 +82,7 @@ export default function Directory() {
         </AnimatePresence>
         <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/60 to-ink" />
         <div className="relative max-w-7xl mx-auto">
-          <Eyebrow className="mb-4 text-gold-light">{current ? `Gallery ${roman(galleryIndex)}` : 'The complete collection'}</Eyebrow>
+          <Eyebrow className="mb-4 text-gold-light">{current ? `Gallery ${galleryIndex}` : 'The complete collection'}</Eyebrow>
           <h1 className="display text-5xl md:text-7xl text-parchment leading-[0.98]">
             {current ? CATEGORY_LABELS[current.category] : 'The Galleries'}
           </h1>

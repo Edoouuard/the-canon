@@ -12,6 +12,7 @@ export type Category =
   | 'CYBER'
   | 'AI_SAFETY'
   | 'AI_SCIENCE'
+  | 'HARDWARE'
 
 export type Era = 'PRE_2000' | '2000_2009' | '2010_2019' | '2020_NOW'
 
@@ -20,6 +21,8 @@ export interface DocMeta {
   title: string
   author: string
   year: number
+  /** ISO date when known: YYYY-MM-DD or YYYY-MM */
+  date?: string
   medium: string
   category: Category
   blurb: string
@@ -100,6 +103,7 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   CYBER: 'Cyber',
   AI_SAFETY: 'AI Safety',
   AI_SCIENCE: 'AI for Science',
+  HARDWARE: 'Electronics & Compute',
 }
 
 export function eraOf(year: number): Era {
@@ -114,4 +118,14 @@ export const ERA_LABELS: Record<Era, string> = {
   '2000_2009': '2000 to 2009',
   '2010_2019': '2010 to 2019',
   '2020_NOW': '2020 to now',
+}
+
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+/** Classic date formatting: "16 November 2026", "November 2026", or the year alone. */
+export function formatDate(doc: Pick<DocMeta, 'year' | 'date'>, short = false): string {
+  if (!doc.date) return String(doc.year)
+  const [y, m, d] = doc.date.split('-').map(Number)
+  const month = short ? MONTHS[m - 1].slice(0, 3) : MONTHS[m - 1]
+  return d ? `${d} ${month} ${y}` : `${month} ${y}`
 }

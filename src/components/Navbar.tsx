@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Search, Volume2, VolumeX } from 'lucide-react'
 import { Monogram } from './ui'
-import { Laurel } from './immersive'
+import { GameHUD } from './game'
 import { setAmbience, useSound } from '../lib/sound'
-import { isLaurelled, useProgress } from '../lib/progress'
 
 const LINKS = [
   { to: '/', label: 'Atrium' },
   { to: '/directory', label: 'Galleries' },
+  { to: '/path', label: 'Path' },
 ]
 
 function AmbienceButton() {
@@ -20,7 +20,7 @@ function AmbienceButton() {
       aria-pressed={ambience}
       aria-label={ambience ? 'Silence the garden ambience' : 'Play the garden ambience'}
       title={ambience ? 'Ambience on' : 'Ambience off'}
-      className={`relative w-9 h-9 flex items-center justify-center border transition-colors ${
+      className={`relative w-9 h-9 hidden sm:flex items-center justify-center border transition-colors ${
         ambience ? 'border-gold text-gold-light bg-gold/10' : 'border-gold/30 text-parchment/70 hover:text-gold-light hover:border-gold'
       }`}
     >
@@ -38,29 +38,6 @@ function AmbienceButton() {
         </span>
       )}
     </button>
-  )
-}
-
-function Honours() {
-  const { records } = useProgress()
-  const n = Object.values(records).filter(isLaurelled).length
-  return (
-    <AnimatePresence>
-      {n > 0 && (
-        <motion.span
-          initial={{ opacity: 0, scale: 0.6 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
-          title={`${n} examination${n > 1 ? 's' : ''} passed`}
-          className="hidden sm:flex items-center gap-1.5 h-9 px-2.5 border border-gold/30 text-gold-light"
-        >
-          <Laurel size={18} />
-          <motion.span key={n} initial={{ y: -6, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="display text-lg leading-none">
-            {n}
-          </motion.span>
-        </motion.span>
-      )}
-    </AnimatePresence>
   )
 }
 
@@ -94,7 +71,7 @@ export default function Navbar({ overlay = false }: { overlay?: boolean }) {
 
         <nav className="flex items-center gap-1 md:gap-2">
           {LINKS.map((link) => {
-            const active = link.to === '/' ? location.pathname === '/' : location.pathname.startsWith(link.to) || location.pathname.startsWith('/doc')
+            const active = link.to === '/' ? location.pathname === '/' : link.to === '/directory' ? location.pathname.startsWith('/directory') || location.pathname.startsWith('/doc') : location.pathname.startsWith(link.to)
             return (
               <Link key={link.to} to={link.to} className={`relative px-2 sm:px-3 md:px-4 py-2 ${link.to === '/' ? 'hidden sm:block' : ''}`}>
                 <span className={`caps text-[0.66rem] md:text-[0.7rem] transition-colors ${active ? 'text-gold-light' : 'text-parchment/70 hover:text-parchment'}`}>
@@ -111,12 +88,12 @@ export default function Navbar({ overlay = false }: { overlay?: boolean }) {
             )
           })}
           <div className="flex items-center gap-2 ml-1 md:ml-3">
-            <Honours />
+            <GameHUD />
             <AmbienceButton />
             <Link
               to="/directory?focus=search"
               aria-label="Search the collection"
-              className="w-9 h-9 flex items-center justify-center border border-gold/30 text-parchment/80 hover:text-gold-light hover:border-gold transition-colors"
+              className="w-9 h-9 hidden sm:flex items-center justify-center border border-gold/30 text-parchment/80 hover:text-gold-light hover:border-gold transition-colors"
             >
               <Search size={15} strokeWidth={1.5} />
             </Link>

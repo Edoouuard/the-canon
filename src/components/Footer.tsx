@@ -11,12 +11,13 @@ export default function Footer() {
         <div className="flex justify-center mb-6">
           <Monogram size={40} />
         </div>
-        <p className="display italic text-3xl md:text-4xl text-parchment/90">Ideae mundum movent.</p>
-        <p className="caps text-[0.6rem] text-parchment/50 mt-3">Ideas move the world</p>
+        <p className="display italic text-3xl md:text-4xl text-parchment/90">Ideas move the world.</p>
         <Ornament className="my-10" />
         <nav className="flex justify-center gap-8 caps text-[0.66rem] text-parchment/70">
           <Link to="/" className="hover:text-gold-light transition-colors">Atrium</Link>
           <Link to="/directory" className="hover:text-gold-light transition-colors">Galleries</Link>
+          <Link to="/path" className="hover:text-gold-light transition-colors">Path</Link>
+          <Link to="/profile" className="hover:text-gold-light transition-colors">Profile</Link>
           <a href="https://github.com/Edoouuard/the-canon" target="_blank" rel="noopener noreferrer" className="hover:text-gold-light transition-colors">
             Source
           </a>

@@ -6030,4 +6030,594 @@ export const richContent: Record<string, RichContent> = {
       { name: 'AI-first drug discovery', year: '2025 to 2026', detail: 'AI-derived targets and molecules reach late-stage trials, raising the value of better variant interpretation.' },
     ],
   },
+  'ai100-ai-goes-mainstream': {
+    context:
+      "The One Hundred Year Study on Artificial Intelligence, AI100, was launched in 2014 to take stock of AI every five years for a century. Administered by Stanford's Institute for Human-Centered AI, it published its third study panel report on November 10, 2026, after editions in 2016 and 2021. The report reviews the period since 2021: reasoning models, agents, infrastructure, science, jobs and governance. Its central technical point is that making models bigger still matters, but runs into the cost of compute and the scarcity of high-quality data, which shifts progress toward better algorithms, more efficient models and more computation at answer time.",
+    mechanism: [
+      { label: 'The scaling era', detail: 'Since 2021, the biggest gains came from training larger models on more data with more compute, which pushed generative AI into everyday use.' },
+      { label: 'Scaling hits two walls', detail: 'The cost of compute keeps rising and good training data is becoming scarce, so simply making models bigger delivers less per dollar.' },
+      { label: 'Progress moves elsewhere', detail: 'Gains increasingly come from better algorithms, more efficient models, and inference-time compute: letting a model think longer before answering.' },
+      { label: 'Adoption outruns institutions', detail: 'AI entered work and daily life faster than the organizations meant to deploy and govern it could adapt.' },
+      { label: 'Trajectories, not a date', detail: 'The panel lays out possible paths and their limits rather than predicting when artificial general intelligence will arrive.' },
+    ],
+    since: [
+      { year: '2016', text: 'First AI100 report, focused on AI in a typical North American city by 2030.' },
+      { year: '2021', text: 'Second report, written just before the generative AI wave.' },
+      { year: 'Nov 2026', text: 'Third report released, with coverage noting it finds AI investment outpacing earlier booms and not yet paying its way.' },
+    ],
+    stats: [
+      { label: 'Edition', value: 'Third report (2016, 2021, 2026)' },
+      { label: 'Cadence', value: 'Every five years, for 100 years' },
+      { label: 'Study launched', value: '2014' },
+      { label: 'Key takeaways', value: '12, the last one warning the report will date quickly' },
+    ],
+    quiz: [
+      {
+        question: 'According to the report, what limits pure model scaling?',
+        options: ['The cost of compute and the scarcity of high-quality data', 'A lack of interest from users', 'A legal ban on large models', 'The end of the internet'],
+        correctIndex: 0,
+        explanation: 'Bigger models still help, but each step costs more and good data is running short.',
+      },
+      {
+        question: 'What is inference-time compute?',
+        options: ['Spending more computation when the model answers, letting it reason longer', 'Training a model only at night', 'Compressing a model to fit on a phone', 'Buying more GPUs for pretraining'],
+        correctIndex: 0,
+        explanation: 'Reasoning models trade answer-time computation for accuracy, a key shift highlighted by the panel.',
+      },
+      {
+        question: 'Does the report predict a date for AGI?',
+        options: ['No, it lays out possible trajectories and their limits', 'Yes, 2027', 'Yes, 2035', 'It says AGI has already arrived'],
+        correctIndex: 0,
+        explanation: 'The panel deliberately avoids a forecast date and focuses on drivers and constraints.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "AI100 is unusual because it is designed to be compared with itself. Each report can be read against the previous ones to see where expert expectations matched reality and where they missed. This edition even used AI to help compare it with earlier reports, highlighting where predictions from five years ago diverged from what happened.",
+        "For investors the most useful part is the shift in where progress comes from. If raw scaling delivers diminishing returns per dollar, value moves toward algorithmic efficiency, inference infrastructure and smaller specialized models, a different map than the one implied by ever-larger training clusters.",
+        "The report's humility is also a signal. Its last takeaway concedes it will be out of date by the time it is read, a candid admission that the field now moves faster than a five-year review cycle can capture.",
+      ],
+      connections: [
+        { label: 'Scaling Laws for Neural Language Models', note: 'the scaling era the report looks back on', slug: 'scaling-laws' },
+        { label: 'Chinchilla', note: 'the data constraint on compute-optimal scaling', slug: 'chinchilla' },
+        { label: 'State of AI Report 2026', note: 'the investor-side annual map of the same year', slug: 'state-of-ai-2026' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Reasoning models', year: '2024 to 2026', detail: 'Models that spend more compute at answer time become the main source of capability gains.' },
+      { name: 'Efficient models', year: '2025 to 2026', detail: 'Smaller, cheaper models close the gap on many tasks, shifting the economics of deployment.' },
+      { name: 'AI governance', year: '2021 to 2026', detail: 'Rules and institutions lag adoption, a gap the report highlights as a central tension.' },
+    ],
+  },
+  'how-close-is-rsi': {
+    context:
+      "As AI companies increasingly said they might soon reach recursive self-improvement, AI that substantially accelerates its own development, the Forecasting Research Institute published a working paper on November 10, 2026 asking how close that actually is. FRI, whose chief scientist is forecasting pioneer Philip Tetlock, reviewed companies' reported data, public benchmarks and existing forecasts up to a data cutoff of November 3, 2026. It then turned the main disagreements into precise forecasting questions and gave first forecasts from an ensemble of frontier language models.",
+    mechanism: [
+      { label: 'Step 1: automate AI research', detail: 'Can AI systems take over a large share of the research and engineering work that produces the next generation of models?' },
+      { label: 'Step 2: accelerate capabilities', detail: 'If they do, does that actually speed up measured capability progress, rather than just making the same progress cheaper?' },
+      { label: 'Step 3: spread the gains', detail: 'Do improvements extend beyond easily checked tasks like coding benchmarks to broad, economically valuable abilities?' },
+      { label: 'Turn disagreements into questions', detail: 'Each contested step becomes a resolvable forecasting question, such as how fast an index of AI capabilities can rise in twelve months.' },
+      { label: 'Forecast with models', detail: 'An ensemble of frontier LLMs produced initial probabilities, presented as illustrative starting points rather than settled answers.' },
+    ],
+    since: [
+      { year: 'Sep 2026', text: "Anthropic published measurements showing Claude leading 26% of its own AI R&D work." },
+      { year: 'Oct 29, 2026', text: 'The LLM ensemble forecasts in the paper were generated.' },
+      { year: 'Nov 2026', text: 'After the cutoff, METR estimated capability progress at Anthropic at about twice its earlier rate, with around 80% of the acceleration due to AI; the paper notes this update.' },
+    ],
+    stats: [
+      { label: 'Data cutoff', value: 'November 3, 2026' },
+      { label: 'Contested steps', value: '3 (automate, accelerate, generalize)' },
+      { label: 'Largest 12-month index rise so far', value: '21 points' },
+      { label: 'Ensemble forecast', value: 'About 40% for a 30-point rise in 12 months by end of 2030' },
+    ],
+    quiz: [
+      {
+        question: 'What does recursive self-improvement mean in this report?',
+        options: ['AI systems substantially accelerating their own development', 'A model fixing typos in its answers', 'Users rating chatbot replies', 'A company reinvesting profits'],
+        correctIndex: 0,
+        explanation: 'The question is whether AI-driven AI research makes capability progress itself speed up.',
+      },
+      {
+        question: 'Why separate RSI into three steps?',
+        options: ['Because automating research, accelerating progress and generalizing gains can each succeed or fail independently', 'To make the report longer', 'Because each step is already proven', 'Because only the first step matters'],
+        correctIndex: 0,
+        explanation: 'Splitting the claim shows exactly where experts disagree and what evidence would settle it.',
+      },
+      {
+        question: 'How should the LLM forecasts be read?',
+        options: ['As illustrative initial forecasts, not proof that self-improvement is happening', 'As official government predictions', 'As guaranteed outcomes', 'As human expert consensus'],
+        correctIndex: 0,
+        explanation: 'FRI presents them as a starting point to be compared with later evidence and human forecasts.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "The value of this paper is methodological. Debates about an intelligence explosion often mix three separate claims. By decomposing them, FRI makes it possible to watch each one with data rather than argue about the whole package at once.",
+        "It also highlights an uncomfortable asymmetry: acceleration could begin inside AI companies before outsiders can see it. That is why the report leans on company-reported measures, like Anthropic's automation index, and on independent evaluators such as METR, whose post-cutoff estimate suggested acceleration was already visible.",
+        "For investors and policymakers, the practical takeaway is to track leading indicators: the share of R&D led by AI, the slope of capability indices, and whether gains on easily verified tasks transfer to broad economic work. Each one is now a measurable question rather than a matter of belief.",
+      ],
+      connections: [
+        { label: 'Measurements for the Pace of AI Development', note: 'company data on AI-led R&D', slug: 'measuring-pace-ai-development' },
+        { label: 'We Must Pace the Frontier', note: 'why acceleration became a policy question', slug: 'we-must-pace-the-frontier' },
+        { label: 'Situational Awareness', note: 'the classic intelligence-explosion scenario', slug: 'situational-awareness' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'AI progress measurement', year: '2025 to 2026', detail: 'Capability indices, time-horizon studies and lab-reported automation metrics become the dashboard for AI acceleration.' },
+      { name: 'Forecasting with LLMs', year: '2025 to 2026', detail: 'Ensembles of frontier models are used as forecasters alongside human superforecasters.' },
+      { name: 'Third-party evaluation', year: '2026', detail: 'Independent evaluators publish estimates of acceleration inside labs, a precondition for any pacing policy.' },
+    ],
+  },
+  'forrester-ai-scaling-problem': {
+    context:
+      "Published on Forrester's blog in mid-November 2026 by Frederic Giron, VP and senior research director, this short analysis draws on Forrester's State of AI Survey, 2026. It names a gap every enterprise leader recognizes: AI has reached production almost everywhere, but very few organizations have scaled it across the business. Giron frames scaling as a technology readiness problem and previews Forrester's Technology AIQ, a way to assess whether a company's technology environment can support AI at scale, launching in January 2027.",
+    mechanism: [
+      { label: 'Pilots reach production', detail: '82% of respondents report at least one generative AI application in production, and 77% at least one agentic AI application.' },
+      { label: 'Scale does not follow', detail: 'Only 11% have many AI applications scaled at the business level and 14% at the enterprise level.' },
+      { label: 'The technology gap', detail: 'Only 20% of AI decision-makers believe their organization has the technology in place to scale AI initiatives.' },
+      { label: 'Scaling means reuse', detail: 'Scaling is about getting better at the next AI initiative: reusable data foundations, components, agent controls and ROI measurement.' },
+      { label: 'Measure readiness', detail: "Forrester's Technology AIQ, introduced at its November forum, scores how ready a technology environment is to support AI at scale." },
+    ],
+    since: [
+      { year: 'Jun 2026', text: 'Forrester research found agentic AI largely stuck in enterprise pilots despite heavy interest.' },
+      { year: 'Nov 5, 2026', text: 'Technology AIQ introduced at Forrester’s Technology & Innovation Forum East in New York.' },
+      { year: 'Jan 2027', text: 'Planned launch of the full AIQ framework.' },
+    ],
+    stats: [
+      { label: 'GenAI app in production', value: '82% of respondents' },
+      { label: 'Agentic AI app in production', value: '77%' },
+      { label: 'Many apps scaled, enterprise level', value: '14%' },
+      { label: 'Have the tech to scale', value: '20% of AI decision-makers' },
+    ],
+    quiz: [
+      {
+        question: 'What share of AI decision-makers say they have the technology to scale AI?',
+        options: ['20%', '82%', '77%', '50%'],
+        correctIndex: 0,
+        explanation: 'Most firms have AI in production somewhere, but only a fifth feel technically ready to scale it.',
+      },
+      {
+        question: 'What is the core gap the analysis describes?',
+        options: ['Between having AI in production and scaling it across the business', 'Between AI and electricity prices', 'Between US and European models', 'Between open and closed models'],
+        correctIndex: 0,
+        explanation: 'Production use is widespread; scaled impact is rare.',
+      },
+      {
+        question: 'What is Technology AIQ?',
+        options: ['A Forrester framework to assess whether a technology environment can support AI at scale', 'A new language model', 'A chip benchmark', 'An IQ test for employees only'],
+        correctIndex: 0,
+        explanation: 'It is part of a broader AIQ framework launching in January 2027.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "The numbers capture the enterprise mood of late 2026: AI is no longer an experiment, yet it is rarely a system. Companies have dozens of isolated wins, each built separately, and struggle to turn them into shared infrastructure that makes the next project cheaper and faster.",
+        "That framing points to where spending goes next: data platforms, reusable components, agent governance and measurement. It also explains why consulting firms and AI infrastructure vendors talk about operating models rather than models.",
+        "A caution on reading it: this is a blog analysis of a survey, not a peer-reviewed study, and the full methodology sits behind Forrester's paywall. The direction of the findings is consistent with other 2026 surveys showing few firms scaling AI successfully.",
+      ],
+      connections: [
+        { label: 'State of AI Report 2026', note: 'booming lab revenue versus enterprise reality', slug: 'state-of-ai-2026' },
+        { label: 'Does AI Enhance or Erode Expertise?', note: 'what happens to skills when AI scales', slug: 'ai-enhance-or-erode-expertise' },
+        { label: 'A Layman Thinks About AI', note: 'whether AI spending earns a return', slug: 'layman-thinks-about-ai' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Enterprise AI platforms', year: '2025 to 2026', detail: 'Vendors pitch shared data, model and agent layers so each new use case is cheaper than the last.' },
+      { name: 'Agent governance', year: '2026', detail: 'Controls, observability and permissions for agents become prerequisites for scaling beyond pilots.' },
+      { name: 'AI ROI measurement', year: '2026', detail: 'Pressure grows to prove business impact as many firms still lack quantified metrics.' },
+    ],
+  },
+  'photonic-in-situ-learning': {
+    context:
+      "Published in Nature Computational Science on October 5, 2026 by a Tsinghua University team led by Lu Fang and Ruqi Huang, with first authors Tiankuang Zhou, Yun Zhao and Shanglong Li, this paper tackles a practical obstacle of light-based AI chips. Photonic circuits can compute neural-network operations fast and efficiently, but they have almost always been trained in a digital simulation, and real chips never match their simulation exactly because of fabrication imperfections. The method, called INSPIRE, trains the chip directly through measurements of the physical device.",
+    mechanism: [
+      { label: 'The simulation gap', detail: 'A digital twin of a photonic chip can never perfectly capture the manufactured device, so weights trained in software lose accuracy on real hardware.' },
+      { label: 'Measure the gradient on the chip', detail: 'INSPIRE obtains the information needed to compute gradients from physical measurements on the circuit itself.' },
+      { label: 'Update in place', detail: 'The measured gradient directly drives the on-chip tuning elements such as phase shifters, so the chip effectively trains itself.' },
+      { label: 'Reach hardware-limited accuracy', detail: 'Trained matrices reach about 0.26% relative error, close to the fidelity limit of the hardware.' },
+      { label: 'Meta-learning on light', detail: 'The framework also supports in situ meta-learning, adapting to new tasks from a single example.' },
+    ],
+    since: [
+      { year: 'Oct 5, 2026', text: 'Published in Nature Computational Science.' },
+      { year: 'Oct 9, 2026', text: 'A Nature research briefing framed it as a step toward trainable AI hardware.' },
+      { year: 'Ongoing', text: 'Commentators stress it establishes a method and experimental demonstration, not a replacement for electronic accelerators at production scale.' },
+    ],
+    stats: [
+      { label: 'Model compression (meta-learning)', value: '251 times' },
+      { label: 'Task adaptation speed-up', value: '136 times faster' },
+      { label: 'Matrix relative error', value: 'About 0.26%' },
+      { label: 'Lead institution', value: 'Tsinghua University' },
+    ],
+    quiz: [
+      {
+        question: 'What problem does INSPIRE address?',
+        options: ['Real photonic chips differ from their simulations, so training in software loses accuracy', 'Photonic chips are too cold', 'Light cannot carry information', 'GPUs are too cheap'],
+        correctIndex: 0,
+        explanation: 'Fabrication imperfections break the digital twin; training on the physical chip sidesteps them.',
+      },
+      {
+        question: 'What does in situ mean here?',
+        options: ['Training happens through measurements of the physical device itself', 'Training happens in the cloud', 'Training happens on a GPU first', 'Training is skipped entirely'],
+        correctIndex: 0,
+        explanation: 'The gradient is measured on the chip and used to tune it directly.',
+      },
+      {
+        question: 'What do the 251x and 136x figures refer to?',
+        options: ['Gains in the paper’s meta-learning experiments, not general LLM training', 'Speed-ups over every GPU for all tasks', 'Price reductions of photonic chips', 'Number of chips produced'],
+        correctIndex: 0,
+        explanation: 'The headline numbers come from specific experiments and should not be extrapolated to training large language models.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "Photonic computing has long promised speed and energy savings because light naturally performs the matrix multiplications at the heart of neural networks. The catch has been control: analog optical devices drift and vary, and every chip is slightly different from its design.",
+        "Training on the physical device turns that weakness into a non-issue. Instead of fighting imperfections with ever more precise simulation, the system learns around them, the same intuition that makes biological brains robust to imperfect neurons.",
+        "The commercial relevance lies in calibration and adaptation costs. If photonic accelerators can tune themselves in the field, they become far easier to deploy, especially at the edge where re-calibrating against a lab simulation is impractical.",
+      ],
+      connections: [
+        { label: 'Photonic Accelerators for AI Across Cloud and Edge', note: 'where such chips can matter first', slug: 'photonic-accelerators-cloud-edge' },
+        { label: 'Microrings as Temporal Kernels', note: 'another 2026 building block for photonic AI', slug: 'microring-temporal-kernels' },
+        { label: 'The Bitter Lesson', note: 'learning beats hand-engineering, even in hardware', slug: 'the-bitter-lesson' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Physical neural networks', year: '2022 to 2026', detail: 'Research moves from simulated training toward learning directly in optical, analog and mechanical systems.' },
+      { name: 'Photonic AI startups', year: '2024 to 2026', detail: 'Companies pursue optical compute and interconnect to ease AI power and bandwidth limits.' },
+      { name: 'China in optical computing', year: '2025 to 2026', detail: 'Chinese universities publish a large share of leading photonic AI research.' },
+    ],
+  },
+  'microring-temporal-kernels': {
+    context:
+      "Published as open access in Nature Communications on September 25, 2026 by Shaojie Liu, Tengji Xu, Chaoran Huang and colleagues at the Chinese University of Hong Kong, this paper rethinks the microring resonator, a tiny loop of waveguide that is one of the most common building blocks in silicon photonics. In photonic neural networks, microrings were mostly used as simple weights, and their per-device throughput was limited to a few billion operations per second. The authors instead use the ring's own response over time as a programmable temporal convolution kernel.",
+    mechanism: [
+      { label: 'Microrings as weights', detail: 'Conventionally each ring scales a signal at one wavelength, ignoring its rich dynamics and capping throughput per device.' },
+      { label: 'Use the impulse response', detail: 'A microring naturally spreads a short optical pulse over time; that response can act as a convolution kernel applied to the incoming signal.' },
+      { label: 'Make it programmable', detail: 'By tuning the ring, the shape of this temporal kernel can be programmed, so one device performs a whole convolution.' },
+      { label: 'Compute beyond the linewidth', detail: 'The framework enables computation beyond the resonance linewidth, pushing processing speed past 100 gigabaud.' },
+      { label: 'Fewer, faster devices', detail: 'Doing more work per ring reduces the number of components, a route to compact and energy-efficient photonic accelerators.' },
+    ],
+    since: [
+      { year: 'Mar 2026', text: 'Manuscript received by Nature Communications.' },
+      { year: 'Aug 2026', text: 'Accepted; experimental data released openly on Zenodo.' },
+      { year: 'Sep 25, 2026', text: 'Published open access, featured on the journal’s integrated optics page.' },
+    ],
+    stats: [
+      { label: 'Signal rate', value: 'Beyond 100 Gbaud' },
+      { label: 'Prior per-ring limit', value: 'A few GOPS' },
+      { label: 'Journal', value: 'Nature Communications, open access' },
+      { label: 'Institution', value: 'Chinese University of Hong Kong' },
+    ],
+    quiz: [
+      {
+        question: 'How were microrings typically used in photonic neural networks before this work?',
+        options: ['As simple weighting elements', 'As lasers', 'As memory chips', 'As batteries'],
+        correctIndex: 0,
+        explanation: 'Their temporal and spectral dynamics were largely ignored.',
+      },
+      {
+        question: 'What new role do the authors give the microring?',
+        options: ['A programmable temporal convolution kernel using its impulse response', 'A cooling device', 'A random number generator', 'A display pixel'],
+        correctIndex: 0,
+        explanation: 'The way a ring spreads a pulse over time becomes the computation itself.',
+      },
+      {
+        question: 'Why not read 100 Gbaud as overall AI performance?',
+        options: ['Gbaud measures signal rate, not end-to-end training or inference throughput', 'Because it is a typo', 'Because baud measures temperature', 'Because GPUs run at 1 Gbaud'],
+        correctIndex: 0,
+        explanation: 'Symbol rate is one component of performance; system-level throughput depends on much more.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "The insight is a classic engineering move: stop fighting a component's physics and use it. Microrings have rich behavior in time and frequency that designers usually suppress; here, that behavior becomes the operation.",
+        "Temporal convolution is especially relevant for streaming signals such as optical communications, radar and sensor data, where information arrives as a fast sequence. Processing it directly in the optical domain avoids costly conversion to electronics at every step.",
+        "As with most photonic AI results, the path to products runs through integration and system design. But per-device efficiency gains like this one are what make large photonic processors physically and economically plausible.",
+      ],
+      connections: [
+        { label: 'Photonic In Situ Learning', note: 'training photonic hardware directly', slug: 'photonic-in-situ-learning' },
+        { label: 'Photonic Concurrent Computing Engine', note: 'parallel matrix operations on one chip', slug: 'photonic-concurrent-computing-engine' },
+        { label: 'A Mathematical Theory of Communication', note: 'the signal theory behind baud and bandwidth', slug: 'shannon-communication-theory' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Silicon photonics building blocks', year: '2020 to 2026', detail: 'Microrings, modulators and photodetectors are repurposed for computing, not just communication.' },
+      { name: 'Optical signal processing', year: '2024 to 2026', detail: 'Photonic processors target equalization and filtering in high-speed links.' },
+      { name: 'Photonic AI accelerators', year: '2025 to 2026', detail: 'Hardware efficiency per device becomes the key metric for scaling optical compute.' },
+    ],
+  },
+  'photonic-accelerators-cloud-edge': {
+    context:
+      "Published as a Perspective in Nature Photonics (volume 20, October 2026 issue) by Dmitry Nechipurenko, Abhishek Gautam and Maxim Shcherbakov of UC Irvine, this paper steps back from individual lab demonstrations to ask where light-based accelerators can genuinely matter in modern AI infrastructure, and what must change for them to have impact at scale. Its key move is to separate two very different markets: general-purpose accelerators in the cloud, and application-specific photonic systems at the edge.",
+    mechanism: [
+      { label: 'Split cloud from edge', detail: 'Cloud accelerators must be general-purpose and run large models; edge systems can be specialized for one task like vision or sensing.' },
+      { label: 'Cloud: energy is the bottleneck', detail: 'In data centers the challenge is scalability under tight energy budgets, where optical losses and conversions between electrical and optical signals dominate power.' },
+      { label: 'Edge: specialization wins', detail: 'At the edge, photonics can process data directly where light already exists, such as in cameras and sensors, avoiding conversions entirely.' },
+      { label: 'Compare on four axes', detail: 'Energy efficiency, computational throughput, density and latency are the yardsticks for judging any photonic accelerator.' },
+      { label: 'What must change', detail: 'Lower-loss components and cheaper electro-optic interfaces are prerequisites for commercial impact in the cloud.' },
+    ],
+    since: [
+      { year: '2025', text: 'A Lightmatter photonic processor ran models such as ResNet and BERT with near-electronic precision, published in Nature.' },
+      { year: 'Sep 2026', text: 'Perspective published online in Nature Photonics.' },
+      { year: 'Oct 2026', text: 'Appears in the October issue (pages 1131 to 1138), openly available.' },
+    ],
+    stats: [
+      { label: 'Comparison axes', value: 'Energy, throughput, density, latency' },
+      { label: 'Markets distinguished', value: 'Cloud (general) vs edge (specific)' },
+      { label: 'Cloud bottleneck', value: 'Losses and electro-optic interfaces' },
+      { label: 'Journal', value: 'Nature Photonics, vol. 20' },
+    ],
+    quiz: [
+      {
+        question: 'What is the central challenge for photonic accelerators in the cloud?',
+        options: ['Scaling under tight energy budgets, where losses and electro-optic conversions dominate power', 'A lack of light sources', 'Too few data centers', 'Software licensing'],
+        correctIndex: 0,
+        explanation: 'Converting between electrical and optical signals can eat the efficiency gains of optical math.',
+      },
+      {
+        question: 'Why can photonics be attractive at the edge?',
+        options: ['Specialized systems can process light-based data directly, avoiding conversions', 'Edge devices have unlimited power', 'Edge AI does not need accuracy', 'Cameras do not use light'],
+        correctIndex: 0,
+        explanation: 'Application-specific optical processing fits sensing and vision tasks naturally.',
+      },
+      {
+        question: 'Which is NOT one of the comparison axes the paper uses?',
+        options: ['Brand recognition', 'Energy efficiency', 'Latency', 'Density'],
+        correctIndex: 0,
+        explanation: 'The four axes are energy efficiency, throughput, density and latency.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "This is the reading that turns photonics headlines into an investment framework. A single chip demo on a small dataset says little; what matters is whether a design wins on the axes its target market cares about.",
+        "In the cloud, photonics competes with GPUs that improve every year and benefit from enormous software ecosystems. Its best near-term opportunity there may be interconnect, moving data between chips, rather than replacing the chips themselves.",
+        "At the edge, the calculus differs: tasks are narrower, power budgets are tiny, and data often starts as light. That is where application-specific optical processors can win sooner, a distinction the paper makes explicit.",
+      ],
+      connections: [
+        { label: 'Nanophotonics Toward Practical Optical Computing', note: 'a companion roadmap to commercialization', slug: 'nanophotonics-practical-optical-computing' },
+        { label: 'Silicon Photonics Market 2026–2036', note: 'the industrial demand side', slug: 'silicon-photonics-market-2026-2036' },
+        { label: 'Photonic In Situ Learning', note: 'a concrete hardware advance', slug: 'photonic-in-situ-learning' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Optical interconnect', year: '2024 to 2026', detail: 'Co-packaged optics and optical I/O ease data movement bottlenecks inside AI clusters.' },
+      { name: 'Photonic compute', year: '2025 to 2026', detail: 'Startups and labs pursue optical matrix engines, still far from displacing GPUs in general workloads.' },
+      { name: 'Edge optical processing', year: '2025 to 2026', detail: 'Optical front-ends for vision and sensing promise ultra-low-power inference.' },
+    ],
+  },
+  'nanophotonics-practical-optical-computing': {
+    context:
+      "Published in Nature Nanotechnology on September 9, 2026 by Yitong Chen of Shanghai Jiao Tong University with Guoqiang Yang and academician Qionghai Dai of Tsinghua University, this Perspective asks what it will take for optical computing to leave the lab demonstration stage. The authors' answer is a unified evaluation framework that runs from architectures to application needs to commercialization progress, and a quantitative standard for when optical computing becomes a plug-and-play computing resource. The team previously built LightGen, an all-optical generative AI chip published in Science in 2025.",
+    mechanism: [
+      { label: 'Start from applications', detail: 'Evaluate optical computing by the problems it solves, from large AI models to edge computing to logic and scientific computing.' },
+      { label: 'Compare architectures fairly', detail: 'Benchmark technical routes on computing scale, precision, energy efficiency and programmability rather than isolated records.' },
+      { label: 'Exploit what light does best', detail: 'Bandwidth, parallelism and potential energy efficiency are the physical advantages to turn into useful systems.' },
+      { label: 'Define practical', detail: 'Set quantitative targets for manufacturable, programmable, scalable and reliable systems that can be used like any other compute resource.' },
+      { label: 'Track commercialization', detail: 'Relate research progress to representative commercial systems to show what remains between demo and deployment.' },
+    ],
+    since: [
+      { year: '2023', text: 'The team reported an all-analog photoelectronic chip for high-speed vision in Nature.' },
+      { year: '2025', text: 'LightGen, a large-scale all-optical generative AI chip, published in Science.' },
+      { year: 'Sep 2026', text: 'This roadmap and evaluation framework published in Nature Nanotechnology.' },
+    ],
+    stats: [
+      { label: 'Evaluation dimensions', value: 'Scale, precision, efficiency, programmability' },
+      { label: 'Application domains', value: 'Large AI models, edge, logic and scientific computing' },
+      { label: 'Institutions', value: 'Shanghai Jiao Tong & Tsinghua' },
+      { label: 'Article type', value: 'Perspective' },
+    ],
+    quiz: [
+      {
+        question: 'What is the main goal of this Perspective?',
+        options: ['To define how optical computing can become practical, deployable compute', 'To announce a new GPU', 'To ban electronic chips', 'To review smartphone cameras'],
+        correctIndex: 0,
+        explanation: 'It proposes a framework and standard for moving from lab demos to real systems.',
+      },
+      {
+        question: 'Which physical advantages of light does it emphasize?',
+        options: ['Bandwidth, parallelism and potential energy efficiency', 'Weight and color', 'Sound and heat', 'Magnetism and gravity'],
+        correctIndex: 0,
+        explanation: 'These properties are why optics is attractive for computation, if they can be harnessed in systems.',
+      },
+      {
+        question: 'Why is a unified evaluation framework needed?',
+        options: ['Different optical architectures are hard to compare without common criteria', 'Because all optical chips are identical', 'Because no one has built an optical chip', 'Because electronics are obsolete'],
+        correctIndex: 0,
+        explanation: 'Common metrics separate promising routes from impressive but narrow demonstrations.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "Optical computing has a credibility problem: spectacular lab records rarely translate into products. This paper responds by changing the question from how fast a device can go to whether it can be manufactured, programmed and relied upon at scale.",
+        "The framework mirrors how the semiconductor industry matured, where standard metrics and process roadmaps made progress legible to investors and customers. Optical computing may need the same shared yardsticks to attract sustained capital.",
+        "It also reflects a geographic reality. Chinese universities have become leaders in optical AI chips, and a roadmap from these teams signals where they see the field heading next.",
+      ],
+      connections: [
+        { label: 'Photonic Accelerators for AI Across Cloud and Edge', note: 'a parallel map of use cases and trade-offs', slug: 'photonic-accelerators-cloud-edge' },
+        { label: 'Photonic Concurrent Computing Engine', note: 'a concrete reconfigurable processor', slug: 'photonic-concurrent-computing-engine' },
+        { label: 'The Founding of Fairchild', note: 'how a lab technology became an industry', slug: 'fairchild-founding' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'All-optical AI chips', year: '2023 to 2026', detail: 'Research chips demonstrate optical vision and generative tasks with large efficiency gains on benchmarks.' },
+      { name: 'Optical computing standards', year: '2026', detail: 'Roadmaps propose common metrics to compare optical computing architectures.' },
+      { name: 'Heterogeneous computing', year: '2025 to 2026', detail: 'Optical chips are positioned as specialized elements alongside electronic processors.' },
+    ],
+  },
+  'photonic-concurrent-computing-engine': {
+    context:
+      "Published open access in Nature Communications on August 18, 2026 by Ruiqi Zheng, Sheng Dong, Jianping Yao and colleagues, this paper addresses a common limitation: photonic processors usually perform one fixed task. The team built a reconfigurable silicon-on-insulator photonic processor that can be partitioned into functional blocks to run several matrix operations in parallel, including three optical convolution tasks at once.",
+    mechanism: [
+      { label: 'A grid of interferometers', detail: 'The chip uses a two-dimensional network of coupled optical switches: sixteen interference units, each with two Mach-Zehnder interferometers and one crossing.' },
+      { label: 'Two dimensions, denser layout', detail: 'Unlike one-dimensional designs where light travels along a single axis, the 2D layout allows denser integration.' },
+      { label: 'Partition into blocks', detail: 'The processor can be segmented into independent functional blocks, each running its own matrix operation.' },
+      { label: 'Run tasks concurrently', detail: 'Several computational tasks, including three convolutions, execute simultaneously on one chip.' },
+      { label: 'Hybrid neural network', detail: 'A photonic convolution layer with two 2×2 kernels feeds an electronic fully connected layer to classify handwritten digits.' },
+    ],
+    since: [
+      { year: '2025', text: 'Preprint posted describing the integrated photonic computing engine.' },
+      { year: 'Aug 18, 2026', text: 'Published in Nature Communications, open access.' },
+      { year: 'Aug 2026', text: 'Cited in reviews of integrated microwave photonics as an example of concurrent optical computing.' },
+    ],
+    stats: [
+      { label: 'MNIST accuracy (experiment)', value: '92.07%' },
+      { label: 'Reference computation', value: '93.59%' },
+      { label: 'Optical inputs and outputs', value: '16' },
+      { label: 'Concurrent convolution tasks', value: '3' },
+    ],
+    quiz: [
+      {
+        question: 'What limitation of photonic processors does this work address?',
+        options: ['They usually perform a single fixed task', 'They cannot use light', 'They are too large to see', 'They only work underwater'],
+        correctIndex: 0,
+        explanation: 'Partitioning the chip lets it run several tasks at once.',
+      },
+      {
+        question: 'What kind of neural network did the team demonstrate?',
+        options: ['A hybrid with a photonic convolution layer and an electronic fully connected layer', 'A fully optical large language model', 'A purely electronic network', 'A quantum network'],
+        correctIndex: 0,
+        explanation: 'Hybrid optical-electronic designs are a realistic near-term architecture.',
+      },
+      {
+        question: 'Why is the MNIST result not proof of large-model readiness?',
+        options: ['Handwritten digit recognition is a small benchmark far from today’s large AI workloads', 'Because MNIST is a GPU brand', 'Because 92% is the maximum possible', 'Because the chip was never built'],
+        correctIndex: 0,
+        explanation: 'MNIST validates the concept; large models demand vastly more scale and precision.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "Reconfigurability is what makes electronic chips economical: one design serves many workloads. Photonic processors have struggled here, often being built for a single operation. A chip that can be partitioned and reprogrammed moves optics closer to that flexibility.",
+        "The hybrid design is also telling. Rather than chasing an all-optical network, the team uses light for the convolution, where optics excels, and electronics for the rest. Most experts expect practical photonic AI to look like this.",
+        "The gap to commercial relevance remains large, as the authors' benchmark choice shows. But concurrency and reconfigurability are exactly the properties a photonic accelerator needs before it can be considered for real infrastructure.",
+      ],
+      connections: [
+        { label: 'Microrings as Temporal Kernels', note: 'more computation per photonic device', slug: 'microring-temporal-kernels' },
+        { label: 'Nanophotonics Toward Practical Optical Computing', note: 'what practical would require', slug: 'nanophotonics-practical-optical-computing' },
+        { label: 'ImageNet Classification with Deep CNNs', note: 'the convolutional networks optics now accelerates', slug: 'alexnet' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Programmable photonic processors', year: '2020 to 2026', detail: 'Meshes of interferometers become reconfigurable optical matrix engines.' },
+      { name: 'Hybrid optical-electronic AI', year: '2024 to 2026', detail: 'Designs split work between optics and electronics to play to each one’s strengths.' },
+      { name: 'Microwave photonics', year: '2025 to 2026', detail: 'Integrated photonics processes radio-frequency signals for communications and sensing.' },
+    ],
+  },
+  'silicon-photonics-market-2026-2036': {
+    context:
+      "This commercial market study by Future Markets, Inc., distributed through ResearchAndMarkets and other resellers in 2026, covers the technologies, applications, value chains and companies of silicon photonics and photonic integrated circuits. Its premise is that AI has turned silicon photonics from a promising technology into a structural necessity: as copper interconnects approach their physical limits inside AI data centers, light becomes the way to move data between chips and racks. It complements the scientific papers in this gallery with an industrial reading of where demand, suppliers and architectural transitions sit.",
+    mechanism: [
+      { label: 'AI drives demand', detail: 'The AI infrastructure build-out pushes data movement needs far beyond what copper links can efficiently handle.' },
+      { label: 'Copper hits its limits', detail: 'At higher speeds and distances, electrical interconnects lose signal and consume too much power.' },
+      { label: 'Optics moves closer to the chip', detail: 'From pluggable transceivers to co-packaged optics, optical components migrate onto the same package as processors.' },
+      { label: 'Beyond interconnect', detail: 'The study also covers photonic accelerators, neuromorphic computing and quantum technologies as emerging applications.' },
+      { label: 'Map the value chain', detail: 'It profiles manufacturing infrastructure, suppliers and companies from foundries to module makers.' },
+    ],
+    since: [
+      { year: '2025', text: 'Earlier editions covered the 2025–2035 period.' },
+      { year: '2026', text: '2026–2036 edition published, 380 pages with 160 tables and 40 figures.' },
+      { year: '2026', text: 'Industry trackers describe 2026 as the year of 1.6T optical transceivers and the race to co-packaged optics.' },
+    ],
+    stats: [
+      { label: 'Length', value: '380 pages, 160 tables, 40 figures' },
+      { label: 'Forecast window', value: '2026 to 2036' },
+      { label: 'Publisher', value: 'Future Markets, Inc.' },
+      { label: 'Access', value: 'Public summary, paid full report' },
+    ],
+    quiz: [
+      {
+        question: 'Why does the study call silicon photonics a structural necessity?',
+        options: ['Copper interconnects are reaching their limits inside AI data centers', 'Because light is cheaper than electricity in all cases', 'Because GPUs no longer exist', 'Because phones need lasers'],
+        correctIndex: 0,
+        explanation: 'Moving data, not just computing it, has become a bottleneck for AI clusters.',
+      },
+      {
+        question: 'What is co-packaged optics?',
+        options: ['Placing optical components in the same package as the processor or switch', 'Packaging GPUs in glass boxes', 'Shipping chips by fiber', 'A type of camera lens'],
+        correctIndex: 0,
+        explanation: 'Bringing optics closer to the chip shortens electrical paths and saves power.',
+      },
+      {
+        question: 'How should market forecasts in such studies be treated?',
+        options: ['As commercial projections, not scientific results', 'As guaranteed revenue', 'As peer-reviewed findings', 'As historical data'],
+        correctIndex: 0,
+        explanation: 'Different firms publish very different forecasts for the same market; treat them as scenarios.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "The most important near-term photonics market for AI is not optical computing but optical communication. Every large training cluster needs to move enormous amounts of data between accelerators, and that is where photonic integrated circuits already ship in volume.",
+        "Forecasts vary widely between research firms. One competing study, for example, sizes the broader silicon photonics market at about 2.8 billion dollars in 2025, rising to 38 billion by 2036. The spread itself is informative: it reflects deep uncertainty about how fast co-packaged optics and optical I/O get adopted.",
+        "For investors, the value chain matters as much as the headline size: lasers, modulators, foundry capacity, packaging and test are each potential chokepoints. A market study's company map is often more useful than its totals.",
+      ],
+      connections: [
+        { label: 'Photonic Accelerators for AI Across Cloud and Edge', note: 'the scientific view of the same opportunity', slug: 'photonic-accelerators-cloud-edge' },
+        { label: 'State of AI Report 2026', note: 'the AI capex that drives photonics demand', slug: 'state-of-ai-2026' },
+        { label: 'A Layman Thinks About AI', note: 'who profits from the AI build-out', slug: 'layman-thinks-about-ai' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Optical transceivers', year: '2025 to 2026', detail: '800G and 1.6T modules scale with AI cluster deployments.' },
+      { name: 'Co-packaged optics', year: '2025 to 2026', detail: 'Switch and accelerator makers bring optics onto the package to cut power.' },
+      { name: 'Photonic foundries', year: '2024 to 2026', detail: 'Foundry capacity for silicon photonics becomes a strategic resource.' },
+    ],
+  },
+  'cyberlens-saes': {
+    context:
+      "CyberLens, by Fahad Hafeez, applies a leading interpretability technique, sparse autoencoders, to a sensitive domain: cybersecurity. Sparse autoencoders decompose a language model's tangled internal activity into many simpler features that humans can label. CyberLens trains them on a curated cybersecurity corpus and maps the resulting features to established attack taxonomies, so researchers can see which internal concepts an open-weight model uses when it processes attack techniques. The released toolkit, weights and demo are public on Hugging Face; the accompanying paper is listed in the journal AI and Ethics.",
+    mechanism: [
+      { label: 'Pick an open model', detail: 'The released toolkit targets an open-weight model, Pythia-160M, at an intermediate layer where concepts are well formed.' },
+      { label: 'Train on security text', detail: 'The corpus covers MITRE ATT&CK techniques and procedures, CVE and NVD write-ups, CISA KEV, CAPEC, malware behavior reports and phishing emails.' },
+      { label: 'Contrast with benign text', detail: 'A benign dataset is used as a contrast set, so features specific to security content stand out.' },
+      { label: 'Decompose into features', detail: 'A JumpReLU sparse autoencoder with 4,096 features breaks the model’s activations into sparse, interpretable components.' },
+      { label: 'Map to taxonomies', detail: 'Features are labeled and mapped to cybersecurity taxonomies, linking internal model concepts to known attack categories.' },
+    ],
+    since: [
+      { year: '2023 to 2024', text: 'Sparse autoencoders emerge as a key tool for mechanistic interpretability of language models.' },
+      { year: '2026', text: 'Domain-specific SAEs appear for safety, security classifiers and vision-language model defenses.' },
+      { year: 'Nov 2026', text: 'CyberLens released with weights, corpus and an interactive demo.' },
+    ],
+    stats: [
+      { label: 'Base model', value: 'Pythia-160M, layer 8' },
+      { label: 'Dictionary size', value: '4,096 features' },
+      { label: 'SAE parameters', value: '12.6 million' },
+      { label: 'Taxonomy anchor', value: 'MITRE ATT&CK, CAPEC' },
+    ],
+    quiz: [
+      {
+        question: 'What does a sparse autoencoder do in interpretability?',
+        options: ['Decomposes a model’s internal activity into many simpler, labelable features', 'Compresses files for download', 'Encrypts model weights', 'Generates new training data'],
+        correctIndex: 0,
+        explanation: 'SAEs turn entangled activations into sparse features humans can inspect.',
+      },
+      {
+        question: 'Why map features to a taxonomy like MITRE ATT&CK?',
+        options: ['To link internal model concepts to known attack techniques', 'To rank hackers', 'To patch Windows', 'To speed up training'],
+        correctIndex: 0,
+        explanation: 'Taxonomy mapping makes features meaningful to security analysts.',
+      },
+      {
+        question: 'Why use a benign contrast set?',
+        options: ['To isolate features specific to security content', 'To make the model friendlier', 'To reduce file size', 'To test grammar'],
+        correctIndex: 0,
+        explanation: 'Comparing with ordinary text separates security-specific concepts from general language features.',
+      },
+    ],
+    deepDive: {
+      paragraphs: [
+        "As open-weight models gain real offensive cyber capability, defenders need ways to see what those models know. Interpretability offers a route that complements behavioral testing: instead of only asking a model questions, inspect which concepts activate inside it.",
+        "Mapping features to established taxonomies is the practical bridge. Security teams already think in terms of ATT&CK techniques and CAPEC attack patterns; a feature labeled with those terms is far more actionable than an abstract neuron.",
+        "The released toolkit is small and targets a modest model, so it is best read as a method and a starting point. Whether the approach scales to frontier-size models, and whether features can be used to monitor or steer dangerous behavior, are the open questions.",
+      ],
+      connections: [
+        { label: 'GPT-6 Cyber', note: 'why cyber capability in models needs scrutiny', slug: 'gpt-6-cyber' },
+        { label: 'GTIG AI Threat Tracker Q4 2026', note: 'attackers already using models', slug: 'gtig-ai-threat-tracker-q4-2026' },
+        { label: 'Automated Alignment Researchers', note: 'another route to safer model behavior', slug: 'automated-alignment-researchers' },
+      ],
+    },
+    sectorSnapshot: [
+      { name: 'Mechanistic interpretability', year: '2023 to 2026', detail: 'Sparse autoencoders and circuit analysis become standard tools for understanding model internals.' },
+      { name: 'Open-weight cyber capability', year: '2026', detail: 'Evaluators find open models increasingly capable at vulnerability discovery and exploitation.' },
+      { name: 'Security-focused AI tooling', year: '2026', detail: 'Defenders adopt interpretability and monitoring tools tailored to security use cases.' },
+    ],
+  },
 }
