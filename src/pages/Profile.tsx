@@ -6,8 +6,7 @@ import Footer from '../components/Footer'
 import { Eyebrow } from '../components/ui'
 import { AchievementBadge, Flame, GoalRing } from '../components/game'
 import { Laurel } from '../components/immersive'
-import { PATH_UNITS } from '../data/path'
-import { CATEGORY_LABELS } from '../types'
+import { CHAPTERS } from '../data/path'
 import { ACHIEVEMENTS, levelOf, setDailyGoal, streakOf, todayXP, useGame, weekOf } from '../lib/game'
 
 const GOALS = [
@@ -136,20 +135,22 @@ export default function Profile() {
 
         {/* mastery */}
         <section className="mt-14">
-          <h2 className="display text-3xl text-parchment mb-6">Mastery by gallery</h2>
+          <h2 className="display text-3xl text-parchment mb-6">Progress by chapter</h2>
           <div className="grid md:grid-cols-2 gap-x-10 gap-y-4">
-            {PATH_UNITS.map((u) => {
-              const done = u.lessons.filter((d) => g.lessons[d.slug]).length
+            {CHAPTERS.map((c, ci) => {
+              const done = c.lessons.filter((d) => g.lessons[d.slug]).length
               return (
-                <Link key={u.gallery.category} to={`/directory?cat=${u.gallery.category}`} className="group">
+                <Link key={c.id} to="/path" className="group">
                   <div className="flex justify-between text-[0.95rem]">
-                    <span className="text-parchment/80 group-hover:text-gold-light transition-colors">{CATEGORY_LABELS[u.gallery.category]}</span>
+                    <span className="text-parchment/80 group-hover:text-gold-light transition-colors">
+                      {ci + 1}. {c.title}
+                    </span>
                     <span className="text-parchment/50">
-                      {done}/{u.lessons.length}
+                      {done}/{c.lessons.length}
                     </span>
                   </div>
                   <div className="h-2 bg-parchment/10 mt-1.5">
-                    <motion.div className="h-full" style={{ background: u.gallery.accent }} initial={{ width: 0 }} animate={{ width: `${(done / u.lessons.length) * 100}%` }} transition={{ duration: 0.9 }} />
+                    <motion.div className="h-full bg-gradient-to-r from-gold to-gold-light" initial={{ width: 0 }} animate={{ width: `${(done / c.lessons.length) * 100}%` }} transition={{ duration: 0.9 }} />
                   </div>
                 </Link>
               )

@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { AnimatePresence, animate, motion, useMotionValue, useTransform } from 'framer-motion'
-import { X, Heart, Check, Zap, Target, Clock, ArrowRight, RotateCcw, Bell, BellOff } from 'lucide-react'
+import { X, Heart, Check, Zap, Target, Clock, ArrowRight, RotateCcw, Bell, BellOff, BookOpen } from 'lucide-react'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
 import { ART, galleryOf } from '../data/galleries'
-import { nextInPath } from '../data/path'
-import type { QuizQuestion, RichContent } from '../types'
+import { chapterOf, nextInPath } from '../data/path'
+import type { DocMeta, QuizQuestion, RichContent } from '../types'
+import { formatDate } from '../types'
 import { ACHIEVEMENTS, completeLesson, todayXP, useGame, weekOf, type LessonSummary } from '../lib/game'
 import { sfx, setEffects, useSound } from '../lib/sound'
 import { AchievementBadge, Flame, GoalRing, StarRow } from '../components/game'
@@ -38,14 +39,82 @@ function shuffle<T>(arr: T[], seed: number) {
   return a
 }
 
-function build(rich: RichContent): Ex[] {
-  const q = rich.quiz.slice(0, 3)
+/* ---------- Only test what the lesson has taught ---------- */
+
+const STOP = new Set(
+  'about above after again against because been before being below between both could does doing down during each from further have having here into itself just more most other over same should some such than that their them then there these they this those through under until very what when where which while will with would your only also like make made many much often even ever'.split(' '),
+)
+
+function words(text: string) {
+  return text
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[^a-z0-9%. ]/g, ' ')
+    .split(/\s+/)
+    .map((w) => w.replace(/\.$/, ''))
+    .filter((w) => w.length >= 4 && !STOP.has(w))
+}
+
+const stem = (w: string) => w.replace(/(ing|ed|es|s)$/, '')
+
+/** The text a learner has seen before the exercises: blurb, context, mechanism and key figures. */
+function taughtVocabulary(blurb: string, rich: RichContent) {
+  const text = [blurb, rich.context, ...rich.mechanism.flatMap((m) => [m.label, m.detail]), ...rich.stats.flatMap((st) => [st.label, st.value])].join(' ')
+  return new Set(words(text).map(stem))
+}
+
+/** An authored question counts as covered when most meaningful words of its answer appear in what was taught. */
+function isCovered(q: QuizQuestion, taught: Set<string>) {
+  const w = words(q.options[q.correctIndex])
+  if (!w.length) return false
+  return w.filter((x) => taught.has(stem(x))).length / w.length >= 0.6
+}
+
+function others(n: number, exclude: number[], count: number, seed: number) {
+  return shuffle(
+    Array.from({ length: n }, (_, i) => i).filter((i) => !exclude.includes(i)),
+    seed,
+  ).slice(0, count)
+}
+
+/** "What does the step X describe?" — answers are the step descriptions the learner just read. */
+function stepQuestion(rich: RichContent, k: number, seed: number): QuizQuestion {
+  const m = rich.mechanism
+  const pool = [k, ...others(m.length, [k], 3, seed)]
+  const order = shuffle(pool, seed + 1)
+  return {
+    question: `In the mechanism, what does the step “${m[k].label}” describe?`,
+    options: order.map((i) => m[i].detail),
+    correctIndex: order.indexOf(k),
+    explanation: `“${m[k].label}” is step ${k + 1} of ${m.length} in the mechanism.`,
+  }
+}
+
+/** "Which step comes right after X?" */
+function nextStepQuestion(rich: RichContent, k: number, seed: number): QuizQuestion {
+  const m = rich.mechanism
+  const pool = [k + 1, ...others(m.length, [k, k + 1], 3, seed)]
+  const order = shuffle(pool, seed + 2)
+  return {
+    question: `Which step comes right after “${m[k].label}”?`,
+    options: order.map((i) => m[i].label),
+    correctIndex: order.indexOf(k + 1),
+    explanation: `The sequence is: ${m.map((x, i) => `${i + 1}. ${x.label}`).join(' → ')}.`,
+  }
+}
+
+function build(blurb: string, rich: RichContent, seed: number): Ex[] {
+  const m = rich.mechanism
+  const taught = taughtVocabulary(blurb, rich)
+  const authored = rich.quiz.filter((q) => isCovered(q, taught))
+  const [k1, k2] = shuffle(m.map((_, i) => i), seed)
+  const kNext = Math.floor(seeded(seed + 9)() * Math.max(1, m.length - 1))
   const list: Ex[] = []
-  if (q[0]) list.push({ id: 'mcq0', kind: 'mcq', q: q[0] })
-  if (rich.stats.length >= 3) list.push({ id: 'match', kind: 'match', pairs: rich.stats.slice(0, 4).map((s) => ({ a: s.label, b: s.value })) })
-  if (q[1]) list.push({ id: 'mcq1', kind: 'mcq', q: q[1] })
-  if (rich.mechanism.length >= 3) list.push({ id: 'order', kind: 'order', items: rich.mechanism.map((m) => m.label) })
-  if (q[2]) list.push({ id: 'mcq2', kind: 'mcq', q: q[2] })
+  if (m.length >= 4) list.push({ id: 'step-a', kind: 'mcq', q: stepQuestion(rich, k1, seed + 3) })
+  if (rich.stats.length >= 3) list.push({ id: 'match', kind: 'match', pairs: rich.stats.slice(0, 4).map((st) => ({ a: st.label, b: st.value })) })
+  list.push({ id: 'q-1', kind: 'mcq', q: authored[0] ?? nextStepQuestion(rich, kNext, seed + 5) })
+  if (m.length >= 3) list.push({ id: 'order', kind: 'order', items: m.map((x) => x.label) })
+  list.push({ id: 'q-2', kind: 'mcq', q: authored[1] ?? stepQuestion(rich, k2 ?? 0, seed + 7) })
   return list
 }
 
@@ -245,6 +314,126 @@ function Order({ items, seed, picked, setPicked, revealed }: { items: string[]; 
 }
 
 /* ------------------------------------------------------------------ */
+/* Learn screens: read first, then practise                            */
+/* ------------------------------------------------------------------ */
+
+function LearnIntro({ doc, rich, chapter }: { doc: DocMeta; rich: RichContent; chapter?: string }) {
+  return (
+    <div>
+      <p className="caps text-[0.62rem] text-gold mb-4">New lesson{chapter ? ` · ${chapter}` : ''}</p>
+      <h1 className="display text-[2.1rem] md:text-5xl leading-[1.08] text-parchment">{doc.title}</h1>
+      <p className="italic text-parchment/60 mt-3">
+        {doc.author} · {formatDate(doc)} · {doc.medium}
+      </p>
+      <p className="display italic text-xl md:text-2xl text-gold-light/90 leading-snug mt-7">{doc.blurb}</p>
+      <div className="h-px bg-gold/25 my-7" />
+      <p className="caps text-[0.55rem] text-parchment/45 mb-3">Context</p>
+      <p className="text-parchment/80 text-[1.08rem] leading-[1.75]">{rich.context}</p>
+    </div>
+  )
+}
+
+function LearnMechanism({ rich, revealed }: { rich: RichContent; revealed: number }) {
+  const steps = rich.mechanism
+  return (
+    <div>
+      <p className="caps text-[0.62rem] text-gold mb-4">
+        How it works · step {revealed} of {steps.length}
+      </p>
+      <h2 className="display text-[2rem] md:text-[2.6rem] leading-tight text-parchment mb-7">The mechanism, step by step</h2>
+      <ol className="flex flex-col gap-3">
+        {steps.slice(0, revealed).map((st, i) => {
+          const latest = i === revealed - 1
+          return (
+            <motion.li
+              key={i}
+              initial={latest ? { opacity: 0, y: 16, scale: 0.98 } : false}
+              animate={{ opacity: latest ? 1 : 0.6, y: 0, scale: 1 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              className={`grid grid-cols-[2.75rem_1fr] gap-4 border-2 p-4 ${latest ? 'border-gold-light/70 bg-gold/[0.07]' : 'border-gold/15'}`}
+            >
+              <span className={`w-11 h-11 rotate-45 border flex items-center justify-center ${latest ? 'border-gold-light bg-umber' : 'border-gold/40'}`}>
+                <span className="-rotate-45 display text-lg text-gold-light">{i + 1}</span>
+              </span>
+              <div>
+                <p className="display text-xl md:text-2xl text-parchment leading-snug">{st.label}</p>
+                {latest ? <p className="text-parchment/80 leading-relaxed mt-1.5">{st.detail}</p> : <p className="text-parchment/55 text-[0.95rem] leading-snug mt-1 line-clamp-1">{st.detail}</p>}
+              </div>
+            </motion.li>
+          )
+        })}
+      </ol>
+    </div>
+  )
+}
+
+function LearnFigures({ rich }: { rich: RichContent }) {
+  return (
+    <div>
+      <p className="caps text-[0.62rem] text-gold mb-4">Figures to remember</p>
+      <h2 className="display text-[2rem] md:text-[2.6rem] leading-tight text-parchment mb-7">Four numbers worth keeping</h2>
+      <div className="grid sm:grid-cols-2 gap-3">
+        {rich.stats.slice(0, 4).map((st, i) => (
+          <motion.div key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.08 }} className="border-2 border-gold/30 bg-umber/80 p-5">
+            <p className="caps text-[0.55rem] text-parchment/55 mb-2">{st.label}</p>
+            <p className="display text-2xl text-gold-light leading-snug">{st.value}</p>
+          </motion.div>
+        ))}
+      </div>
+      <p className="italic text-parchment/55 mt-6">Next, you will practise with exactly what you just read: the steps, these figures and the key ideas.</p>
+    </div>
+  )
+}
+
+function NotesDrawer({ open, onClose, doc, rich }: { open: boolean; onClose: () => void; doc: DocMeta; rich: RichContent }) {
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div className="fixed inset-0 z-40 bg-ink/70" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose} />
+          <motion.aside
+            className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-md bg-umber border-l-2 border-gold/40 overflow-y-auto p-7"
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ type: 'spring', stiffness: 300, damping: 32 }}
+            aria-label="Lesson notes"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <p className="caps text-[0.6rem] text-gold">Your notes</p>
+              <button onClick={onClose} aria-label="Close notes" className="text-parchment/60 hover:text-parchment">
+                <X size={20} />
+              </button>
+            </div>
+            <p className="display text-2xl text-parchment leading-snug">{doc.title}</p>
+            <p className="italic text-parchment/65 mt-3 leading-relaxed">{doc.blurb}</p>
+            <p className="caps text-[0.55rem] text-parchment/45 mt-7 mb-3">Mechanism</p>
+            <ol className="flex flex-col gap-3">
+              {rich.mechanism.map((m, i) => (
+                <li key={i} className="text-[0.95rem] leading-snug">
+                  <span className="display text-gold-light mr-2">{i + 1}.</span>
+                  <span className="text-parchment">{m.label}</span>
+                  <span className="block text-parchment/60 mt-0.5">{m.detail}</span>
+                </li>
+              ))}
+            </ol>
+            <p className="caps text-[0.55rem] text-parchment/45 mt-7 mb-3">Figures</p>
+            <ul className="flex flex-col gap-2">
+              {rich.stats.map((st, i) => (
+                <li key={i} className="flex justify-between gap-4 text-[0.95rem] border-b border-gold/10 pb-2">
+                  <span className="text-parchment/65">{st.label}</span>
+                  <span className="text-gold-light text-right">{st.value}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.aside>
+        </>
+      )}
+    </AnimatePresence>
+  )
+}
+
+/* ------------------------------------------------------------------ */
 /* End screens                                                         */
 /* ------------------------------------------------------------------ */
 
@@ -297,15 +486,17 @@ function fmtTime(s: number) {
 /* ------------------------------------------------------------------ */
 
 type Status = 'answering' | 'correct' | 'wrong'
-type Phase = 'play' | 'out' | 'complete' | 'streak' | 'achievements'
+type Phase = 'learn' | 'play' | 'out' | 'complete' | 'streak' | 'achievements'
 
 export default function Lesson() {
   const { slug = '' } = useParams()
   const navigate = useNavigate()
   const doc = documents.find((d) => d.slug === slug)
   const rich = richContent[slug]
-  const base = useMemo(() => (rich ? build(rich) : []), [rich])
   const [attempt, setAttempt] = useState(1)
+  const base = useMemo(() => (rich && doc ? build(doc.blurb, rich, attempt * 11) : []), [rich, doc, attempt])
+  const [learnStep, setLearnStep] = useState(0)
+  const [notesOpen, setNotesOpen] = useState(false)
   const [queue, setQueue] = useState<Ex[]>(base)
   const [idx, setIdx] = useState(0)
   const [hearts, setHearts] = useState(MAX_HEARTS)
@@ -314,7 +505,7 @@ export default function Lesson() {
   const [maxCombo, setMaxCombo] = useState(0)
   const [done, setDone] = useState(0)
   const [status, setStatus] = useState<Status>('answering')
-  const [phase, setPhase] = useState<Phase>('play')
+  const [phase, setPhase] = useState<Phase>('learn')
   const [mcqSel, setMcqSel] = useState<number | null>(null)
   const [picked, setPicked] = useState<number[]>([])
   const [matchMissed, setMatchMissed] = useState(false)
@@ -327,12 +518,36 @@ export default function Lesson() {
   const game = useGame()
 
   const ex = queue[idx]
+  const learnTotal = rich ? rich.mechanism.length + 2 : 0
+  const chapter = chapterOf(slug)
+
+  const advanceLearn = useCallback(() => {
+    if (learnStep < learnTotal - 1) {
+      sfx('step')
+      setLearnStep((n) => n + 1)
+    } else {
+      started.current = performance.now()
+      setPhase('play')
+    }
+  }, [learnStep, learnTotal])
+
+  useEffect(() => {
+    if (phase !== 'learn') return
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        advanceLearn()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [phase, advanceLearn])
   const total = base.length
   const next = nextInPath(slug)
 
-  const reset = useCallback(() => {
+  const reset = useCallback((learn: boolean) => {
     setAttempt((a) => a + 1)
-    setQueue(base)
+    setLearnStep(0)
     setIdx(0)
     setHearts(MAX_HEARTS)
     setMistakes(0)
@@ -340,17 +555,22 @@ export default function Lesson() {
     setMaxCombo(0)
     setDone(0)
     setStatus('answering')
-    setPhase('play')
+    setPhase(learn ? 'learn' : 'play')
     setMcqSel(null)
     setPicked([])
     setMatchMissed(false)
     setSummary(null)
     requeued.current = new Set()
     started.current = performance.now()
+  }, [])
+
+  // a fresh exercise set every attempt
+  useEffect(() => {
+    setQueue(base)
   }, [base])
 
   useEffect(() => {
-    reset()
+    reset(true)
   }, [slug, reset])
 
   const loseHeart = useCallback(() => {
@@ -412,7 +632,7 @@ export default function Lesson() {
 
   // Enter to check / continue
   useEffect(() => {
-    if (phase !== 'play') return
+    if (phase !== 'play' || notesOpen) return
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Enter') return
       e.preventDefault()
@@ -421,7 +641,7 @@ export default function Lesson() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [phase, status, check, proceed])
+  }, [phase, status, check, proceed, notesOpen])
 
   if (!doc || !rich) {
     return (
@@ -441,11 +661,60 @@ export default function Lesson() {
     <div className="relative min-h-svh bg-ink flex flex-col overflow-hidden">
       {/* faint painted room */}
       <div
-        className="absolute inset-0 painted opacity-[0.09] blur-[2px] pointer-events-none"
+        className="absolute inset-0 painted opacity-[0.22] pointer-events-none"
         style={{ backgroundImage: `url(${ART[g.art]})`, backgroundSize: 'cover', backgroundPosition: g.focus }}
         aria-hidden
       />
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(200,162,90,0.08),transparent_60%)] pointer-events-none" aria-hidden />
+
+      {phase === 'learn' && (
+        <>
+          <header className="relative z-10 w-full max-w-3xl mx-auto px-5 pt-6 md:pt-8 flex items-center gap-4">
+            <button onClick={() => navigate(-1)} aria-label="Quit the lesson" className="text-parchment/50 hover:text-parchment transition-colors">
+              <X size={24} strokeWidth={1.5} />
+            </button>
+            <div className="flex-1 flex gap-1.5" aria-label={`Learning ${learnStep + 1} of ${learnTotal}`}>
+              {Array.from({ length: learnTotal }).map((_, i) => (
+                <span key={i} className={`h-1.5 flex-1 transition-colors duration-300 ${i <= learnStep ? 'bg-gold-light' : 'bg-parchment/12'}`} />
+              ))}
+            </div>
+            {game.lessons[slug] && (
+              <button
+                onClick={() => {
+                  started.current = performance.now()
+                  setPhase('play')
+                }}
+                className="caps text-[0.55rem] text-parchment/55 hover:text-gold-light whitespace-nowrap"
+              >
+                Skip to practice
+              </button>
+            )}
+          </header>
+          <main className="relative z-10 flex-1 w-full max-w-2xl mx-auto px-5 pt-10 md:pt-14 pb-48">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={learnStep === 0 ? 'intro' : learnStep <= rich.mechanism.length ? 'mech' : 'figs'}
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              >
+                {learnStep === 0 && <LearnIntro doc={doc} rich={rich} chapter={chapter?.title} />}
+                {learnStep > 0 && learnStep <= rich.mechanism.length && <LearnMechanism rich={rich} revealed={learnStep} />}
+                {learnStep > rich.mechanism.length && <LearnFigures rich={rich} />}
+              </motion.div>
+            </AnimatePresence>
+          </main>
+          <footer className="fixed bottom-0 inset-x-0 z-20 border-t border-gold/15 bg-ink/95 backdrop-blur">
+            <div className="max-w-3xl mx-auto px-5 py-5 md:py-6 flex items-center gap-4 justify-between">
+              <p className="hidden md:block caps text-[0.55rem] text-parchment/40">The exercises only use what you see here</p>
+              <button onClick={advanceLearn} className="btn-gilt justify-center w-full md:w-auto md:min-w-[14rem]">
+                {learnStep === 0 ? 'See how it works' : learnStep < rich.mechanism.length ? 'Next step' : learnStep === rich.mechanism.length ? 'Key figures' : 'Start practising'} <ArrowRight size={14} />
+              </button>
+            </div>
+          </footer>
+        </>
+      )}
 
       {phase === 'play' && ex && (
         <>
@@ -476,6 +745,9 @@ export default function Lesson() {
                 )}
               </AnimatePresence>
             </div>
+            <button onClick={() => setNotesOpen(true)} className="flex items-center gap-1.5 caps text-[0.52rem] text-parchment/55 hover:text-gold-light" aria-label="Open your notes">
+              <BookOpen size={16} /> <span className="hidden sm:inline">Notes</span>
+            </button>
             <div className="flex items-center gap-1" aria-label={`${hearts} hearts left`}>
               {Array.from({ length: MAX_HEARTS }).map((_, i) => (
                 <motion.span key={i} animate={i === hearts ? { scale: [1, 1.4, 0.8], opacity: [1, 1, 0.25] } : {}} transition={{ duration: 0.5 }}>
@@ -590,6 +862,8 @@ export default function Lesson() {
         </>
       )}
 
+      <NotesDrawer open={notesOpen} onClose={() => setNotesOpen(false)} doc={doc} rich={rich} />
+
       {/* OUT OF HEARTS */}
       {phase === 'out' && (
         <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 gap-5">
@@ -601,7 +875,7 @@ export default function Lesson() {
           <h1 className="display text-4xl md:text-5xl text-parchment">You ran out of hearts</h1>
           <p className="italic text-parchment/65 max-w-md">Review the mechanism once more, then try again. Every mistake is a lesson in itself.</p>
           <div className="flex flex-wrap gap-3 justify-center mt-4">
-            <button onClick={reset} className="btn-gilt">
+            <button onClick={() => reset(false)} className="btn-gilt">
               <RotateCcw size={14} /> Try again
             </button>
             <Link to={`/doc/${slug}#mechanism`} className="btn-ghost">
