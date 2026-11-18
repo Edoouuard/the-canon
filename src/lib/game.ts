@@ -1,6 +1,7 @@
 import { createStore, useStore } from './store'
 import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
+import { BRIEFS } from '../data/watch'
 
 /* ------------------------------------------------------------------ */
 /* State                                                               */
@@ -18,11 +19,12 @@ export interface GameState {
   daily: Record<string, number> // YYYY-MM-DD -> XP earned that day
   lessons: Record<string, LessonRecord>
   tours: Record<string, number> // mechanism tours completed
+  briefs: Record<string, number> // watch briefs read
   achievements: Record<string, number> // id -> unlocked at
   dailyGoal: number
 }
 
-const INITIAL: GameState = { xp: 0, daily: {}, lessons: {}, tours: {}, achievements: {}, dailyGoal: 20 }
+const INITIAL: GameState = { xp: 0, daily: {}, lessons: {}, tours: {}, briefs: {}, achievements: {}, dailyGoal: 20 }
 
 export const gameStore = createStore<GameState>('canon.game.v1', INITIAL)
 
@@ -120,7 +122,7 @@ export interface Achievement {
   id: string
   title: string
   detail: string
-  icon: 'flame' | 'star' | 'book' | 'crown' | 'bolt' | 'compass' | 'target' | 'moon' | 'laurel'
+  icon: 'flame' | 'star' | 'book' | 'crown' | 'bolt' | 'compass' | 'target' | 'moon' | 'laurel' | 'eye'
   check: (s: GameState, ctx: Ctx) => boolean
 }
 
@@ -152,6 +154,8 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: 'gallery-master', title: 'Curator', detail: 'Complete every lesson in one gallery', icon: 'crown', check: (s) => galleriesMastered(s) >= 1 },
   { id: 'xp-100', title: 'Hundred', detail: 'Earn 100 XP', icon: 'bolt', check: (s) => s.xp >= 100 },
   { id: 'xp-500', title: 'Five Hundred', detail: 'Earn 500 XP', icon: 'bolt', check: (s) => s.xp >= 500 },
+  { id: 'sentinel', title: 'Sentinel', detail: 'Read 5 briefs in the Watch', icon: 'eye', check: (s) => Object.keys(s.briefs).length >= 5 },
+  { id: 'watchtower', title: 'Watchtower', detail: 'Read every brief in the Watch', icon: 'eye', check: (s) => BRIEFS.every((b) => s.briefs[b.id]) },
   { id: 'night-owl', title: 'Night Reader', detail: 'Finish a lesson after 10 pm', icon: 'moon', check: () => new Date().getHours() >= 22 },
 ]
 
@@ -259,6 +263,14 @@ export function completeTour(slug: string) {
   if (gameStore.get().tours[slug]) return
   gameStore.set((p) => ({ ...p, tours: { ...p.tours, [slug]: Date.now() } }))
   award(2, 'Mechanism explored')
+  checkAchievements()
+}
+
+/** Reading a brief in the Watch earns 2 XP, once per brief. */
+export function readBrief(id: string) {
+  if (gameStore.get().briefs[id]) return
+  gameStore.set((p) => ({ ...p, briefs: { ...p.briefs, [id]: Date.now() } }))
+  award(2, 'Brief read')
   checkAchievements()
 }
 

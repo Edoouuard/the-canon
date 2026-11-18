@@ -7,6 +7,7 @@ import DocumentDetail from './pages/DocumentDetail'
 import Lesson from './pages/Lesson'
 import Path from './pages/Path'
 import Profile from './pages/Profile'
+import Watch from './pages/Watch'
 import { GameToasts } from './components/game'
 import PageTransition from './components/PageTransition'
 import ScrollProgress from './components/ScrollProgress'
@@ -52,6 +53,14 @@ export default function App() {
             element={
               <PageTransition>
                 <Path />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="/watch"
+            element={
+              <PageTransition>
+                <Watch />
               </PageTransition>
             }
           />

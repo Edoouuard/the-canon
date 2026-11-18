@@ -5,11 +5,14 @@ import { Search, Volume2, VolumeX } from 'lucide-react'
 import { Monogram } from './ui'
 import { GameHUD } from './game'
 import { setAmbience, useSound } from '../lib/sound'
+import { useGame } from '../lib/game'
+import { BRIEFS } from '../data/watch'
 
 const LINKS = [
   { to: '/', label: 'Atrium' },
   { to: '/directory', label: 'Galleries' },
   { to: '/path', label: 'Path' },
+  { to: '/watch', label: 'Watch' },
 ]
 
 function AmbienceButton() {
@@ -53,6 +56,8 @@ export default function Navbar({ overlay = false }: { overlay?: boolean }) {
   }, [])
 
   const solid = !overlay || scrolled
+  const game = useGame()
+  const unread = BRIEFS.filter((b) => !(game.briefs ?? {})[b.id]).length
 
   return (
     <header
@@ -63,7 +68,7 @@ export default function Navbar({ overlay = false }: { overlay?: boolean }) {
       <div className="max-w-7xl mx-auto px-5 md:px-8 h-16 md:h-[72px] flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3 group" aria-label="The Canon, home">
           <Monogram />
-          <span className="flex flex-col leading-none">
+          <span className="hidden sm:flex flex-col leading-none">
             <span className="caps text-[0.78rem] md:text-[0.9rem] text-parchment tracking-[0.2em] sm:tracking-[0.3em] whitespace-nowrap">The Canon</span>
             <span className="caps text-[0.55rem] text-gold/70 mt-1 hidden md:block">Ideas that moved billions</span>
           </span>
@@ -77,6 +82,9 @@ export default function Navbar({ overlay = false }: { overlay?: boolean }) {
                 <span className={`caps text-[0.66rem] md:text-[0.7rem] transition-colors ${active ? 'text-gold-light' : 'text-parchment/70 hover:text-parchment'}`}>
                   {link.label}
                 </span>
+                {link.to === '/watch' && unread > 0 && (
+                  <span className="absolute top-1 right-0 sm:right-1 md:right-2 w-1.5 h-1.5 rounded-full bg-terracotta shadow-[0_0_6px_rgba(184,105,63,0.9)]" aria-label={`${unread} unread briefs`} />
+                )}
                 {active && (
                   <motion.span
                     layoutId="nav-underline"

@@ -19,6 +19,7 @@ import { richContent } from '../data/richContent'
 import { vcFieldGuides } from '../data/vcFieldGuides'
 import { ART, galleryOf } from '../data/galleries'
 import { CATEGORY_LABELS, formatDate } from '../types'
+import { beatOf, briefsFor, formatBriefDate } from '../data/watch'
 
 interface SectionDef {
   id: string
@@ -85,6 +86,34 @@ export default function DocumentDetail() {
         { id: 'influence', label: 'Lineage', title: 'Related works in the canon', render: () => <InfluenceMap title={doc!.title} connections={rich.deepDive.connections} /> },
         { id: 'figures', label: 'Reference points', title: 'A few figures to remember', render: () => <StatChips stats={rich.stats} /> },
         { id: 'since', label: 'Since then', title: 'What it led to', render: () => <Timeline entries={rich.since} /> },
+        ...(briefsFor(slug!).length
+          ? [
+              {
+                id: 'news',
+                label: 'In the news',
+                title: 'Where this idea shows up today',
+                render: () => (
+                  <div className="flex flex-col gap-3">
+                    {briefsFor(slug!).map((b) => (
+                      <Link key={b.id} to={`/watch#${b.id}`} className="group flex items-center gap-5 border border-gold/20 hover:border-gold/50 bg-umber/40 p-4 md:p-5 transition-colors">
+                        <span className="w-2 h-2 rotate-45 shrink-0" style={{ background: beatOf(b.beat).accent }} />
+                        <span className="min-w-0 flex-1">
+                          <span className="block caps text-[0.52rem] text-parchment/50">
+                            {beatOf(b.beat).label} · {formatBriefDate(b.date)}
+                          </span>
+                          <span className="block display text-lg text-parchment group-hover:text-gold-light transition-colors leading-snug mt-1">{b.title}</span>
+                        </span>
+                        <span className="hidden sm:block text-right shrink-0">
+                          <span className="block display text-xl text-gold-light">{b.figure.value}</span>
+                        </span>
+                        <ArrowRight size={15} className="text-gold shrink-0" />
+                      </Link>
+                    ))}
+                  </div>
+                ),
+              },
+            ]
+          : []),
         { id: 'lesson', label: 'Lesson', title: 'Test yourself', render: () => <LessonCTA slug={slug!} /> },
       ]
     : []

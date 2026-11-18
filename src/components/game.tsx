@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { BookOpen, Compass, Crown, Moon, Star, Target, Zap } from 'lucide-react'
+import { BookOpen, Compass, Crown, Eye, Moon, Star, Target, Zap } from 'lucide-react'
 import { ACHIEVEMENTS, activeToday, onGameEvent, streakOf, todayXP, useGame, type Achievement, type GameEvent } from '../lib/game'
 import { Laurel } from './immersive'
 
@@ -64,7 +64,7 @@ export function GoalRing({ value, goal, size = 34, stroke = 3, children }: { val
 }
 
 /* ---------- Achievement badge ---------- */
-const ICONS = { flame: null, star: Star, book: BookOpen, crown: Crown, bolt: Zap, compass: Compass, target: Target, moon: Moon, laurel: null }
+const ICONS = { flame: null, star: Star, book: BookOpen, crown: Crown, bolt: Zap, compass: Compass, target: Target, moon: Moon, laurel: null, eye: Eye }
 
 export function AchievementBadge({ a, unlocked, size = 56 }: { a: Achievement; unlocked: boolean; size?: number }) {
   const Icon = ICONS[a.icon]

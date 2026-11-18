@@ -13,6 +13,7 @@ import { documents } from '../data/documents'
 import { richContent } from '../data/richContent'
 import { ART, GALLERIES, galleryOf } from '../data/galleries'
 import { CATEGORY_LABELS, formatDate } from '../types'
+import { BRIEFS, beatOf, formatBriefDate } from '../data/watch'
 
 const RECENT_COUNT = 8
 
@@ -200,6 +201,48 @@ export default function Home() {
             </div>
           </div>
         </Reveal>
+      </section>
+
+      {/* FROM THE WATCH */}
+      <section className="px-5 md:px-8 pt-16 md:pt-20">
+        <div className="max-w-7xl mx-auto">
+          <Reveal className="flex flex-wrap items-end justify-between gap-4 mb-6">
+            <div>
+              <Eyebrow className="mb-3">From the Watch</Eyebrow>
+              <h2 className="display text-3xl md:text-4xl text-parchment">This week, read against the canon</h2>
+            </div>
+            <Link to="/watch" className="btn-ghost">
+              Open the Watch <ArrowRight size={14} />
+            </Link>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-4">
+            {BRIEFS.slice(0, 3).map((b, i) => {
+              const beat = beatOf(b.beat)
+              const read = !!(game.briefs ?? {})[b.id]
+              return (
+                <Reveal key={b.id} delay={i * 0.08}>
+                  <Link to={`/watch#${b.id}`} className="plate plate-hover group h-full flex flex-col p-6">
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="caps text-[0.52rem] px-2 py-1 border" style={{ color: beat.accent, borderColor: `${beat.accent}66` }}>
+                        {beat.label}
+                      </span>
+                      <span className="italic text-sm text-parchment/50">{formatBriefDate(b.date)}</span>
+                      {!read && <span className="caps text-[0.48rem] text-terracotta ml-auto">New</span>}
+                    </div>
+                    <p className="display text-xl text-parchment leading-snug group-hover:text-gold-light transition-colors flex-1">{b.title}</p>
+                    <div className="flex items-end justify-between mt-5 pt-4 border-t border-gold/15">
+                      <span>
+                        <span className="display text-2xl text-gold-light">{b.figure.value}</span>
+                        <span className="block caps text-[0.46rem] text-parchment/45 mt-1 max-w-[12rem]">{b.figure.label}</span>
+                      </span>
+                      <ArrowRight size={16} className="text-gold group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </Link>
+                </Reveal>
+              )
+            })}
+          </div>
+        </div>
       </section>
 
       {/* GALLERIES */}
